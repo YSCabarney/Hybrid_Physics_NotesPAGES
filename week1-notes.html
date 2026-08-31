@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Physics Field Notes — Week 1: Describing Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202A;
+    --ink-soft:#3C4750;
+    --paper:#F8F6EF;
+    --card:#FFFFFF;
+    --pitch:#28492F;
+    --pitch-line:#F8F6EF;
+    --amber:#B9862B;
+    --amber-deep:#8C6112;
+    --marker:#AE3B2E;
+    --line:#DAD4C3;
+    --shadow: 0 1px 0 rgba(22,32,42,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  a{color:var(--amber-deep);}
+
+  .wrap{max-width:760px; margin:0 auto; padding:0 22px 64px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(1200px 260px at 15% -20%, rgba(255,255,255,0.06), transparent 60%),
+      var(--pitch);
+    color:var(--paper);
+    padding:46px 22px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0; height:2px;
+    background:repeating-linear-gradient(90deg, var(--amber) 0 18px, transparent 18px 30px);
+    opacity:0.55;
+  }
+  .hero-inner{max-width:760px; margin:0 auto;}
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    color:#CFE0D4;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:14px;
+  }
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);display:inline-block;}
+  h1.title{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:clamp(30px, 5.4vw, 44px);
+    line-height:1.08;
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  .hero p.sub{
+    margin:0;
+    max-width:52ch;
+    color:#E4EBE6;
+    font-size:16.5px;
+  }
+  .hero-stats{
+    display:flex; gap:26px; margin-top:26px; flex-wrap:wrap;
+  }
+  .hero-stat .n{font-family:'IBM Plex Mono', monospace; font-size:20px; font-weight:600; color:#fff;}
+  .hero-stat .l{font-size:12px; color:#B9C8BD; margin-top:2px;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:40px 0 6px; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow-row{
+    display:flex; align-items:baseline; gap:10px; margin-bottom:6px;
+  }
+  .sec-no{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px; color:var(--amber-deep); font-weight:600;
+  }
+  h2{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:26px;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  h3{
+    font-family:'Fraunces', Georgia, serif;
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 8px;
+  }
+  p{margin:0 0 14px; color:var(--ink-soft); max-width:64ch;}
+  .lede{font-size:16.5px;}
+
+  /* ---------- SCALAR / VECTOR CARDS ---------- */
+  .pair{
+    display:flex; flex-wrap:wrap; gap:14px; margin:18px 0 8px;
+  }
+  .stat-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-top:3px solid var(--ink);
+    padding:16px 16px 14px;
+    position:relative;
+    flex:1 1 260px;
+  }
+  .stat-card.vector{border-top-color:var(--marker);}
+  .stat-card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.04em; color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .stat-card h3{margin-bottom:6px;}
+  .stat-card p{margin-bottom:8px; font-size:15px;}
+  .stat-card .ex{
+    font-size:13.5px; color:var(--ink); background:var(--paper); padding:8px 10px;
+    border-left:3px solid var(--amber);
+  }
+  .stat-card.vector .ex{border-left-color:var(--marker);}
+
+  /* ---------- FORMULA BLOCK ---------- */
+  .formula-block{
+    display:flex; flex-wrap:wrap; gap:12px; margin:18px 0;
+  }
+  .formula{
+    background:var(--ink); color:var(--paper);
+    padding:16px 18px;
+    flex:1 1 260px;
+    position:relative;
+  }
+  .formula .name{
+    font-size:12px; text-transform:none; color:#B9C8BD; margin-bottom:8px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .formula .eq{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:19px; font-weight:600; color:#fff;
+  }
+  .formula .units{font-size:12.5px; color:#C9BE9C; margin-top:8px;}
+
+  /* ---------- DIAGRAM CARD ---------- */
+  .diagram-card{
+    background:var(--card); border:1px solid var(--line);
+    padding:16px 16px 6px; margin:18px 0;
+  }
+  .diagram-card svg{width:100%; height:auto; display:block;}
+  .diagram-caption{
+    font-size:13px; color:var(--ink-soft); padding:10px 2px 12px;
+    border-top:1px solid var(--line); margin-top:10px;
+  }
+
+  /* ---------- TABLE ---------- */
+  table{
+    width:100%; border-collapse:collapse; margin:16px 0 8px;
+    font-size:14.5px;
+  }
+  caption{
+    text-align:left; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    color:var(--ink-soft); margin-bottom:6px;
+  }
+  thead th{
+    text-align:left; font-family:'IBM Plex Mono', monospace; font-weight:600;
+    font-size:12px; letter-spacing:0.03em; color:#fff;
+    background:var(--pitch); padding:9px 10px;
+  }
+  tbody td{
+    padding:9px 10px; border-bottom:1px solid var(--line); color:var(--ink);
+  }
+  tbody tr:nth-child(even){background:#F2EFE5;}
+
+  /* ---------- WORKED EXAMPLE ---------- */
+  .playcard{
+    background:var(--card); border:1px solid var(--line); border-left:4px solid var(--pitch);
+    padding:16px 18px; margin:16px 0;
+  }
+  .playcard .lbl{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--amber-deep);
+    margin-bottom:8px;
+  }
+  .steps{margin:0; padding-left:0; list-style:none;}
+  .steps li{
+    display:flex; gap:12px; padding:7px 0; border-top:1px dashed var(--line); font-size:14.5px;
+  }
+  .steps li:first-child{border-top:none;}
+  .steps li .k{
+    font-family:'IBM Plex Mono', monospace; font-weight:600; color:var(--ink-soft);
+    min-width:112px; flex-shrink:0;
+  }
+
+  details{
+    background:#F2EFE5; border:1px solid var(--line); padding:10px 14px; margin:14px 0;
+  }
+  summary{
+    cursor:pointer; font-weight:600; font-size:14.5px; color:var(--ink);
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+  }
+  details p{margin-top:10px; font-size:14.5px;}
+
+  /* ---------- RECAP BAND ---------- */
+  .recap{
+    background:var(--amber); color:#2A1C05; padding:28px 22px 32px; margin-top:8px;
+  }
+  .recap-inner{max-width:760px; margin:0 auto;}
+  .recap h2{color:#2A1C05;}
+  .recap ul{margin:0; padding-left:0; list-style:none; display:grid; gap:9px;}
+  .recap li{
+    font-size:14.5px; padding-left:22px; position:relative;
+  }
+  .recap li::before{
+    content:"—"; position:absolute; left:0; top:0; font-weight:600;
+  }
+  footer{
+    max-width:760px; margin:0 auto; padding:20px 22px 40px;
+    font-size:12.5px; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="kicker"><span class="dot"></span>HYBRID PHYSICS · FIELD NOTES</div>
+    <h1 class="title">Week 1 — Describing Motion</h1>
+    <p class="sub">Distance, displacement, speed, and velocity — the vocabulary physicists use to describe how something moves, built from examples on the pitch.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="n">4</div><div class="l">key terms</div></div>
+      <div class="hero-stat"><div class="n">2</div><div class="l">formulas</div></div>
+      <div class="hero-stat"><div class="n">1</div><div class="l">worked example</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <div class="eyebrow-row"><span class="sec-no">01</span></div>
+    <h2>Scalars vs. Vectors</h2>
+    <p class="lede">Every quantity in physics is either a scalar (just a size) or a vector (a size plus a direction). This one distinction is the key to the whole week.</p>
+    <div class="pair">
+      <div class="stat-card">
+        <div class="tag">SCALAR</div>
+        <h3>Magnitude only</h3>
+        <p>A number and a unit — no direction attached.</p>
+        <div class="ex">"The team ran 8.2 km total during the match."</div>
+      </div>
+      <div class="stat-card vector">
+        <div class="tag">VECTOR</div>
+        <h3>Magnitude + direction</h3>
+        <p>A number, a unit, <em>and</em> a direction — all three are required.</p>
+        <div class="ex">"The corner kick traveled 24 m toward the near post."</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow-row"><span class="sec-no">02</span></div>
+    <h2>Distance vs. Displacement</h2>
+    <p class="lede"><strong>Distance</strong> is the total ground covered (scalar). <strong>Displacement</strong> is how far you end up from where you started, in a straight line, with direction (vector). They're only equal if you move in a straight line and never turn back.</p>
+
+    <div class="diagram-card">
+      <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagTitle1 diagDesc1">
+        <title id="diagTitle1">A player's path on the pitch</title>
+        <desc id="diagDesc1">A curved dashed path shows the 65 meter distance a player actually ran. A straight solid arrow shows the 40 meter displacement from start to end, angled toward goal.</desc>
+        <rect x="0" y="0" width="680" height="300" fill="#28492F"/>
+        <rect x="16" y="16" width="648" height="268" fill="none" stroke="#F8F6EF" stroke-opacity="0.55" stroke-width="2"/>
+        <line x1="340" y1="16" x2="340" y2="284" stroke="#F8F6EF" stroke-opacity="0.4" stroke-width="2"/>
+        <circle cx="340" cy="150" r="34" fill="none" stroke="#F8F6EF" stroke-opacity="0.4" stroke-width="2"/>
+        <rect x="580" y="90" width="84" height="120" fill="none" stroke="#F8F6EF" stroke-opacity="0.55" stroke-width="2"/>
+        <rect x="632" y="120" width="32" height="60" fill="none" stroke="#F8F6EF" stroke-opacity="0.55" stroke-width="2"/>
+
+        <path d="M 70 230 C 140 90, 230 260, 300 130 S 430 60, 470 100" fill="none" stroke="#F2C572" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
+
+        <defs>
+          <marker id="arrowhead" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#E86B57"/>
+          </marker>
+        </defs>
+        <line x1="70" y1="230" x2="462" y2="102" stroke="#E86B57" stroke-width="3.5" marker-end="url(#arrowhead)"/>
+
+        <circle cx="70" cy="230" r="6" fill="#F8F6EF"/>
+        <circle cx="470" cy="100" r="6" fill="#F8F6EF"/>
+        <text x="46" y="252" fill="#F8F6EF" font-family="IBM Plex Mono, monospace" font-size="12">START</text>
+        <text x="478" y="98" fill="#F8F6EF" font-family="IBM Plex Mono, monospace" font-size="12">END</text>
+
+        <rect x="150" y="30" width="176" height="26" fill="#28492F"/>
+        <text x="156" y="48" fill="#F2C572" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">distance run: 65 m</text>
+
+        <rect x="230" y="200" width="210" height="26" fill="#28492F"/>
+        <text x="236" y="218" fill="#E86B57" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600">displacement: 40 m, toward goal</text>
+      </svg>
+      <div class="diagram-caption">A player's actual run (gold, dashed) covers 65 m of ground. Her displacement (red arrow) — the straight line from where she started to where she stopped — is only 40 m, angled toward goal.</div>
+    </div>
+
+    <details>
+      <summary>Why does the difference actually matter?</summary>
+      <p>A GPS tracker vest reports both numbers for a reason. Distance tells you how much work an athlete's body did (fitness, fatigue). Displacement tells you how effective their movement was at actually changing position — a winger who covers 11 km but has a net displacement of almost zero over 90 minutes ran a lot without going anywhere in particular.</p>
+    </details>
+  </section>
+
+  <section>
+    <div class="eyebrow-row"><span class="sec-no">03</span></div>
+    <h2>Speed vs. Velocity</h2>
+    <p class="lede"><strong>Speed</strong> is how fast distance is covered (scalar). <strong>Velocity</strong> is how fast displacement changes — speed <em>with</em> a direction (vector).</p>
+
+    <div class="formula-block">
+      <div class="formula">
+        <div class="name">AVERAGE SPEED</div>
+        <div class="eq">v = d / t</div>
+        <div class="units">d = distance (m) · t = time (s) · v = speed (m/s)</div>
+      </div>
+      <div class="formula">
+        <div class="name">AVERAGE VELOCITY</div>
+        <div class="eq">v = Δx / t</div>
+        <div class="units">Δx = displacement (m, with direction) · v = velocity (m/s, with direction)</div>
+      </div>
+    </div>
+
+    <table>
+      <caption>UNITS OF MEASUREMENT — WEEK 1 QUANTITIES</caption>
+      <thead>
+        <tr><th>Quantity</th><th>Type</th><th>SI unit</th><th>Common sports unit</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Distance</td><td>Scalar</td><td>meter (m)</td><td>meters, yards</td></tr>
+        <tr><td>Displacement</td><td>Vector</td><td>meter (m) + direction</td><td>meters + direction</td></tr>
+        <tr><td>Time</td><td>Scalar</td><td>second (s)</td><td>seconds, minutes</td></tr>
+        <tr><td>Speed</td><td>Scalar</td><td>meter/second (m/s)</td><td>km/h, mph</td></tr>
+        <tr><td>Velocity</td><td>Vector</td><td>meter/second (m/s) + direction</td><td>km/h, mph + direction</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;">Quick conversion: <strong>1 m/s ≈ 3.6 km/h ≈ 2.24 mph.</strong> An elite sprinter's top speed of about 10 m/s is roughly 36 km/h (22 mph).</p>
+  </section>
+
+  <section>
+    <div class="eyebrow-row"><span class="sec-no">04</span></div>
+    <h2>Worked Example</h2>
+    <div class="playcard">
+      <div class="lbl">SCENARIO</div>
+      <p style="margin-bottom:12px;">A player receives the ball and drives 90 m in a straight line toward goal, reaching the box in 12 seconds. Find her average velocity.</p>
+      <ul class="steps">
+        <li><span class="k">GIVEN</span><span>displacement Δx = 90 m (toward goal), time t = 12 s</span></li>
+        <li><span class="k">UNKNOWN</span><span>average velocity, v</span></li>
+        <li><span class="k">EQUATION</span><span>v = Δx / t</span></li>
+        <li><span class="k">SUBSTITUTE</span><span>v = 90 m / 12 s</span></li>
+        <li><span class="k">SOLVE</span><span><strong>v = 7.5 m/s, toward goal</strong> (≈ 27 km/h)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow-row"><span class="sec-no">05</span></div>
+    <h2>Reading a Motion Graph</h2>
+    <p class="lede">A position-time graph plots where an object is at each moment. For constant velocity, that graph is a straight line — and the <em>slope</em> of that line is the velocity.</p>
+
+    <div class="diagram-card">
+      <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="graphTitle graphDesc">
+        <title id="graphTitle">Position vs. time graph for constant velocity</title>
+        <desc id="graphDesc">A straight diagonal line rising from the origin to 40 meters at 8 seconds, showing constant velocity of 5 meters per second.</desc>
+        <line x1="70" y1="20" x2="70" y2="260" stroke="#16202A" stroke-width="2"/>
+        <line x1="70" y1="260" x2="630" y2="260" stroke="#16202A" stroke-width="2"/>
+
+        <g stroke="#DAD4C3" stroke-width="1">
+          <line x1="70" y1="220" x2="630" y2="220"/>
+          <line x1="70" y1="180" x2="630" y2="180"/>
+          <line x1="70" y1="140" x2="630" y2="140"/>
+          <line x1="70" y1="100" x2="630" y2="100"/>
+          <line x1="70" y1="60" x2="630" y2="60"/>
+        </g>
+
+        <polyline points="70,260 150,220 230,180 310,140 390,100 470,60 550,20" fill="none" stroke="#AE3B2E" stroke-width="3.5" stroke-linecap="round"/>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="12" fill="#3C4750">
+          <text x="60" y="278" text-anchor="middle">0</text>
+          <text x="150" y="278" text-anchor="middle">2</text>
+          <text x="230" y="278" text-anchor="middle">4</text>
+          <text x="310" y="278" text-anchor="middle">6</text>
+          <text x="390" y="278" text-anchor="middle">8</text>
+          <text x="470" y="278" text-anchor="middle">10</text>
+          <text x="550" y="278" text-anchor="middle">12</text>
+          <text x="340" y="300" text-anchor="middle" font-size="13" fill="#16202A">time (s)</text>
+
+          <text x="60" y="264" text-anchor="end">0</text>
+          <text x="60" y="224" text-anchor="end">10</text>
+          <text x="60" y="184" text-anchor="end">20</text>
+          <text x="60" y="144" text-anchor="end">30</text>
+          <text x="60" y="104" text-anchor="end">40</text>
+          <text x="60" y="64" text-anchor="end">50</text>
+          <text x="22" y="140" text-anchor="middle" font-size="13" fill="#16202A" transform="rotate(-90 22 140)">position (m)</text>
+        </g>
+
+        <rect x="420" y="150" width="196" height="26" fill="#F8F6EF" stroke="#DAD4C3"/>
+        <text x="428" y="168" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#AE3B2E" font-weight="600">slope = velocity = 5 m/s</text>
+      </svg>
+      <div class="diagram-caption">A straight, rising line means constant velocity. The steeper the slope, the faster the object is moving.</div>
+    </div>
+
+    <table>
+      <caption>SAMPLE DATA — MOVING MAN, CONSTANT VELOCITY TRIAL</caption>
+      <thead>
+        <tr><th>Time (s)</th><th>Position (m)</th><th>Change in position (m)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>0</td><td>—</td></tr>
+        <tr><td>2</td><td>10</td><td>+10</td></tr>
+        <tr><td>4</td><td>20</td><td>+10</td></tr>
+        <tr><td>6</td><td>30</td><td>+10</td></tr>
+        <tr><td>8</td><td>40</td><td>+10</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;">Equal position changes over equal time intervals is the signature of constant velocity — 10 m every 2 s works out to the same 5 m/s slope shown above.</p>
+  </section>
+
+</div>
+
+<div class="recap">
+  <div class="recap-inner">
+    <h2>Week 1 Cheat Sheet</h2>
+    <ul>
+      <li>Scalar = magnitude only. Vector = magnitude + direction.</li>
+      <li>Distance (scalar) = total ground covered. Displacement (vector) = straight-line change in position.</li>
+      <li>Speed (scalar) = d / t. Velocity (vector) = Δx / t, with a direction.</li>
+      <li>SI units: meters (m) for distance/displacement, seconds (s) for time, m/s for speed/velocity.</li>
+      <li>On a position-time graph, the slope of the line is the velocity — a straight line means constant velocity.</li>
+      <li>1 m/s ≈ 3.6 km/h ≈ 2.24 mph.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <span>Hybrid Physics · Field Notes</span>
+  <span>Week 1 of 4 — Describing Motion</span>
+</footer>
+
+</body>
+</html>
