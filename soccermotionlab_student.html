@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soccer Field Motion Lab — Student Version</title>
+<style>
+  :root{
+    --blue:#0b5394; --blue-bg:#f0f6ff; --orange:#e69138; --orange-bg:#fff8e6;
+    --purple:#674ea7; --purple-bg:#f3f0ff; --ink:#1f2933; --muted:#52606d;
+    --line:#cbd5e0; --grid:#c9d3df; --grass:#3a9d5d;
+  }
+  *{box-sizing:border-box;}
+  body{max-width:900px;margin:0 auto;padding:20px 16px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);line-height:1.6;font-size:16px;background:#fff;}
+  h1{font-size:1.8em;color:var(--blue);margin-bottom:2px;}
+  h2{font-size:1.35em;color:var(--blue);border-bottom:3px solid var(--blue);
+    padding-bottom:5px;margin-top:38px;}
+  h3{font-size:1.08em;color:var(--blue);margin-top:24px;margin-bottom:6px;}
+  .sub{color:var(--muted);font-size:1.05em;margin-top:0;}
+  .tag{font-size:.72em;color:#9aa5b1;font-weight:normal;}
+  .box{border-left:5px solid var(--blue);background:var(--blue-bg);
+    padding:12px 16px;margin:16px 0;border-radius:4px;}
+  .box.warn{border-color:#c0392b;background:#fdecea;}
+  .box.real{border-color:var(--orange);background:var(--orange-bg);}
+  .box.seg{border-color:var(--purple);background:var(--purple-bg);}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.95em;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:var(--blue);color:#fff;}
+  tbody tr:nth-child(even){background:#f7fafc;}
+  input.f{width:100%;border:none;border-bottom:1.5px solid var(--blue);
+    background:#fbfdff;font:inherit;padding:3px 4px;}
+  input.f:focus{outline:none;border-bottom-color:var(--orange);background:#fff7ec;}
+  textarea.f{width:100%;min-height:70px;border:1px solid var(--line);border-radius:4px;
+    background:#fbfdff;font:inherit;padding:6px 8px;resize:vertical;}
+  ol.proc{padding-left:22px;} ol.proc li{margin:6px 0;}
+  ol.steps{padding-left:22px;} ol.steps li{margin:8px 0;}
+  .q{background:var(--purple-bg);border-left:5px solid var(--purple);
+    padding:10px 14px;margin:12px 0;border-radius:4px;}
+  .q b{color:var(--purple);}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+  .cap{font-size:.85em;color:var(--muted);text-align:center;margin-top:-4px;}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;background:#e6efff;
+    padding:1px 5px;border-radius:3px;}
+  .checklist{list-style:none;padding-left:0;}
+  .checklist li{margin:6px 0;padding-left:28px;position:relative;}
+  .checklist li::before{content:"\2610";position:absolute;left:0;font-size:1.2em;color:var(--blue);}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding-top:12px;
+    color:var(--muted);font-size:.85em;}
+  @media print{
+    body{max-width:none;font-size:11.5pt;}
+    h2,h3{page-break-after:avoid;}
+    .box,.q,table,svg{page-break-inside:avoid;}
+    input.f{border-bottom:1px solid #000;background:none;}
+    textarea.f{background:none;min-height:60px;}
+    .pb{page-break-before:always;}
+  }
+</style>
+</head>
+<body>
+
+<h1>Soccer Field Motion Lab</h1>
+<p class="sub">Speed, Velocity &amp; Displacement on the Field &nbsp;|&nbsp; Physics Unit 1 (Module 01) &nbsp;|&nbsp; Grades 10&ndash;11</p>
+
+<div class="box">
+  <strong>Names:</strong>
+  <input class="f" style="max-width:280px" placeholder="Partner 1">
+  &nbsp;&amp;&nbsp;
+  <input class="f" style="max-width:280px" placeholder="Partner 2">
+</div>
+
+<div class="box">
+  <strong>How this lab works</strong>
+  <ul style="margin:6px 0 0 0;padding-left:20px;">
+    <li>We go over the purpose, the procedure, and a live <strong>demo</strong> together in class.</li>
+    <li>You and <strong>one partner</strong> complete the lab on the soccer field sometime in the <strong>next 7 days</strong>. The hands-on part takes only about <strong>20&ndash;30 minutes</strong> (plus a few minutes to set out cones). You do the graphing and questions afterward.</li>
+    <li>Your teacher is available <strong>virtually</strong> during that week (message or video call) &mdash; not on the field.</li>
+    <li>You will <strong>video record</strong> every trial and pull your measurements <em>from the video</em>. No video, no data.</li>
+    <li>Turn in <strong>one packet per pair</strong> (both names), your video links, and each partner&rsquo;s short reflection.</li>
+  </ul>
+</div>
+
+<h2>Learning Targets</h2>
+<p>By the end of this lab you should be able to:</p>
+<ul>
+  <li>Identify the <strong>independent, dependent, and controlled variables</strong> in an investigation. <span class="tag">(01.01, 01.05)</span></li>
+  <li>Identify the <strong>physical quantity, magnitude, and direction</strong> in a measurement, and tell a <strong>scalar</strong> from a <strong>vector</strong>. <span class="tag">(01.04)</span></li>
+  <li>Calculate <strong>speed</strong> and <strong>average speed</strong>. <span class="tag">(01.07)</span></li>
+  <li>Build a <strong>position&ndash;time graph</strong> and read its <strong>slope</strong> as velocity. <span class="tag">(01.05, 01.06, 01.08)</span></li>
+  <li>Decide whether an object is <strong>at rest, moving at constant speed, speeding up, or slowing down</strong> from a graph. <span class="tag">(01.08, 01.09)</span></li>
+  <li>Tell <strong>distance</strong> from <strong>displacement</strong> and calculate <strong>average velocity</strong> with a direction. <span class="tag">(01.10)</span></li>
+  <li>Explain how a <strong>frame of reference</strong> changes what motion looks like. <span class="tag">(01.04)</span></li>
+  <li><strong>Get a first look at</strong> <strong>acceleration</strong> (a changing velocity) and at <strong>adding vectors as arrows</strong> to find a <strong>resultant</strong> &mdash; both are next unit.</li>
+</ul>
+
+<h2>Concept Refresher <span class="tag">(from your Module 01 Study Guide)</span></h2>
+<table>
+  <thead><tr><th style="width:22%">Idea</th><th style="width:36%">Quick reminder</th><th style="width:42%">Where you use it in this lab</th></tr></thead>
+  <tbody>
+    <tr><td>Speed</td><td class="mono">speed = distance &divide; time</td><td>Every part. Keep meters and seconds &rarr; m/s.</td></tr>
+    <tr><td>Average speed</td><td class="mono">total distance &divide; total time</td><td>Parts A, B, C &mdash; counts the whole run, including pauses.</td></tr>
+    <tr><td>Average velocity</td><td class="mono">displacement &divide; total time</td><td>Part C &mdash; answer needs a direction.</td></tr>
+    <tr><td>Slope of a position&ndash;time graph</td><td class="mono">rise &divide; run = &Delta;position &divide; &Delta;time</td><td>Graphs A &amp; B. The slope <em>is</em> the velocity.</td></tr>
+    <tr><td>Graph shapes</td><td>straight line = constant speed; curve getting steeper = speeding up; curve flattening = slowing down; flat = at rest</td><td>You classify Graph A and Graph B.</td></tr>
+    <tr><td>Distance vs. displacement</td><td>distance = total path traveled (scalar); displacement = straight line from start to end, <em>with direction</em> (vector)</td><td>Part C.</td></tr>
+    <tr><td>Vector <span class="tag">(new &mdash; preview)</span></td><td>an <strong>arrow</strong>: its <strong>length</strong> shows the size (to scale), the way it <strong>points</strong> shows the direction. Add arrows <strong>tip&ndash;to&ndash;tail</strong>; the <strong>resultant</strong> runs from the first tail to the last tip.</td><td>Part C &mdash; fully explained there, step by step.</td></tr>
+    <tr><td>Acceleration <span class="tag">(new &mdash; preview)</span></td><td>any change in velocity &mdash; speed, direction, or both</td><td>Part B (speed change) and Part C (direction change).</td></tr>
+  </tbody>
+</table>
+
+<h2>The Question We Are Investigating</h2>
+<div class="box">
+  <p style="margin-top:0"><strong>Investigating question:</strong> When a soccer ball travels 25 m down the field, how does the way it is set in motion &mdash; a <strong>steady dribble</strong> versus a <strong>single kick that is left to roll</strong> &mdash; affect how its <strong>speed changes</strong> along the way?</p>
+  <table>
+    <tbody>
+      <tr><td style="width:32%"><strong>Independent variable</strong><br><span class="tag">(what we change)</span></td><td>How the ball is set in motion: <em>steady dribble</em> (Part A) vs. <em>one free-rolling kick</em> (Part B).</td></tr>
+      <tr><td><strong>Dependent variable</strong><br><span class="tag">(what we measure)</span></td><td>The ball&rsquo;s <em>speed in each 5 m interval</em> (m/s), found from your video.</td></tr>
+      <tr><td><strong>Controlled variables</strong><br><span class="tag">(kept the same)</span></td><td>The 25 m course and 5 m marker spacing; the same ball; the same field and surface; the same camera position; the same partner moving the ball; as level a strip of ground as you can find.</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-bottom:0"><strong>Your prediction</strong> (one sentence, written <em>before</em> you collect data): what do you think each ball&rsquo;s speed will do over the 25 m?<br>
+  <input class="f"></p>
+</div>
+
+<h2>Materials</h2>
+<ul>
+  <li>A soccer field you can use when no game or practice is running</li>
+  <li>2 soccer balls</li>
+  <li>1 measuring tape, at least 30 m / 100 ft (a long trundle wheel also works)</li>
+  <li>6 cones, water bottles, or shoes to use as markers</li>
+  <li>2 phones &mdash; one for <strong>video</strong>, one for a <strong>stopwatch</strong></li>
+  <li>This packet, a pen, a straightedge/ruler, and a <strong>protractor</strong> (for Part C)</li>
+  <li><em>Optional:</em> a free video-analysis app (e.g., Vernier Video Physics) or your phone&rsquo;s frame-by-frame view in Photos</li>
+</ul>
+
+<div class="box warn">
+  <strong>Safety &mdash; read before you go</strong>
+  <ul style="margin:6px 0 0 0;padding-left:20px;">
+    <li>Use the field only when it is clear. Keep away from other people using the space.</li>
+    <li>The person filming and timing stands <strong>well outside the ball&rsquo;s path</strong>, never in the kicking lane.</li>
+    <li>Never kick a ball toward people, roads, parking lots, goals with people in them, or windows.</li>
+    <li>Wear athletic shoes. Watch your footing on wet grass. Bring water; don&rsquo;t do this in extreme heat.</li>
+    <li>Film in <strong>landscape</strong>. Brace the phone or set it on a bag &mdash; do not walk backward while staring at a screen.</li>
+  </ul>
+</div>
+
+<!-- ============================ SET UP ============================ -->
+<h2>Set Up the Field</h2>
+
+<h3>Diagram 1 &mdash; The straight course (Parts A &amp; B)</h3>
+<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="12">
+  <!-- field -->
+  <rect x="16" y="16" width="608" height="330" rx="4" fill="#3a9d5d" stroke="#fff" stroke-width="3"/>
+  <line x1="320" y1="16" x2="320" y2="346" stroke="#fff" stroke-width="2"/>
+  <circle cx="320" cy="181" r="42" fill="none" stroke="#fff" stroke-width="2"/>
+  <circle cx="320" cy="181" r="3" fill="#fff"/>
+  <rect x="16" y="121" width="34" height="120" fill="none" stroke="#fff" stroke-width="2"/>
+  <rect x="590" y="121" width="34" height="120" fill="none" stroke="#fff" stroke-width="2"/>
+  <!-- direction arrow -->
+  <text x="120" y="210" fill="#fff2cc">Mover moves the ball this way &nbsp;&rarr;</text>
+  <line x1="118" y1="222" x2="452" y2="222" stroke="#fff2cc" stroke-width="2" stroke-dasharray="2 4"/>
+  <!-- tape bracket -->
+  <line x1="118" y1="250" x2="452" y2="250" stroke="#ffffff" stroke-width="2"/>
+  <line x1="118" y1="245" x2="118" y2="255" stroke="#fff" stroke-width="2"/>
+  <line x1="452" y1="245" x2="452" y2="255" stroke="#fff" stroke-width="2"/>
+  <text x="205" y="242" fill="#fff">measuring tape &mdash; 25 m course</text>
+  <!-- cones -->
+  <g>
+    <circle cx="118" cy="268" r="6" fill="#e8541e" stroke="#7a2a0e"/>
+    <circle cx="185" cy="268" r="6" fill="#e8541e" stroke="#7a2a0e"/>
+    <circle cx="252" cy="268" r="6" fill="#e8541e" stroke="#7a2a0e"/>
+    <circle cx="318" cy="268" r="6" fill="#e8541e" stroke="#7a2a0e"/>
+    <circle cx="385" cy="268" r="6" fill="#e8541e" stroke="#7a2a0e"/>
+    <circle cx="452" cy="268" r="6" fill="#e8541e" stroke="#7a2a0e"/>
+  </g>
+  <g fill="#ffffff" text-anchor="middle" font-size="11">
+    <text x="118" y="288">0 m</text><text x="185" y="288">5</text><text x="252" y="288">10</text>
+    <text x="318" y="288">15</text><text x="385" y="288">20</text><text x="452" y="288">25 m</text>
+  </g>
+  <text x="118" y="320" fill="#fff2cc" font-size="11">Tip: line the course up along a sideline or yard line so it stays straight.</text>
+  <!-- camera -->
+  <g transform="translate(285,364)">
+    <rect x="-22" y="-12" width="34" height="22" rx="2" fill="#1f2933"/>
+    <polygon points="12,-8 24,-14 24,4 12,-2" fill="#1f2933"/>
+    <circle cx="-6" cy="-1" r="5" fill="#8fb8ff"/>
+  </g>
+  <line x1="278" y1="352" x2="150" y2="278" stroke="#1f2933" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="300" y1="352" x2="440" y2="278" stroke="#1f2933" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="292" y="392" text-anchor="middle" fill="#1f2933" font-size="11">Recorder films here &mdash; hold still, stand ~15&ndash;20 m back, keep all 6 cones in the shot</text>
+</svg>
+<p class="cap">Parts A and B use this same 25 m course. Only the way the ball is started changes.</p>
+
+<h3>Diagram 2 &mdash; The three&ndash;leg path (Part C)</h3>
+<svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="12">
+  <rect x="8" y="8" width="544" height="364" rx="4" fill="#eef7f0" stroke="#cbd5e0"/>
+  <!-- compass -->
+  <g transform="translate(56,60)">
+    <line x1="0" y1="26" x2="0" y2="-8" stroke="#0b5394" stroke-width="2"/>
+    <polygon points="0,-16 -5,-2 5,-2" fill="#0b5394"/>
+    <text x="0" y="42" text-anchor="middle" fill="#0b5394" font-weight="bold">N</text>
+  </g>
+  <!-- points: A(150,320) B(330,320) C(330,110) D(210,110)  scale ~12px/m -->
+  <line x1="150" y1="320" x2="326" y2="320" stroke="#0b5394" stroke-width="3"/>
+  <polygon points="330,320 320,315 320,325" fill="#0b5394"/>
+  <line x1="330" y1="320" x2="330" y2="114" stroke="#0b5394" stroke-width="3"/>
+  <polygon points="330,110 325,120 335,120" fill="#0b5394"/>
+  <line x1="330" y1="110" x2="214" y2="110" stroke="#0b5394" stroke-width="3"/>
+  <polygon points="210,110 220,105 220,115" fill="#0b5394"/>
+  <!-- displacement -->
+  <line x1="150" y1="320" x2="207" y2="113" stroke="#e69138" stroke-width="3" stroke-dasharray="6 4"/>
+  <polygon points="210,110 202,116 210,120" fill="#e69138"/>
+  <!-- labels -->
+  <circle cx="150" cy="320" r="4" fill="#1f2933"/><text x="132" y="336" font-weight="bold">A</text>
+  <circle cx="330" cy="320" r="4" fill="#1f2933"/><text x="336" y="336" font-weight="bold">B</text>
+  <circle cx="330" cy="110" r="4" fill="#1f2933"/><text x="336" y="108" font-weight="bold">C</text>
+  <circle cx="210" cy="110" r="4" fill="#1f2933"/><text x="188" y="108" font-weight="bold">D</text>
+  <text x="196" y="342" fill="#0b5394">Leg 1: 15 m East</text>
+  <text x="340" y="220" fill="#0b5394">Leg 2: 20 m North</text>
+  <text x="214" y="98" fill="#0b5394">Leg 3: 10 m West</text>
+  <text x="60" y="210" fill="#e69138" font-weight="bold">displacement</text>
+  <text x="60" y="226" fill="#b9770e" font-size="11">(straight line, start &rarr; finish)</text>
+  <text x="150" y="366" fill="#52606d" font-size="11">You walk 15 + 20 + 10 = 45 m of path, but you finish only about 21 m from where you started.</text>
+</svg>
+<p class="cap">In Part C the Recorder films from high up (bleachers) or far back to catch the whole path.</p>
+
+<h3>Steps to set up (do this first, ~5&ndash;8 minutes)</h3>
+<ol class="proc">
+  <li>Use the measuring tape to mark a <strong>straight 25 m course</strong>. Put a cone at <strong>0, 5, 10, 15, 20, and 25 m</strong> (Diagram 1).</li>
+  <li>Pick roles: <strong>Mover</strong> (controls the ball) and <strong>Recorder</strong> (films + runs the stopwatch). Swap roles for at least one trial so both partners do both jobs.</li>
+  <li>Leave the cones in place &mdash; you reuse the course for Part A and Part B. You will re-measure for the Part C path later.</li>
+</ol>
+
+<div class="box">
+  <strong>Rough time budget on the field (~20&ndash;30 min total)</strong>
+  <table style="margin-bottom:0">
+    <tbody>
+      <tr><td>Set up the 25 m course</td><td>5&ndash;8 min</td></tr>
+      <tr><td>Part A &mdash; 2 dribble trials, filmed</td><td>~6 min</td></tr>
+      <tr><td>Part B &mdash; 2 kick trials, filmed</td><td>~5 min</td></tr>
+      <tr><td>Part C &mdash; lay out the 3 legs, 1 trial filmed, measure A&rarr;D</td><td>~8 min</td></tr>
+      <tr><td>Collect cones, double-check you have all videos</td><td>~3 min</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>How to film so you can get data from the video</h3>
+<ol class="proc">
+  <li>Landscape orientation. Stand <strong>15&ndash;20 m back</strong> from the course, square to it, so <strong>all six markers and the whole run</strong> stay in frame the entire time.</li>
+  <li>Keep the camera <strong>still</strong>. A moving camera ruins your timing.</li>
+  <li>Use normal video (most phones record <strong>30 frames per second</strong>) or slow&ndash;motion for the fast Part B kick.</li>
+  <li>Start recording <em>before</em> the ball moves. Call &ldquo;3&ndash;2&ndash;1&ndash;go.&rdquo;</li>
+  <li>Get time from the video one of two ways:
+    <ul>
+      <li><strong>Frame counting:</strong> step through the clip frame by frame. <span class="mono">time = frame number &divide; frames per second</span>. At 30 fps each frame &asymp; 0.033 s.</li>
+      <li><strong>On&ndash;screen timer:</strong> place the stopwatch phone (running, big digits) next to the 0 m marker so it is in the video, and read it as the ball passes each marker.</li>
+    </ul>
+  </li>
+  <li>Define <strong>t = 0</strong> as the frame where the ball first crosses the <strong>0 m</strong> marker.</li>
+  <li>For each marker, scrub to the frame where the <strong>center of the ball</strong> lines up with it. Record that time.</li>
+  <li>Do <strong>2 trials</strong> for Parts A and B. You will average them.</li>
+</ol>
+
+<!-- ============================ PART A ============================ -->
+<h2 class="pb">Part A &mdash; Steady Dribble: Position, Speed &amp; the Slope of a Graph</h2>
+<p class="tag">Concepts: variables, speed &amp; average speed, position&ndash;time graph, slope = velocity, constant speed (01.01, 01.05, 01.07, 01.08)</p>
+
+<h3>Procedure</h3>
+<ol class="proc">
+  <li>Mover places a ball at the <strong>0 m</strong> marker.</li>
+  <li>On &ldquo;go,&rdquo; Mover dribbles the ball in a straight line to the <strong>25 m</strong> marker at the <strong>most constant pace they can</strong> &mdash; try not to speed up or slow down.</li>
+  <li>Recorder films the entire run with the camera held still (see Diagram 1).</li>
+  <li>Repeat for <strong>Trial 2</strong>.</li>
+  <li>From each video, record the time the ball crosses each marker in <strong>Table A</strong>.</li>
+  <li>Average the two trials at each position.</li>
+  <li>For each 5 m interval, compute <span class="mono">interval speed = 5 m &divide; (time to cross that interval)</span>.</li>
+  <li>Compute <span class="mono">overall average speed = 25 m &divide; (total average time)</span> = <input class="f" style="max-width:120px"> m/s.</li>
+</ol>
+
+<h3>Table A &mdash; Data</h3>
+<table>
+  <thead><tr><th>Position (m)</th><th>0</th><th>5</th><th>10</th><th>15</th><th>20</th><th>25</th></tr></thead>
+  <tbody>
+    <tr><td>Trial 1 &mdash; time (s)</td><td>0</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td>Trial 2 &mdash; time (s)</td><td>0</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td><strong>Average time (s)</strong></td><td>0</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td>Interval speed (m/s)</td><td>&mdash;</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+  </tbody>
+</table>
+
+<h3>Graph A &mdash; Position vs. Time</h3>
+<p>Plot <strong>average position (y)</strong> against <strong>average time (x)</strong>. Then draw the <strong>best straight line</strong> through your points and find its slope using two points that are far apart <em>on the line</em> (not necessarily data points).</p>
+
+<svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+  <defs>
+    <pattern id="gridA" width="24" height="20" patternUnits="userSpaceOnUse">
+      <path d="M24 0 L0 0 0 20" fill="none" stroke="#c9d3df" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="60" y="20" width="480" height="300" fill="url(#gridA)" stroke="#7b8794" stroke-width="1.5"/>
+  <g fill="#52606d" text-anchor="end">
+    <text x="52" y="324">0</text><text x="52" y="274">5</text><text x="52" y="224">10</text>
+    <text x="52" y="174">15</text><text x="52" y="124">20</text><text x="52" y="74">25</text><text x="52" y="24">30</text>
+  </g>
+  <g fill="#52606d" text-anchor="middle">
+    <text x="60" y="336">0</text><text x="108" y="336">2</text><text x="156" y="336">4</text>
+    <text x="204" y="336">6</text><text x="252" y="336">8</text><text x="300" y="336">10</text>
+    <text x="348" y="336">12</text><text x="396" y="336">14</text><text x="444" y="336">16</text>
+    <text x="492" y="336">18</text><text x="540" y="336">20</text>
+  </g>
+  <text x="300" y="358" text-anchor="middle" fill="#1f2933" font-size="12">Time (s)</text>
+  <text x="20" y="170" text-anchor="middle" fill="#1f2933" font-size="12" transform="rotate(-90 20 170)">Position (m)</text>
+</svg>
+
+<p>Slope of your best-fit line = <input class="f" style="max-width:110px"> &nbsp;(units: <input class="f" style="max-width:90px">).
+Points used: (<input class="f" style="max-width:110px">) and (<input class="f" style="max-width:110px">).</p>
+
+<div class="q">
+  <b>A1.</b> Does your Graph A come out as (roughly) a straight line? What does that tell you about the ball&rsquo;s speed during the dribble?<br>
+  <textarea class="f"></textarea>
+</div>
+<div class="q">
+  <b>A2.</b> Is your slope close to your overall average speed from step 8? If they differ, give one reason.<br>
+  <textarea class="f"></textarea>
+</div>
+
+<!-- ============================ PART B ============================ -->
+<h2 class="pb">Part B &mdash; The Free&ndash;Rolling Kick: A Speed That Changes</h2>
+<p class="tag">Concepts: slowing down on a position&ndash;time graph, interval speed decreasing, friction as a force, first look at acceleration (01.08, 01.09, + acceleration preview)</p>
+
+<h3>Procedure</h3>
+<ol class="proc">
+  <li>Place a ball at the <strong>0 m</strong> marker. Mover gives it <strong>one firm kick</strong> straight down the course, then does <strong>not</strong> touch it again.</li>
+  <li>Recorder films the ball rolling freely until it passes <strong>25 m</strong> or stops. If it stops before 25 m, record the last marker it reached and where it stopped: <input class="f" style="max-width:150px"></li>
+  <li><strong>Trial 2:</strong> kick with roughly the same strength.</li>
+  <li>Analyze: record the time the ball crosses each marker in <strong>Table B</strong> and average.</li>
+  <li>Compute the interval speed for each 5 m segment, same as Part A.</li>
+</ol>
+
+<h3>Table B &mdash; Data</h3>
+<table>
+  <thead><tr><th>Position (m)</th><th>0</th><th>5</th><th>10</th><th>15</th><th>20</th><th>25</th></tr></thead>
+  <tbody>
+    <tr><td>Trial 1 &mdash; time (s)</td><td>0</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td>Trial 2 &mdash; time (s)</td><td>0</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td><strong>Average time (s)</strong></td><td>0</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td>Interval speed (m/s)</td><td>&mdash;</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+    <tr><td>Went up / down / same?</td><td>&mdash;</td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td><td><input class="f"></td></tr>
+  </tbody>
+</table>
+
+<h3>Graph B &mdash; Position vs. Time</h3>
+<p>Plot <strong>average position (y)</strong> against <strong>average time (x)</strong>. Connect the points with a <strong>smooth curve</strong> &mdash; do <em>not</em> force a straight line.</p>
+
+<svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+  <defs>
+    <pattern id="gridB" width="24" height="20" patternUnits="userSpaceOnUse">
+      <path d="M24 0 L0 0 0 20" fill="none" stroke="#c9d3df" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="60" y="20" width="480" height="300" fill="url(#gridB)" stroke="#7b8794" stroke-width="1.5"/>
+  <g fill="#52606d" text-anchor="end">
+    <text x="52" y="324">0</text><text x="52" y="274">5</text><text x="52" y="224">10</text>
+    <text x="52" y="174">15</text><text x="52" y="124">20</text><text x="52" y="74">25</text><text x="52" y="24">30</text>
+  </g>
+  <g fill="#52606d" text-anchor="middle">
+    <text x="60" y="336">0</text><text x="108" y="336">1</text><text x="156" y="336">2</text>
+    <text x="204" y="336">3</text><text x="252" y="336">4</text><text x="300" y="336">5</text>
+    <text x="348" y="336">6</text><text x="396" y="336">7</text><text x="444" y="336">8</text>
+    <text x="492" y="336">9</text><text x="540" y="336">10</text>
+  </g>
+  <text x="300" y="358" text-anchor="middle" fill="#1f2933" font-size="12">Time (s)</text>
+  <text x="20" y="170" text-anchor="middle" fill="#1f2933" font-size="12" transform="rotate(-90 20 170)">Position (m)</text>
+</svg>
+
+<div class="q">
+  <b>B1.</b> Describe the shape of your curve. Is it getting <em>steeper</em> or <em>less steep</em> over time? What does that say about the ball&rsquo;s speed?<br>
+  <textarea class="f"></textarea>
+</div>
+<div class="box seg">
+  <strong>New idea:</strong> the ball&rsquo;s velocity is changing even though nobody is touching it. A changing velocity is called <strong>acceleration</strong>.
+  <div class="q" style="margin-top:8px;">
+    <b>B2.</b> What force is acting on the free ball to make it slow down (accelerate)? Where does that force come from?<br>
+    <textarea class="f"></textarea>
+  </div>
+</div>
+
+<!-- ============================ PART C ============================ -->
+<h2 class="pb">Part C &mdash; Drawing the Trip as Arrows: a First Look at Vectors</h2>
+<p class="tag">Concepts: distance vs. displacement, average speed vs. average velocity (01.10) + an introduction to vectors and resultants (next unit)</p>
+
+<div class="box seg">
+  This part previews our next unit. Vectors will be <strong>new</strong> to you &mdash; that&rsquo;s expected. Follow the steps slowly, use a ruler, and don&rsquo;t worry about being perfectly precise. The goal is to <em>see the idea</em>.
+</div>
+
+<h3>What is a vector?</h3>
+<p>A <strong>vector</strong> is a quantity that has both a <strong>size (magnitude)</strong> <em>and</em> a <strong>direction</strong>. We draw a vector as an <strong>arrow</strong>:</p>
+<ul>
+  <li>the <strong>length</strong> of the arrow shows the magnitude, drawn to a chosen scale (like a map scale), and</li>
+  <li>the way the arrow <strong>points</strong> shows the direction.</li>
+</ul>
+<p><strong>Displacement</strong> is a vector: &ldquo;21 m toward the northeast&rdquo; is a size <em>and</em> a direction. Plain <strong>distance</strong> (&ldquo;45 m of walking&rdquo;) is only a size, so it is <em>not</em> a vector.</p>
+
+<h3>How to add vectors: &ldquo;tip to tail&rdquo;</h3>
+<ol class="steps">
+  <li>Pick a starting point (the <strong>origin</strong>). Draw the <strong>first</strong> arrow from there, to scale, pointing the right way. The start of an arrow is its <em>tail</em>; the arrowhead end is its <em>tip</em>.</li>
+  <li>Start the <strong>next</strong> arrow exactly at the <strong>tip</strong> of the one before it. Draw it to scale in its own direction.</li>
+  <li>Repeat for every vector, each new arrow beginning at the previous arrow&rsquo;s tip.</li>
+  <li>Draw one final arrow from the <strong>tail of the very first</strong> vector to the <strong>tip of the very last</strong> vector. That arrow is the <strong>resultant</strong> &mdash; it shows your overall displacement from start to finish.</li>
+</ol>
+
+<h3>Follow-along mini&ndash;example: walk 4 m East, then 3 m North</h3>
+<svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+  <defs>
+    <pattern id="gridMini" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0 L0 0 0 30" fill="none" stroke="#c9d3df" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="40" y="20" width="330" height="240" fill="url(#gridMini)" stroke="#7b8794" stroke-width="1.5"/>
+  <text x="205" y="286" text-anchor="middle" fill="#52606d">scale: 1 square = 1 m &nbsp;&bull;&nbsp; East = right, North = up</text>
+  <!-- origin at (70,230); 30px per m -->
+  <!-- 4 m East -->
+  <line x1="70" y1="230" x2="186" y2="230" stroke="#0b5394" stroke-width="3"/>
+  <polygon points="190,230 180,225 180,235" fill="#0b5394"/>
+  <text x="96" y="246" fill="#0b5394">4 m East</text>
+  <!-- 3 m North from tip (190,230) -->
+  <line x1="190" y1="230" x2="190" y2="144" stroke="#0b5394" stroke-width="3"/>
+  <polygon points="190,140 185,150 195,150" fill="#0b5394"/>
+  <text x="196" y="196" fill="#0b5394">3 m North</text>
+  <!-- resultant origin(70,230) -> (190,140) -->
+  <line x1="70" y1="230" x2="186" y2="143" stroke="#e69138" stroke-width="3.5" stroke-dasharray="7 4"/>
+  <polygon points="190,140 179,143 184,152" fill="#e69138"/>
+  <text x="86" y="176" fill="#e69138" font-weight="bold">resultant = 5 m</text>
+  <circle cx="70" cy="230" r="4" fill="#1f2933"/><text x="52" y="246" font-weight="bold">start</text>
+  <circle cx="190" cy="140" r="4" fill="#1f2933"/><text x="196" y="134" font-weight="bold">end</text>
+</svg>
+<p>Tip to tail, the resultant arrow reaches straight from the start to the end. With a ruler it measures <strong>5 squares = 5 m</strong>, pointing up and to the right. Math check: &radic;(4&sup2; + 3&sup2;) = &radic;25 = 5. Same answer.</p>
+
+<h3>Now do your own path (Grid C)</h3>
+<p><strong>Scale for Grid C: 1 square = 2 m.</strong> So your three legs become:</p>
+<ul>
+  <li>Leg 1 &mdash; 15 m East &rarr; 15 &divide; 2 = <strong>7&frac12; squares to the right</strong></li>
+  <li>Leg 2 &mdash; 20 m North &rarr; <strong>10 squares up</strong></li>
+  <li>Leg 3 &mdash; 10 m West &rarr; <strong>5 squares to the left</strong></li>
+</ul>
+<ol class="steps">
+  <li>Put a dot on the marked origin <strong>A</strong>. With a ruler, draw Leg 1 as a straight arrow <strong>7&frac12; squares to the right</strong>. Add an arrowhead; label the tip <strong>B</strong>.</li>
+  <li>Starting <em>at B</em>, draw Leg 2 as an arrow <strong>10 squares straight up</strong>. Arrowhead; label the tip <strong>C</strong>.</li>
+  <li>Starting <em>at C</em>, draw Leg 3 as an arrow <strong>5 squares straight left</strong>. Arrowhead; label the tip <strong>D</strong>.</li>
+  <li>Using a different color, draw the <strong>resultant</strong>: one straight arrow from <strong>A</strong> to <strong>D</strong>.</li>
+  <li><strong>Measure the resultant.</strong> Ruler: how many squares long is it? &times; 2 m = <input class="f" style="max-width:90px"> m.
+      Protractor: put it at A with 0&deg; pointing <em>East</em> (right); measure the angle up to your resultant arrow = <input class="f" style="max-width:90px"> &deg;.</li>
+</ol>
+
+<svg viewBox="0 0 560 460" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+  <defs>
+    <pattern id="gridC" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0 L0 0 0 20" fill="none" stroke="#c9d3df" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="40" y="20" width="480" height="400" fill="url(#gridC)" stroke="#7b8794" stroke-width="1.5"/>
+  <g stroke="#0b5394" stroke-width="2" fill="#0b5394">
+    <line x1="495" y1="70" x2="495" y2="38"/>
+    <polygon points="495,30 490,44 500,44"/>
+  </g>
+  <text x="495" y="88" text-anchor="middle" fill="#0b5394" font-size="12" font-weight="bold">N</text>
+  <circle cx="100" cy="380" r="4" fill="#e69138"/>
+  <text x="108" y="396" fill="#e69138" font-size="12" font-weight="bold">A (start)</text>
+  <text x="46" y="436" fill="#52606d">scale: 1 square = 2 m &nbsp; &bull; &nbsp; East = right, North = up</text>
+</svg>
+
+<div class="box">
+  <strong>Another way to get the same answer (math check).</strong> Because every turn in your path is a square (90&deg;) corner:
+  <ul style="margin:6px 0 0 0;padding-left:20px;">
+    <li>East&ndash;West: you went 15 m east and 10 m west, so the net is 15 &minus; 10 = <input class="f" style="max-width:70px"> m <strong>east</strong>.</li>
+    <li>North&ndash;South: you went 20 m north, so the net is <input class="f" style="max-width:70px"> m <strong>north</strong>.</li>
+    <li>Those two make a right triangle with the resultant as the long side:
+        resultant = &radic;(east&sup2; + north&sup2;) = &radic;( <input class="f" style="max-width:60px">&sup2; + <input class="f" style="max-width:60px">&sup2; ) = <input class="f" style="max-width:90px"> m</li>
+    <li>direction = tan&#8315;&sup1;( north &divide; east ) = tan&#8315;&sup1;( <input class="f" style="max-width:70px"> ) = <input class="f" style="max-width:80px"> &deg; north of east</li>
+  </ul>
+  Your ruler-and-protractor answer should land within a couple of meters and a few degrees of this. If it is far off, re-check your scale (7&frac12;, 10, 5 squares) and that each arrow started at the previous arrow&rsquo;s tip.
+</div>
+
+<h3>Part C Data</h3>
+<table>
+  <thead><tr><th>Leg</th><th>Length (m)</th><th>Direction</th><th>Time for the leg (s)</th></tr></thead>
+  <tbody>
+    <tr><td>1 (A&rarr;B)</td><td>15</td><td>East</td><td><input class="f"></td></tr>
+    <tr><td>2 (B&rarr;C)</td><td>20</td><td>North</td><td><input class="f"></td></tr>
+    <tr><td>3 (C&rarr;D)</td><td>10</td><td>West</td><td><input class="f"></td></tr>
+    <tr><td><strong>Totals</strong></td><td><strong>total distance =</strong> <input class="f" style="max-width:90px"></td><td>&mdash;</td><td><strong>total time =</strong> <input class="f" style="max-width:90px"></td></tr>
+  </tbody>
+</table>
+<p><strong>Measured</strong> straight-line distance from A to D, using the tape on the field: <input class="f" style="max-width:100px"> m
+(compass direction A&rarr;D: <input class="f" style="max-width:150px">)</p>
+
+<h3>Part C Calculations</h3>
+<table>
+  <tbody>
+    <tr><td style="width:52%">Total distance traveled (add the three legs)</td><td><input class="f"> m</td></tr>
+    <tr><td>Displacement (from your diagram / math check): magnitude &amp; direction</td><td><input class="f"> m, <input class="f" style="max-width:150px"></td></tr>
+    <tr><td>Average speed = total distance &divide; total time</td><td><input class="f"> m/s</td></tr>
+    <tr><td>Average velocity = displacement &divide; total time (keep the direction)</td><td><input class="f"> m/s, direction <input class="f" style="max-width:150px"></td></tr>
+  </tbody>
+</table>
+
+<div class="box seg">
+  <strong>Where this is heading &mdash; the segue to our next unit.</strong>
+  In Part B you watched velocity change because the <em>speed</em> changed. In Part C you watched velocity change because the <em>direction</em> changed, and you added arrows tip&ndash;to&ndash;tail to find a <strong>resultant displacement</strong>.
+  Next unit we build on both: <strong>acceleration</strong> (how quickly velocity changes, and its own graph) and <strong>adding vectors</strong> when they don&rsquo;t line up so neatly &mdash; the math behind ramps, projectiles, and navigation.
+</div>
+
+<!-- ============================ SUBMIT ============================ -->
+<h2 class="pb">What to Turn In</h2>
+<ul class="checklist">
+  <li>This completed packet: all data tables, Graph A, Graph B, the Part C arrow diagram, and every calculation</li>
+  <li>Answers to all <strong>10 discussion questions</strong> below, in complete sentences, work shown</li>
+  <li>Your <strong>video files</strong> for Part A, Part B, and Part C &mdash; upload to the class drive folder &ldquo;Soccer Motion Lab&rdquo; and paste the links here:
+    <div><input class="f" placeholder="Part A link"></div>
+    <div><input class="f" placeholder="Part B link"></div>
+    <div><input class="f" placeholder="Part C link"></div>
+  </li>
+  <li>Each partner writes 2&ndash;3 sentences: <em>what I personally did</em>, and <em>one thing I understand now that I didn&rsquo;t before</em>:
+    <div><textarea class="f" placeholder="Partner 1"></textarea></div>
+    <div><textarea class="f" placeholder="Partner 2"></textarea></div>
+  </li>
+</ul>
+
+<!-- ============================ DISCUSSION ============================ -->
+<h2 class="pb">Discussion Questions</h2>
+<p>Answer in complete sentences. Show your work on any calculation. Use your data.</p>
+
+<div class="q"><b>1.</b> What does the <strong>slope</strong> of your Part A position&ndash;time graph represent? Give its units, and compare it to the average speed you found from total distance &divide; total time.<br><textarea class="f"></textarea></div>
+<div class="q"><b>2.</b> Compare your <strong>interval speeds</strong> for Part A and Part B. Was the Part A ball&rsquo;s speed essentially constant? Did the Part B ball&rsquo;s speed change? Use specific numbers from both tables, and state whether your <strong>prediction</strong> for the investigating question was supported.<br><textarea class="f"></textarea></div>
+<div class="q"><b>3.</b> In Part C, explain the difference between the total <strong>distance</strong> the ball traveled and its <strong>displacement</strong>. Which one did you use to find average velocity, and why?<br><textarea class="f"></textarea></div>
+<div class="q"><b>4.</b> You added three arrows tip&ndash;to&ndash;tail to find the resultant. In your own words, describe where each arrow <strong>starts</strong> and where the <strong>resultant</strong> arrow goes. Why can you <em>not</em> just add 15 + 20 + 10 to get the displacement?<br><textarea class="f"></textarea></div>
+<div class="q"><b>5.</b> Compare your Part C <strong>average speed</strong> and <strong>average velocity</strong>. Why are they different numbers? Describe a path for which they would be equal.<br><textarea class="f"></textarea></div>
+<div class="q"><b>6.</b> In Part B, what happened to the ball&rsquo;s speed over each 5 m interval? Name the force responsible and say which direction it points relative to the ball&rsquo;s motion.<br><textarea class="f"></textarea></div>
+<div class="q"><b>7.</b> Based on Part B, define <strong>acceleration</strong> in your own words. If you plotted the ball&rsquo;s <em>speed</em> vs. <em>time</em> for Part B, what would the <strong>slope</strong> of that graph tell you, and would it be positive or negative here?<br><textarea class="f"></textarea></div>
+<div class="q"><b>8.</b> A velocity can change through a change in speed, a change in direction, or both. Point to <strong>one moment in this lab</strong> where velocity changed because of <em>direction only</em>, and <strong>one</strong> where it changed because of <em>speed only</em>.<br><textarea class="f"></textarea></div>
+<div class="q"><b>9.</b> Your partner filmed Part A from the sideline, standing still. Suppose instead they had jogged alongside the ball at exactly the ball&rsquo;s speed while filming. What would the ball&rsquo;s motion look like in that video? Answer using the idea of a <strong>frame of reference</strong>.<br><textarea class="f"></textarea></div>
+<div class="q"><b>10.</b> Identify <strong>two sources of measurement error</strong> in your video analysis (for example, judging exactly which frame the ball crosses a marker). For each, say whether it would tend to make your calculated speed <em>too high</em> or <em>too low</em>, and give one change to your procedure that would reduce it.<br><textarea class="f"></textarea></div>
+
+<footer>
+  Soccer Field Motion Lab &mdash; Student Version. Concepts drawn from the Module 01 Study Guide (01.01&ndash;01.10), with a first look at acceleration and vector addition.
+  Complete with one partner within one week of the in-class demo; ~20&ndash;30 minutes of field work. Virtual help available from your teacher during that week.
+</footer>
+
+</body>
+</html>
