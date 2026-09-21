@@ -1,0 +1,323 @@
+<title>Decoding the Heat Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#f6f4ee; --surface:#ffffff; --surface-2:#edeade; --ink:#22262f; --muted:#5b6270; --line:#ddd7c6;
+    --accent:#2f6f8f; --accent-ink:#1c4a5f; --accent-soft:#e3edf1;
+    --accel:#c8592a; --accel-soft:#f5e4d8;
+    --good:#3f7f57; --good-soft:#e3efe6;
+    --pitch:#3f8a5d; --pitch-soft:#e3efe6;
+    --shadow: 0 1px 2px rgba(30,26,14,0.05), 0 8px 24px -12px rgba(30,26,14,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171c; --surface:#1b1f26; --surface-2:#232832; --ink:#e9e6dd; --muted:#9ba2af; --line:#333947;
+      --accent:#7cbcdf; --accent-ink:#bfe0f2; --accent-soft:#1e2e37;
+      --accel:#e79463; --accel-soft:#3a2a20;
+      --good:#7fc79a; --good-soft:#1e3327; --pitch:#7fc79a; --pitch-soft:#1e3327;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171c; --surface:#1b1f26; --surface-2:#232832; --ink:#e9e6dd; --muted:#9ba2af; --line:#333947;
+    --accent:#7cbcdf; --accent-ink:#bfe0f2; --accent-soft:#1e2e37;
+    --accel:#e79463; --accel-soft:#3a2a20;
+    --good:#7fc79a; --good-soft:#1e3327; --pitch:#7fc79a; --pitch-soft:#1e3327;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{background:var(--bg); color:var(--ink); font-family:'Source Serif 4', Georgia, serif; font-size:16px; line-height:1.6; padding-inline:20px; padding-block:24px;}
+  .wrap{max-width:760px; margin:0 auto;}
+  h1,h2,h3,.disp{font-family:'Space Grotesk','Segoe UI',sans-serif;}
+  h1,h2,h3{text-wrap:balance;}
+  .mono{font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums;}
+  strong{font-weight:600;}
+  p{margin:0 0 12px;}
+  svg{max-width:100%; height:auto; display:block;}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; overflow:hidden; border-radius:16px; padding:24px 24px 20px; background:linear-gradient(135deg, var(--pitch) 0%, #2c6b47 100%); color:#f5f7f0; margin-bottom:22px; box-shadow:var(--shadow);}
+  .hero .lines{position:absolute; inset:0; opacity:0.18; background-image:repeating-linear-gradient(0deg, transparent, transparent 34px, #fff 34px, #fff 36px);}
+  .hero-inner{position:relative; z-index:1; display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center;}
+  @media (max-width:520px){.hero-inner{grid-template-columns:1fr;}}
+  .hero .eyebrow{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:#dff0e5; margin-bottom:8px;}
+  .hero h1{font-size:clamp(26px,6vw,34px); font-weight:700; margin:0 0 8px; color:#fff;}
+  .hero p{color:#eaf3ea; font-size:15.5px; max-width:50ch; margin:0;}
+
+  /* ---------- progress ---------- */
+  .progress{display:flex; gap:6px; overflow-x:auto; padding-block:4px 18px; scrollbar-width:none;}
+  .progress::-webkit-scrollbar{display:none;}
+  .progress .pstep{flex:none; font-family:'Space Grotesk',sans-serif; font-size:11.5px; font-weight:600; color:var(--muted); background:var(--surface); border:1px solid var(--line); padding:5px 10px; border-radius:99px; white-space:nowrap;}
+  .progress .pstep.active{color:var(--accent-ink); border-color:var(--accent);}
+
+  /* ---------- steps ---------- */
+  .step{padding-block:26px; border-bottom:1px solid var(--line); scroll-margin-top:16px;}
+  .step:last-of-type{border-bottom:none;}
+  .step-head{display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;}
+  .step-num{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#fff; background:var(--accent); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:none;}
+  .step-title{font-size:21px; font-weight:700; margin:0;}
+  .step-time{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); background:var(--surface-2); padding:3px 9px; border-radius:99px;}
+  .step-body{padding-left:38px;}
+  @media (max-width:480px){.step-body{padding-left:0;}}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow);}
+  .diagram-card{margin:14px 0;}
+  .diagram-label{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;}
+  .svg-caption{font-size:13px; color:var(--muted); margin-top:8px; margin-bottom:0;}
+
+  .callout{display:flex; gap:12px; background:var(--accent-soft); border-radius:10px; padding:14px 16px; margin:14px 0; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
+  .callout .icon{font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--accent-ink); flex:none;}
+  .callout p{margin:0; font-size:15px;}
+  .callout.warn{background:var(--accel-soft); border-color:color-mix(in srgb, var(--accel) 35%, transparent);}
+  .callout.warn .icon{color:var(--accel);}
+
+  /* ---------- player card ---------- */
+  .player-card{background:linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%); border:1px solid var(--line); border-radius:14px; padding:18px 20px; box-shadow:var(--shadow); margin:14px 0;}
+  .player-card .pc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;}
+  .player-card .pc-name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px;}
+  .player-card .pc-tag{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); background:var(--bg); padding:3px 8px; border-radius:99px;}
+  .pc-stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:10px;}
+  @media (max-width:480px){.pc-stats{grid-template-columns:1fr;}}
+  .pc-stat{background:var(--bg); border-radius:8px; padding:8px 10px;}
+  .pc-stat .k{font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em;}
+  .pc-stat .v{font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; color:var(--ink);}
+  .pc-stat .tag-scalar{color:var(--accel); font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:700; text-transform:uppercase;}
+  .pc-stat .tag-vector{color:var(--accent-ink); font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:700; text-transform:uppercase;}
+
+  /* ---------- quick check chips ---------- */
+  .qc{margin:12px 0;}
+  .qc p.q{font-weight:600; margin-bottom:8px; font-size:15px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .qc-chip{font-family:'Space Grotesk',sans-serif; font-size:13.5px; font-weight:600; padding:7px 13px; border-radius:99px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;}
+  .qc-chip:hover{border-color:var(--accent);}
+  .qc-chip.correct{background:var(--good-soft); border-color:var(--good); color:var(--good);}
+  .qc-chip.wrong{background:var(--accel-soft); border-color:var(--accel); color:var(--accel);}
+  .qc-feedback{font-size:13.5px; color:var(--muted); margin-top:8px; min-height:18px;}
+
+  .checklist{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .checklist li{display:flex; gap:10px; align-items:flex-start; font-size:15px;}
+  .checklist li::before{content:"🎥"; flex:none;}
+  .checklist.plain li::before{content:"☐";}
+
+  textarea.jot{width:100%; min-height:60px; resize:vertical; font-family:'Source Serif 4',Georgia,serif; font-size:15px; color:var(--ink); background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px;}
+  textarea.jot:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .jot-label{font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px; display:block;}
+
+  footer{padding-top:20px; color:var(--muted); font-size:13px;}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none !important; animation:none !important;}}
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="lines"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Physics · Quick Check-In · Student Version</div>
+        <h1>Decoding the Heat Map</h1>
+        <p>You've spent two weeks measuring a soccer ball with cones and a phone. Pro teams measure their players the exact same way — just with a chip instead of a camera. Today, you read their data like an analyst.</p>
+      </div>
+      <svg viewBox="0 0 110 110" width="90" height="90" role="img" aria-label="A player silhouette wearing a GPS tracking vest">
+        <circle cx="55" cy="55" r="50" fill="rgba(255,255,255,0.08)"/>
+        <circle cx="55" cy="30" r="12" fill="#f5f7f0"/>
+        <path d="M 30 95 Q 28 58 40 50 L 70 50 Q 82 58 80 95 Z" fill="#f5f7f0"/>
+        <rect x="44" y="52" width="22" height="18" rx="3" fill="#c8592a"/>
+        <circle cx="55" cy="61" r="3" fill="#f5f7f0"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="progress">
+    <span class="pstep active">① The Tech — 2 min</span>
+    <span class="pstep">② Read the Play — 3 min</span>
+    <span class="pstep">③ The Heat Map — 2 min</span>
+    <span class="pstep">④ Film It — 7 min</span>
+    <span class="pstep">⑤ Submit — 1 min</span>
+  </div>
+
+  <!-- ================= STEP 1 ================= -->
+  <section class="step" id="step1">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <h2 class="step-title">The Tech on Their Backs</h2>
+      <span class="step-time">⏱ 2 min</span>
+    </div>
+    <div class="step-body">
+      <p>Every player in a professional match wears a small GPS tracker tucked into a vest between their shoulder blades. It records their exact position on the field <strong>10–20 times every second</strong> — way more often than your video's 30 frames per second, but it's the same basic idea you've been using all lab: <strong>position, sampled over time.</strong></p>
+      <div class="callout">
+        <span class="icon">🔁</span>
+        <p><strong>Same math, bigger budget.</strong> Your phone gave you position at six cones. Their GPS chip gives an analyst position at thousands of points across 90 minutes. Feed those points through the same formulas you've used in Parts A–C, and you get a player's speed, their velocity at any moment, and their total distance covered.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 2 ================= -->
+  <section class="step" id="step2">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <h2 class="step-title">Read the Play</h2>
+      <span class="step-time">⏱ 3 min</span>
+    </div>
+    <div class="step-body">
+      <p>Here's real GPS-style data from one counterattack — a winger receives the ball near midfield and drives toward goal.</p>
+
+      <div class="player-card">
+        <div class="pc-head">
+          <span class="pc-name">#7 — Winger, Counterattack (78th minute)</span>
+          <span class="pc-tag">GPS vest data</span>
+        </div>
+        <div class="pc-stats">
+          <div class="pc-stat"><div class="k">Distance run</div><div class="v">62 m</div><div class="tag-scalar">scalar</div></div>
+          <div class="pc-stat"><div class="k">Displacement</div><div class="v">45 m, NE toward net</div><div class="tag-vector">vector</div></div>
+          <div class="pc-stat"><div class="k">Time on the ball</div><div class="v">8.2 s</div><div class="tag-scalar">scalar</div></div>
+          <div class="pc-stat"><div class="k">Top speed hit</div><div class="v">8.4 m/s</div><div class="tag-scalar">scalar</div></div>
+        </div>
+        <p style="font-size:13.5px; color:var(--muted); margin:0;">She didn't run in a straight line — she cut inside to beat a defender, which is exactly why her path (62 m) is longer than her straight-line displacement (45 m).</p>
+      </div>
+
+      <div class="qc">
+        <p class="q">Quick check: which stat from the card is the vector?</p>
+        <div class="chip-row" id="qcRow">
+          <button class="qc-chip" data-correct="false">Distance run (62 m)</button>
+          <button class="qc-chip" data-correct="true">Displacement (45 m, NE)</button>
+          <button class="qc-chip" data-correct="false">Top speed (8.4 m/s)</button>
+        </div>
+        <p class="qc-feedback" id="qcFeedback"></p>
+      </div>
+
+      <div class="callout">
+        <span class="icon">🧮</span>
+        <p>Notice this is <strong>exactly Part C of your lab</strong> — a path that isn't straight, a distance that's bigger than the displacement, and a direction that only the displacement can give you. The only thing that changed is who's running: you on the field, or a professional on TV.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 3 ================= -->
+  <section class="step" id="step3">
+    <div class="step-head">
+      <span class="step-num">3</span>
+      <h2 class="step-title">Where the Heat Map Comes From</h2>
+      <span class="step-time">⏱ 2 min</span>
+    </div>
+    <div class="step-body">
+      <p>A <strong>heat map</strong> is just thousands of those GPS position points, stacked on top of each other and colored by how often the player stood there. It's the broadcast graphic's way of showing where someone spent their match.</p>
+
+      <div class="card diagram-card">
+        <div class="diagram-label">A winger's heat map</div>
+        <svg viewBox="0 0 400 260" role="img" aria-label="A soccer pitch outline with a heat map showing concentrated activity on the right wing and near midfield">
+          <defs>
+            <radialGradient id="hot1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f74b3a" stop-opacity="0.85"/>
+              <stop offset="60%" stop-color="#f0a83c" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#f0a83c" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="hot2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f0a83c" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#f0a83c" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect x="10" y="10" width="380" height="240" fill="none" stroke="#fff" stroke-width="2" rx="4"/>
+          <line x1="200" y1="10" x2="200" y2="250" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="200" cy="130" r="35" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <rect x="10" y="70" width="45" height="120" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <rect x="345" y="70" width="45" height="120" fill="none" stroke="#fff" stroke-width="1.5"/>
+          <rect x="0" y="0" width="400" height="260" fill="var(--pitch)" opacity="0.9" style="mix-blend-mode:multiply;" />
+          <ellipse cx="320" cy="60" rx="70" ry="45" fill="url(#hot1)"/>
+          <ellipse cx="280" cy="120" rx="60" ry="40" fill="url(#hot1)"/>
+          <ellipse cx="230" cy="150" rx="55" ry="35" fill="url(#hot2)"/>
+        </svg>
+        <p class="svg-caption">Bright red/orange = lots of GPS pings recorded there. This winger clearly lived on the right wing, near the attacking corner — exactly where you'd expect from the counterattack data above.</p>
+      </div>
+
+      <div class="callout warn">
+        <span class="icon">⚠</span>
+        <p><strong>Common mix-up:</strong> a heat map shows where a player was — it's built from <em>distance</em>-style data (every point they touched), not displacement. A player can have a huge, colorful heat map covering the whole pitch and still finish the match only a few meters from their starting spot. Distance and displacement almost never match — which is the whole point of Part C.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 4 ================= -->
+  <section class="step" id="step4">
+    <div class="step-head">
+      <span class="step-num">4</span>
+      <h2 class="step-title">Your Turn: Film It</h2>
+      <span class="step-time">⏱ 7 min</span>
+    </div>
+    <div class="step-body">
+      <p>Record a <strong>60–90 second video</strong> of yourself explaining the counterattack data above to a teammate who has never taken physics.</p>
+
+      <div class="card">
+        <p style="margin-bottom:8px;"><strong>The prompt:</strong> Why does the broadcast graphic say the winger "ran 62 meters" on that play, while her heat map / GPS trace shows she only ended up 45 meters from where she started? What's the difference — and why would a coach care about both numbers?</p>
+        <ul class="checklist">
+          <li>Use at least <strong>three</strong> of these words correctly: scalar, vector, distance, displacement, speed, velocity.</li>
+          <li>Reference at least one actual number from the player card (62 m, 45 m, 8.2 s, or 8.4 m/s).</li>
+          <li><em>Bonus, not required:</em> connect it to your own Part A, B, or C data from the Soccer Motion Lab.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-top:12px;">
+        <span class="jot-label">Optional: plan your talking points here first</span>
+        <textarea class="jot" id="notes" placeholder="Jot a quick outline before you hit record — you don't need a script, just your key points."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 5 ================= -->
+  <section class="step" id="step5">
+    <div class="step-head">
+      <span class="step-num">5</span>
+      <h2 class="step-title">Submit</h2>
+      <span class="step-time">⏱ 1 min</span>
+    </div>
+    <div class="step-body">
+      <ul class="checklist plain">
+        <li>Record with your phone, laptop webcam, or Canvas Studio — whatever's easiest.</li>
+        <li>Upload your video directly to this Canvas assignment (or paste your Drive/Studio link if your teacher asks for that instead — check the assignment page).</li>
+        <li>60–90 seconds is the target. Rough around the edges is fine — this is a check-in, not a final exam.</li>
+      </ul>
+      <div class="callout">
+        <span class="icon">📅</span>
+        <p><strong>Due Friday</strong> — same day as your Soccer Motion Lab. Submit them separately, but feel free to knock this one out first; it's a nice warm-up for the Part C thinking your lab write-up needs anyway.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Quick check-in activity · ~15 minutes · builds on the Soccer Field Motion Lab (Physics Unit 1, Module 01).
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var chips = Array.prototype.slice.call(document.querySelectorAll('#qcRow .qc-chip'));
+  var feedback = document.getElementById('qcFeedback');
+  var answered = false;
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      if(answered) return;
+      answered = true;
+      chips.forEach(function(c){
+        if(c.getAttribute('data-correct') === 'true'){ c.classList.add('correct'); }
+        else if(c === chip){ c.classList.add('wrong'); }
+      });
+      if(chip.getAttribute('data-correct') === 'true'){
+        feedback.textContent = 'Exactly — it has both a size (45 m) and a direction (toward the net). That makes it a vector.';
+      } else {
+        feedback.textContent = 'Not quite — the correct answer is highlighted in green. A vector needs both a size and a direction; only displacement gives you both here.';
+      }
+    });
+  });
+
+  var notes = document.getElementById('notes');
+  try{
+    var saved = localStorage.getItem('heatmap_notes');
+    if(saved) notes.value = saved;
+  }catch(e){}
+  notes.addEventListener('input', function(){
+    try{ localStorage.setItem('heatmap_notes', notes.value); }catch(e){}
+  });
+})();
+</script>
