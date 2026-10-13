@@ -1,0 +1,481 @@
+<title>Mapping Chester: Vectors by Hand</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#f6f4ee; --surface:#ffffff; --surface-2:#edeade; --ink:#22262f; --muted:#5b6270; --line:#ddd7c6;
+    --accent:#2f6f8f; --accent-ink:#1c4a5f; --accent-soft:#e3edf1;
+    --accel:#c8592a; --accel-soft:#f5e4d8;
+    --good:#3f7f57; --good-soft:#e3efe6;
+    --river:#2f6f8f; --river-deep:#22546d;
+    --shadow: 0 1px 2px rgba(30,26,14,0.05), 0 8px 24px -12px rgba(30,26,14,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171c; --surface:#1b1f26; --surface-2:#232832; --ink:#e9e6dd; --muted:#9ba2af; --line:#333947;
+      --accent:#7cbcdf; --accent-ink:#bfe0f2; --accent-soft:#1e2e37;
+      --accel:#e79463; --accel-soft:#3a2a20;
+      --good:#7fc79a; --good-soft:#1e3327;
+      --river:#2a5a73; --river-deep:#1b3e50;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171c; --surface:#1b1f26; --surface-2:#232832; --ink:#e9e6dd; --muted:#9ba2af; --line:#333947;
+    --accent:#7cbcdf; --accent-ink:#bfe0f2; --accent-soft:#1e2e37;
+    --accel:#e79463; --accel-soft:#3a2a20;
+    --good:#7fc79a; --good-soft:#1e3327;
+    --river:#2a5a73; --river-deep:#1b3e50;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{background:var(--bg); color:var(--ink); font-family:'Source Serif 4', Georgia, serif; font-size:16px; line-height:1.6; padding-inline:16px; padding-block:24px; margin:0;}
+  .wrap{max-width:760px; margin:0 auto;}
+  h1,h2,h3,.disp{font-family:'Space Grotesk','Segoe UI',sans-serif;}
+  h1,h2,h3{text-wrap:balance;}
+  h3{font-size:17px; margin:18px 0 6px;}
+  .mono{font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums;}
+  strong{font-weight:600;}
+  p{margin:0 0 12px;}
+  ul,ol{margin:0 0 12px; padding-left:22px;}
+  li{margin-bottom:4px;}
+  a{color:var(--accent-ink);}
+  svg{max-width:100%; height:auto; display:block;}
+
+  /* hero */
+  .hero{position:relative; overflow:hidden; border-radius:16px; padding:24px 24px 20px; background:linear-gradient(135deg, var(--river) 0%, var(--river-deep) 100%); color:#f3f7f9; margin-bottom:22px; box-shadow:var(--shadow);}
+  .hero .lines{position:absolute; inset:0; opacity:0.13; background-image:linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size:28px 28px;}
+  .hero-inner{position:relative; z-index:1; display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center;}
+  @media (max-width:520px){.hero-inner{grid-template-columns:1fr;} .hero-inner svg{display:none;}}
+  .hero .eyebrow{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:#d6e9f2; margin-bottom:8px;}
+  .hero h1{font-size:clamp(26px,6vw,34px); font-weight:700; margin:0 0 8px; color:#fff; line-height:1.15;}
+  .hero p{color:#e6f0f4; font-size:15.5px; max-width:52ch; margin:0;}
+
+  /* progress */
+  .progress{display:flex; gap:6px; overflow-x:auto; padding-block:4px 18px; scrollbar-width:none;}
+  .progress::-webkit-scrollbar{display:none;}
+  .progress a{flex:none; text-decoration:none; font-family:'Space Grotesk',sans-serif; font-size:11.5px; font-weight:600; color:var(--muted); background:var(--surface); border:1px solid var(--line); padding:5px 10px; border-radius:99px; white-space:nowrap;}
+  .progress a:hover{color:var(--accent-ink); border-color:var(--accent);}
+
+  /* steps */
+  .step{padding-block:26px; border-bottom:1px solid var(--line); scroll-margin-top:16px;}
+  .step:last-of-type{border-bottom:none;}
+  .step-head{display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap;}
+  .step-num{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#fff; background:var(--accent); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:none;}
+  :root[data-theme="dark"] .step-num{color:#14171c;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .step-num{color:#14171c;}}
+  .step-title{font-size:21px; font-weight:700; margin:0;}
+  .step-time{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); background:var(--surface-2); padding:3px 9px; border-radius:99px;}
+  .step-body{padding-left:38px;}
+  @media (max-width:480px){.step-body{padding-left:0;}}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow); margin:14px 0;}
+  .diagram-label{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;}
+  .svg-caption{font-size:13px; color:var(--muted); margin-top:8px; margin-bottom:0;}
+
+  .callout{display:flex; gap:12px; background:var(--accent-soft); border-radius:10px; padding:14px 16px; margin:14px 0; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
+  .callout .icon{font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--accent-ink); flex:none;}
+  .callout p{margin:0; font-size:15px;}
+  .callout.warn{background:var(--accel-soft); border-color:color-mix(in srgb, var(--accel) 35%, transparent);}
+  .callout.warn .icon{color:var(--accel);}
+
+  .btn{display:inline-flex; align-items:center; gap:8px; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; text-decoration:none; color:#fff; background:var(--accel); padding:10px 16px; border-radius:10px; box-shadow:var(--shadow);}
+  .btn:hover{filter:brightness(1.05);}
+
+  /* tables */
+  .tbl-wrap{overflow-x:auto; margin:10px 0 14px;}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; background:var(--surface);}
+  th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top;}
+  th{font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600; color:var(--muted); background:var(--surface-2); text-transform:uppercase; letter-spacing:0.03em;}
+  td.mono{white-space:nowrap;}
+
+  /* planner */
+  .planner{display:flex; flex-direction:column; gap:8px; margin:12px 0;}
+  .prow{display:grid; grid-template-columns:auto 1fr auto auto; gap:10px; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:9px 12px;}
+  .prow.done{background:var(--good-soft); border-color:color-mix(in srgb, var(--good) 45%, transparent);}
+  .prow input[type=checkbox]{width:20px; height:20px; accent-color:var(--good); margin:0;}
+  .prow .pname{font-size:15px; line-height:1.35;}
+  .prow .pname b{font-family:'Space Grotesk',sans-serif;}
+  .prow .pmin{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); white-space:nowrap;}
+  .prow select{font-family:'Space Grotesk',sans-serif; font-size:13px; padding:4px 6px; border-radius:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink);}
+  @media (max-width:520px){.prow{grid-template-columns:auto 1fr; } .prow .pmin{grid-column:2;} .prow select{grid-column:2; justify-self:start;}}
+  .meter{height:10px; background:var(--surface-2); border-radius:99px; overflow:hidden; border:1px solid var(--line);}
+  .meter > div{height:100%; width:0; background:var(--good); transition:width .3s;}
+  .meter-label{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  .daycount{font-size:14px; color:var(--muted); margin-top:4px;}
+  .daycount .warn{color:var(--accel); font-weight:600;}
+
+  /* part cards */
+  .part{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:12px 0; box-shadow:var(--shadow);}
+  .part-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .part-name{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16.5px;}
+  .part-time{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted);}
+  .formula{font-family:'IBM Plex Mono',monospace; font-size:15px; background:var(--accent-soft); color:var(--accent-ink); padding:6px 10px; border-radius:8px; display:inline-block; margin:4px 0 8px;}
+  .part p{font-size:15px; margin-bottom:6px;}
+  .tip{font-size:14px; color:var(--muted);}
+  .tip b{color:var(--accel);}
+
+  /* quick check */
+  .qc{margin:16px 0 4px;}
+  .qc p.q{font-weight:600; margin-bottom:8px; font-size:15px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .qc-chip{font-family:'IBM Plex Mono',monospace; font-size:13.5px; font-weight:500; padding:7px 13px; border-radius:99px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;}
+  .qc-chip:hover{border-color:var(--accent);}
+  .qc-chip.correct{background:var(--good-soft); border-color:var(--good); color:var(--good);}
+  .qc-chip.wrong{background:var(--accel-soft); border-color:var(--accel); color:var(--accel);}
+  .qc-feedback{font-size:13.5px; color:var(--muted); margin-top:8px; min-height:18px;}
+
+  .checklist{list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .checklist li{display:flex; gap:10px; align-items:flex-start; font-size:15px;}
+  .checklist li::before{content:"☐"; flex:none;}
+
+  footer{padding-top:20px; color:var(--muted); font-size:13px;}
+  @media (prefers-reduced-motion: reduce){*{transition:none !important; animation:none !important;}}
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="lines"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Physics · Weekly Activity · Student Version</div>
+        <h1>Mapping Chester: Vectors by Hand</h1>
+        <p>You know a vector has a size and a direction. This week you'll learn to do math with that direction: split vectors apart, add them, and use a map to find how far you really are from Subaru Park.</p>
+      </div>
+      <svg viewBox="0 0 110 110" width="96" height="96" role="img" aria-label="Tip-to-tail vectors on a grid ending at a map pin">
+        <circle cx="55" cy="55" r="50" fill="rgba(255,255,255,0.08)"/>
+        <path d="M22 82 L52 62" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M52 62 L58 34" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M22 82 L58 34" stroke="#f5c9a8" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round"/>
+        <circle cx="22" cy="82" r="4" fill="#fff"/>
+        <path d="M58 16c-7 0-12 5-12 12 0 9 12 20 12 20s12-11 12-20c0-7-5-12-12-12z" fill="#f5c9a8"/>
+        <circle cx="58" cy="28" r="4.5" fill="#22546d"/>
+      </svg>
+    </div>
+  </div>
+
+  <nav class="progress" aria-label="Sections">
+    <a href="#setup">① Get set up</a>
+    <a href="#plan">② Plan your week</a>
+    <a href="#learn">③ Parts 1–5</a>
+    <a href="#map">④ Part 6: Map Chester</a>
+    <a href="#stuck">⑤ If you're stuck</a>
+    <a href="#submit">⑥ Submit</a>
+  </nav>
+
+  <!-- ================= STEP 1 ================= -->
+  <section class="step" id="setup">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <h2 class="step-title">Get set up</h2>
+      <span class="step-time">⏱ 10 min</span>
+    </div>
+    <div class="step-body">
+      <p>This whole activity happens <strong>on paper, by hand</strong>. This page is your guide. The work goes in the printed packet.</p>
+      <p><a class="btn" href="Mapping_Chester_Student_Packet.pdf" target="_blank" rel="noopener">Open the student packet (PDF, 21 pages)</a></p>
+      <div class="callout warn">
+        <span class="icon">⚠</span>
+        <p><strong>Print at 100%</strong> ("Actual size", not "Fit to page"). The graph paper squares need to be exactly 1 cm. Page 1 has a 10 cm bar. Measure it with your ruler to check. No printer? Message your teacher for a printed copy.</p>
+      </div>
+      <h3>What you need</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Item</th><th>Used for</th></tr>
+          <tr><td>Ruler with centimeters</td><td>Drawing vectors to scale and measuring them</td></tr>
+          <tr><td>Protractor</td><td>Drawing and measuring angles</td></tr>
+          <tr><td>Drawing compass</td><td>Checking lengths with arcs and circles</td></tr>
+          <tr><td>Scientific calculator</td><td>Set it to <strong>DEGREE</strong> mode. Check: sin(30) should give 0.5</td></tr>
+          <tr><td>Pencil + 2 colored pencils</td><td>One color for components, one for resultants</td></tr>
+          <tr><td>A map of Chester</td><td>Phone or printed. Part 6C only</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 2 ================= -->
+  <section class="step" id="plan">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <h2 class="step-title">Plan your week</h2>
+      <span class="step-time">⏱ 3 min</span>
+    </div>
+    <div class="step-body">
+      <p>The packet takes about <strong>4 hours</strong>. That's about <strong>45 minutes a day</strong> if you spread it out, or one very rough night if you don't. Pick a day for each part. Tick it off when it's done. This page remembers your plan on this device.</p>
+      <div class="planner" id="planner"></div>
+      <div class="meter" aria-hidden="true"><div id="meterFill"></div></div>
+      <div class="meter-label" id="meterLabel">0 of 240 min done</div>
+      <div class="daycount" id="dayCount"></div>
+      <div class="callout">
+        <span class="icon">↻</span>
+        <p><strong>Do the parts in order.</strong> Each part uses the skill from the one before it. Problems marked <strong>★ Challenge</strong> are optional. Skip them if you're short on time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 3 ================= -->
+  <section class="step" id="learn">
+    <div class="step-head">
+      <span class="step-num">3</span>
+      <h2 class="step-title">Parts 1–5: learn the tools</h2>
+      <span class="step-time">⏱ about 2 hr 5 min total</span>
+    </div>
+    <div class="step-body">
+      <p>Each part starts with a worked example in the packet. Read it first, then try the problems. Here's what each part is for.</p>
+
+      <div class="card">
+        <div class="diagram-label">The one picture to remember</div>
+        <svg viewBox="0 0 520 220" role="img" aria-label="A vector R drawn as the hypotenuse of a right triangle. Its horizontal leg is x equals R cos theta and its vertical leg is y equals R sin theta.">
+          <defs>
+            <marker id="hR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+            <marker id="hC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accel)"/></marker>
+          </defs>
+          <line x1="60" y1="170" x2="356" y2="170" stroke="var(--accel)" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#hC)"/>
+          <line x1="360" y1="170" x2="360" y2="48" stroke="var(--accel)" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#hC)"/>
+          <line x1="60" y1="170" x2="357" y2="46" stroke="var(--accent)" stroke-width="3" marker-end="url(#hR)"/>
+          <path d="M346 170 V156 H360" fill="none" stroke="var(--muted)" stroke-width="1.2"/>
+          <path d="M110 170 A50 50 0 0 0 106 150" fill="none" stroke="var(--muted)" stroke-width="1.5"/>
+          <text x="118" y="160" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="16" fill="var(--ink)">θ</text>
+          <circle cx="60" cy="170" r="4.5" fill="var(--ink)"/>
+          <text x="186" y="94" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="15" fill="var(--ink)">R (hypotenuse)</text>
+          <text x="208" y="198" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">x = R cos θ  (adjacent)</text>
+          <text x="372" y="104" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">y = R sin θ</text>
+          <text x="372" y="124" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--muted)">(opposite)</text>
+        </svg>
+        <p class="svg-caption">Every problem this week starts with a triangle like this. The vector is the hypotenuse. The components are the two legs.</p>
+      </div>
+
+      <div class="part">
+        <div class="part-head"><span class="part-name">Part 1 · Warm-up: Which way is that?</span><span class="part-time">15 min · no calculator</span></div>
+        <p>Directions like "30° N of E", the sign rules (east and north are +), and a prediction about walking around the block.</p>
+        <p class="tip"><b>Watch out:</b> "30° N of E" and "30° E of N" are not the same direction. Draw both to see why.</p>
+      </div>
+
+      <div class="part">
+        <div class="part-head"><span class="part-name">Part 2 · Two perpendicular vectors</span><span class="part-time">25 min</span></div>
+        <p>When two vectors meet at 90°, the resultant is the hypotenuse.</p>
+        <span class="formula">R = √(x² + y²)</span>
+        <p class="tip"><b>Watch out:</b> square each leg first, then add, then take the square root. √(3² + 4²) is not 3 + 4.</p>
+      </div>
+
+      <div class="part">
+        <div class="part-head"><span class="part-name">Part 3 · Breaking a vector apart (SOHCAHTOA)</span><span class="part-time">35 min</span></div>
+        <p><strong>S</strong>in = <strong>O</strong>pp ÷ <strong>H</strong>yp · <strong>C</strong>os = <strong>A</strong>dj ÷ <strong>H</strong>yp · <strong>T</strong>an = <strong>O</strong>pp ÷ <strong>A</strong>dj. When θ is measured from the east–west axis:</p>
+        <span class="formula">x = R cos θ &nbsp;&nbsp;&nbsp; y = R sin θ</span>
+        <p class="tip"><b>Watch out:</b> if the angle is measured from north (like "25° W of N"), sine and cosine swap. The side <em>next to</em> the angle always uses cosine.</p>
+      </div>
+
+      <div class="part">
+        <div class="part-head"><span class="part-name">Part 4 · Adding vectors</span><span class="part-time">30 min</span></div>
+        <p><strong>Draw:</strong> tip-to-tail, then the resultant goes from first tail to last tip. <strong>Calculate:</strong> add all the x's, add all the y's, then use Part 2.</p>
+        <span class="formula">R<sub>x</sub> = x₁ + x₂ + … &nbsp;&nbsp;&nbsp; R<sub>y</sub> = y₁ + y₂ + …</span>
+        <p class="tip"><b>Watch out:</b> keep the signs. A vector pointing south has a negative y.</p>
+      </div>
+
+      <div class="part">
+        <div class="part-head"><span class="part-name">Part 5 · Which way? Finding direction</span><span class="part-time">20 min</span></div>
+        <p>Use the <em>sizes</em> of the components to get the angle from the east–west axis. Then use the signs to name it.</p>
+        <span class="formula">θ = tan⁻¹( |R<sub>y</sub>| ÷ |R<sub>x</sub>| )</span>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>R<sub>x</sub></th><th>R<sub>y</sub></th><th>Say it as</th></tr>
+            <tr><td class="mono">+</td><td class="mono">+</td><td>θ N of E</td></tr>
+            <tr><td class="mono">−</td><td class="mono">+</td><td>θ N of W</td></tr>
+            <tr><td class="mono">−</td><td class="mono">−</td><td>θ S of W</td></tr>
+            <tr><td class="mono">+</td><td class="mono">−</td><td>θ S of E</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <h3>Quick checks: are you ready for Part 6?</h3>
+      <p>Try these after Part 5. They aren't graded. If you miss one, reread that part's worked example.</p>
+      <div class="qc" data-qc>
+        <p class="q">1. You walk 6 m east, then 8 m north. How far are you from where you started?</p>
+        <div class="chip-row">
+          <button class="qc-chip" data-correct="false" data-why="That's the total distance you walked, not your displacement. The straight line home is shorter.">14 m</button>
+          <button class="qc-chip" data-correct="true" data-why="Yes: √(6² + 8²) = √100 = 10 m.">10 m</button>
+          <button class="qc-chip" data-correct="false" data-why="That's 8 − 6. For perpendicular vectors, use the Pythagorean theorem.">2 m</button>
+          <button class="qc-chip" data-correct="false" data-why="That's 6² + 8² without the square root. Take √100.">100 m</button>
+        </div>
+        <div class="qc-feedback" aria-live="polite"></div>
+      </div>
+      <div class="qc" data-qc>
+        <p class="q">2. A vector is 10 m at 30° N of E. Which one gives its east (x) component?</p>
+        <div class="chip-row">
+          <button class="qc-chip" data-correct="false" data-why="Sine gives the side opposite the angle. Here that's the north part.">10 sin 30°</button>
+          <button class="qc-chip" data-correct="true" data-why="Yes: the east side is next to (adjacent to) the 30° angle, so it uses cosine.">10 cos 30°</button>
+          <button class="qc-chip" data-correct="false" data-why="Tangent compares two legs. It doesn't give a component on its own.">10 tan 30°</button>
+        </div>
+        <div class="qc-feedback" aria-live="polite"></div>
+      </div>
+      <div class="qc" data-qc>
+        <p class="q">3. A resultant has R<sub>x</sub> = −4 km and R<sub>y</sub> = +2 km. Which way does it point?</p>
+        <div class="chip-row">
+          <button class="qc-chip" data-correct="false" data-why="N of E needs a positive Rx. A negative Rx means west.">N of E</button>
+          <button class="qc-chip" data-correct="true" data-why="Yes: negative x is west, positive y is north, so the direction is N of W.">N of W</button>
+          <button class="qc-chip" data-correct="false" data-why="S of W needs a negative Ry too. Here Ry is positive, which means north.">S of W</button>
+        </div>
+        <div class="qc-feedback" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 4 ================= -->
+  <section class="step" id="map">
+    <div class="step-head">
+      <span class="step-num">4</span>
+      <h2 class="step-title">Part 6: Map Chester</h2>
+      <span class="step-time">⏱ about 100 min · 2 days</span>
+    </div>
+    <div class="step-body">
+      <p>Now everything comes together. You'll draw a route through Chester's history to scale and track your <strong>displacement from Subaru Park</strong> after every stop.</p>
+
+      <h3>6B · The Chester history route (about 60 min)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Leg</th><th>From → To</th><th>Displacement</th></tr>
+          <tr><td>1</td><td>Subaru Park → the Penn Landing site on the waterfront, where William Penn first came ashore in Pennsylvania in 1682</td><td class="mono">1.80 km at 34° N of E</td></tr>
+          <tr><td>2</td><td>→ the 1724 Chester Courthouse, one of the oldest public buildings in the country</td><td class="mono">0.85 km at 69° N of E</td></tr>
+          <tr><td>3</td><td>→ Widener University</td><td class="mono">1.41 km at 82° N of E</td></tr>
+          <tr><td>4</td><td>→ the former Crozer Theological Seminary in Upland, where Dr. Martin Luther King Jr. studied (1948–1951)</td><td class="mono">1.97 km at 15° S of W</td></tr>
+        </table>
+      </div>
+      <p>Stop positions are simplified for this activity, so they're close to the real locations but not exact. Use the <strong>map sheet</strong> in your packet. It already has the start, a north arrow and the scale (<span class="mono">1 cm = 0.25 km</span>). <strong>Leg 1 is fully worked out for you</strong> as a model.</p>
+      <p>For each leg: <strong>convert</strong> to cm → <strong>draw</strong> it → <strong>calculate</strong> x and y → <strong>add</strong> to your running totals → <strong>calculate</strong> displacement and direction → <strong>draw</strong> a dashed arrow from Subaru Park.</p>
+
+      <h3>6C · Your own route to school (about 40 min)</h3>
+      <ul>
+        <li>Start somewhere you know: home, a relative's house, a park, a store or a bus stop. Finish at school.</li>
+        <li>At least <strong>3 legs</strong>, and at least <strong>1 diagonal</strong> leg.</li>
+        <li>Copy your map's <strong>scale bar</strong>. Measure it to find your scale. Example: if a 500 m bar is 2.5 cm long, then 1 cm = 0.2 km.</li>
+        <li>Fill in the 6C data table, then measure your final displacement arrow and compare.</li>
+      </ul>
+      <div class="callout">
+        <span class="icon">◎</span>
+        <p><strong>Close, not identical.</strong> Your measured and calculated answers should be within a few percent. Small differences come from pencil width and protractor reading. That's normal, and it's part of the point.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 5 ================= -->
+  <section class="step" id="stuck">
+    <div class="step-head">
+      <span class="step-num">5</span>
+      <h2 class="step-title">If you're stuck</h2>
+      <span class="step-time">⏱ 10-minute rule</span>
+    </div>
+    <div class="step-body">
+      <ol>
+        <li><strong>Draw it first.</strong> Most mistakes are about which side is which. A sketch with θ marked fixes most of them.</li>
+        <li><strong>Check degree mode.</strong> If sin(30) doesn't give 0.5, every trig answer will be wrong.</li>
+        <li><strong>Reread the worked example</strong> for that part. The problems follow the same steps.</li>
+        <li><strong>Still stuck after 10 minutes?</strong> Circle the problem. Write one sentence about what you tried. Move on, and message your teacher. Getting stuck and asking is part of the work.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= STEP 6 ================= -->
+  <section class="step" id="submit">
+    <div class="step-head">
+      <span class="step-num">6</span>
+      <h2 class="step-title">Submit</h2>
+      <span class="step-time">⏱ 15 min</span>
+    </div>
+    <div class="step-body">
+      <ul class="checklist">
+        <li>Your name is on every page.</li>
+        <li>Every calculation shows the formula, the numbers plugged in, and the answer with units.</li>
+        <li>Every drawing has a scale, a north arrow and labels.</li>
+        <li>Measured values are written next to calculated values.</li>
+        <li>The reflection questions on the last packet page are answered.</li>
+        <li>Clear, well-lit photo or scan of every page, uploaded <strong>in order</strong> to this Canvas assignment.</li>
+      </ul>
+      <div class="callout">
+        <span class="icon">📅</span>
+        <p><strong>Due by the end of the week.</strong> Check the Canvas assignment for the exact due date. Uploading as you finish each part is fine, and it means less to photograph on the last day.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Weekly activity · about 4 hours across the week · builds on the Vectors and Scalars unit.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var PARTS = [
+    {id:'p1', name:'<b>Part 1</b> · Warm-up', min:15},
+    {id:'p2', name:'<b>Part 2</b> · Pythagorean theorem', min:25},
+    {id:'p3', name:'<b>Part 3</b> · SOHCAHTOA', min:35},
+    {id:'p4', name:'<b>Part 4</b> · Adding vectors', min:30},
+    {id:'p5', name:'<b>Part 5</b> · Direction', min:20},
+    {id:'p6b', name:'<b>Part 6A–6B</b> · Chester history route', min:60},
+    {id:'p6c', name:'<b>Part 6C</b> · Your own route', min:40},
+    {id:'sub', name:'<b>Reflection</b> + photos + submit', min:15}
+  ];
+  var DAYS = ['Pick a day','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var KEY = 'mapping_chester_plan_v1';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  var planner = document.getElementById('planner');
+  var total = PARTS.reduce(function(a,p){ return a + p.min; }, 0);
+
+  PARTS.forEach(function(p){
+    var s = state[p.id] || {};
+    var row = document.createElement('div');
+    row.className = 'prow' + (s.done ? ' done' : '');
+    var cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = !!s.done; cb.id = 'cb-' + p.id;
+    var name = document.createElement('label'); name.className = 'pname'; name.htmlFor = cb.id; name.innerHTML = p.name;
+    var min = document.createElement('span'); min.className = 'pmin'; min.textContent = p.min + ' min';
+    var sel = document.createElement('select');
+    sel.setAttribute('aria-label', 'Day');
+    DAYS.forEach(function(d, i){ var o = document.createElement('option'); o.value = i ? d : ''; o.textContent = d; sel.appendChild(o); });
+    sel.value = s.day || '';
+    cb.addEventListener('change', function(){ state[p.id] = Object.assign({}, state[p.id], {done: cb.checked}); row.classList.toggle('done', cb.checked); save(); update(); });
+    sel.addEventListener('change', function(){ state[p.id] = Object.assign({}, state[p.id], {day: sel.value}); save(); update(); });
+    row.appendChild(cb); row.appendChild(name); row.appendChild(min); row.appendChild(sel);
+    planner.appendChild(row);
+  });
+
+  function update(){
+    var done = 0, perDay = {};
+    PARTS.forEach(function(p){
+      var s = state[p.id] || {};
+      if (s.done) done += p.min;
+      if (s.day) perDay[s.day] = (perDay[s.day] || 0) + p.min;
+    });
+    document.getElementById('meterFill').style.width = Math.round(done / total * 100) + '%';
+    document.getElementById('meterLabel').textContent = done + ' of ' + total + ' min done';
+    var heavy = Object.keys(perDay).filter(function(d){ return perDay[d] > 90; });
+    var dc = document.getElementById('dayCount');
+    var planned = Object.keys(perDay);
+    if (!planned.length) { dc.textContent = ''; return; }
+    var parts = DAYS.slice(1).filter(function(d){ return perDay[d]; }).map(function(d){ return d + ' ' + perDay[d] + ' min'; });
+    dc.innerHTML = 'Your plan: ' + parts.join(' · ') +
+      (heavy.length ? ' <span class="warn">· ' + heavy.join(', ') + ' looks heavy. Can you move something?</span>' : '');
+  }
+  update();
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-qc]'), function(qc){
+    var chips = Array.prototype.slice.call(qc.querySelectorAll('.qc-chip'));
+    var fb = qc.querySelector('.qc-feedback');
+    var answered = false;
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        if (answered) return;
+        answered = true;
+        chips.forEach(function(c){
+          if (c.getAttribute('data-correct') === 'true') c.classList.add('correct');
+          else if (c === chip) c.classList.add('wrong');
+        });
+        fb.textContent = chip.getAttribute('data-why');
+      });
+    });
+  });
+})();
+</script>
