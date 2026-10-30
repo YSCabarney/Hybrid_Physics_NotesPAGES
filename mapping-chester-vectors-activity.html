@@ -1,3 +1,6 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mapping Chester: Vectors by Hand</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -169,11 +172,11 @@
     <div class="step-head">
       <span class="step-num">1</span>
       <h2 class="step-title">Get set up</h2>
-      <span class="step-time">⏱ 10 min</span>
+      <span class="step-time">⏱ before you start</span>
     </div>
     <div class="step-body">
       <p>This whole activity happens <strong>on paper, by hand</strong>. This page is your guide. The work goes in the printed packet.</p>
-      <p><a class="btn" href="Mapping_Chester_Student_Packet.pdf" target="_blank" rel="noopener">Open the student packet (PDF, 15 pages)</a></p>
+      <p><a class="btn" href="https://yscabarney.github.io/Hybrid_Physics_NotesPAGES/Mapping_Chester_Student_Packet.pdf" target="_blank" rel="noopener">Open the student packet (PDF, 15 pages)</a></p>
       <div class="callout warn">
         <span class="icon">⚠</span>
         <p><strong>Print at 100%</strong> ("Actual size", not "Fit to page"). The graph paper squares need to be exactly 1 cm. Page 1 has a 10 cm bar. Measure it with your ruler to check. No printer? Message your teacher for a printed copy.</p>
@@ -184,7 +187,7 @@
           <tr><th>Item</th><th>Used for</th></tr>
           <tr><td>Ruler with centimeters</td><td>Drawing vectors to scale and measuring them. No ruler? Cut one out from page 2 of the packet.</td></tr>
           <tr><td>Protractor</td><td>Drawing and measuring angles. No protractor? Cut one out from page 2.</td></tr>
-          <tr><td>Drawing compass</td><td>Checking lengths with arcs and circles</td></tr>
+          <tr><td>Drawing compass</td><td>The compass check at the end of Part 6B</td></tr>
           <tr><td>Scientific calculator</td><td>Set it to <strong>DEGREE</strong> mode. Check: sin(30) should give 0.5</td></tr>
           <tr><td>Pencil + 2 colored pencils</td><td>One color for components, one for resultants</td></tr>
           <tr><td>A map of Chester</td><td>Phone or printed. Part 6C only</td></tr>
@@ -262,7 +265,7 @@
         <div class="part-head"><span class="part-name">Part 3 · Breaking a vector apart (SOHCAHTOA)</span><span class="part-time">20 min</span></div>
         <p><strong>S</strong>in = <strong>O</strong>pp ÷ <strong>H</strong>yp · <strong>C</strong>os = <strong>A</strong>dj ÷ <strong>H</strong>yp · <strong>T</strong>an = <strong>O</strong>pp ÷ <strong>A</strong>dj. When θ is measured from the east–west axis:</p>
         <span class="formula">x = R cos θ &nbsp;&nbsp;&nbsp; y = R sin θ</span>
-        <p class="tip"><b>Watch out:</b> if the angle is measured from north (like "25° W of N"), sine and cosine swap. The side <em>next to</em> the angle always uses cosine.</p>
+        <p class="tip"><b>Watch out:</b> the side <em>next to</em> the angle is adjacent and uses cosine. The side <em>across from</em> the angle is opposite and uses sine.</p>
       </div>
 
       <div class="part">
@@ -331,6 +334,7 @@
       </div>
       <p>Stop positions are simplified for this activity, so they're close to the real locations but not exact. Use the <strong>map sheet</strong> in your packet. It already has the start, a north arrow and the scale (<span class="mono">1 cm = 0.25 km</span>). <strong>Leg 1 is done for you</strong> as a model, so you only work out legs 2 and 3.</p>
       <p>For each leg: <strong>convert</strong> to cm → <strong>draw</strong> it → <strong>calculate</strong> x and y → <strong>add</strong> to your running totals → <strong>find</strong> displacement and direction. At the end, draw and measure one dashed arrow from Subaru Park to the last stop.</p>
+      <p><strong>Compass check:</strong> open your drawing compass to the length of that dashed arrow, put the point on Subaru Park, and swing an arc. It should pass right through the seminary. Every point on the arc is the same distance away, which is why a displacement also needs a direction.</p>
 
       <h3>6C · Your own route to school (15 min)</h3>
       <ul>
@@ -458,6 +462,17 @@
       (heavy.length ? ' <span class="warn">· ' + heavy.join(', ') + ' looks heavy. Can you move something?</span>' : '');
   }
   update();
+
+  // Jump links: scroll with JS so they also work when this page is embedded in Canvas
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  Array.prototype.forEach.call(document.querySelectorAll('.progress a'), function(a){
+    a.addEventListener('click', function(e){
+      var target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({behavior: calm ? 'auto' : 'smooth', block: 'start'});
+    });
+  });
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-qc]'), function(qc){
     var chips = Array.prototype.slice.call(qc.querySelectorAll('.qc-chip'));
