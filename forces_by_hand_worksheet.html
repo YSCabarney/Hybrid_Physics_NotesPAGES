@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forces by Hand – Physics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --blue:      #1a3a5c;
+    --midblue:   #2563a8;
+    --accent:    #c0392b;
+    --green:     #1a6b3a;
+    --amber:     #b7770d;
+    --lightgray: #f5f6f8;
+    --midgray:   #d1d5db;
+    --darkgray:  #1f2937;
+    --white:     #ffffff;
+    --saved:     #16a34a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10.5pt;
+    color: var(--darkgray);
+    background: #eef1f5;
+    min-height: 100vh;
+  }
+
+  /* ── STICKY HEADER ── */
+  .sticky-header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--blue); color: white;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    gap: 16px; flex-wrap: wrap;
+  }
+  .title-block { flex: 1; min-width: 180px; }
+  .title-block h1 { font-size: 13pt; font-weight: 700; line-height: 1.1; }
+  .title-block .sub { font-size: 8.5pt; opacity: 0.75; margin-top: 2px; }
+
+  .save-pill {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 9pt; padding: 6px 14px; border-radius: 20px;
+    background: rgba(255,255,255,0.12);
+    white-space: nowrap; min-width: 130px;
+    justify-content: center; transition: background 0.3s;
+  }
+  .save-pill.saving { background: rgba(255,180,0,0.25); }
+  .save-pill.saved  { background: rgba(0,200,80,0.25); }
+  .dot { width:8px;height:8px;border-radius:50%;background:#aaa;flex-shrink:0;transition:background 0.3s; }
+  .save-pill.saving .dot { background:#fbbf24; animation:pulse 1s infinite; }
+  .save-pill.saved  .dot { background:#34d399; }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .dl-btn {
+    background: var(--accent); color: white; border: none;
+    border-radius: 6px; padding: 8px 16px; font-size: 9.5pt;
+    font-weight: 600; cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
+    font-family: inherit;
+  }
+  .dl-btn:hover { background: #a93226; }
+  .dl-btn:active { transform: scale(0.97); }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ── HOW-TO BOX ── */
+  .how-to {
+    background: #fff7ed; border: 1.5px solid #f59e0b;
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 20px;
+    font-size: 10pt; line-height: 1.75;
+  }
+  .how-to strong { color: var(--amber); }
+  .how-to ol { padding-left: 20px; margin-top: 6px; }
+  .how-to li { margin-bottom: 5px; }
+  .how-to code {
+    background: #fef3c7; padding: 1px 5px; border-radius: 3px;
+    font-family: monospace; font-size: 9.5pt;
+  }
+  .how-to .warn {
+    margin-top: 10px; padding: 8px 12px;
+    background: #fde8e8; border-radius: 5px;
+    color: #7f1d1d; font-size: 9.5pt;
+  }
+
+  /* ── DL BANNER ── */
+  .dl-banner {
+    background: #dcfce7; border: 2px solid var(--saved);
+    border-radius: 10px; padding: 18px 22px; margin-bottom: 20px; display: none;
+  }
+  .dl-banner h3 { color: var(--saved); margin-bottom: 6px; font-size: 11pt; }
+  .dl-banner ol { padding-left: 20px; margin-top: 8px; }
+  .dl-banner li { color: #166534; font-size: 10pt; margin-bottom: 4px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: white; border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    margin-bottom: 20px; overflow: hidden;
+  }
+  .card-header {
+    background: var(--blue); color: white;
+    padding: 10px 18px; display: flex;
+    justify-content: space-between; align-items: center; gap: 10px;
+  }
+  .card-header h2 { font-size: 11pt; font-weight: 700; }
+  .card-header .meta { font-size: 8.5pt; opacity: 0.75; white-space: nowrap; }
+  .card-body { padding: 18px 20px; }
+
+  /* ── RECALL / WORKED ── */
+  .recall {
+    background: #eff6ff; border-left: 3px solid var(--midblue);
+    padding: 12px 16px; margin-bottom: 16px;
+    font-size: 10pt; line-height: 1.65; border-radius: 0 4px 4px 0;
+  }
+  .recall .rl {
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--midblue); font-weight: 700; margin-bottom: 5px;
+  }
+  .worked {
+    background: #f0fdf4; border-left: 3px solid var(--green);
+    padding: 12px 16px; margin: 14px 0;
+    font-size: 10pt; line-height: 1.65; border-radius: 0 4px 4px 0;
+  }
+  .worked .wl {
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--green); font-weight: 700; margin-bottom: 5px;
+  }
+
+  /* ── FORMULA BAR ── */
+  .fbar {
+    background: var(--darkgray); color: white; border-radius: 6px;
+    padding: 10px 16px; display: flex; flex-wrap: wrap;
+    margin: 14px 0;
+  }
+  .fi { text-align: center; padding: 4px 18px; border-right: 1px solid rgba(255,255,255,0.15); }
+  .fi:last-child { border-right: none; }
+  .fi .fl { font-size: 7.5pt; opacity: 0.6; margin-bottom: 2px; }
+  .fi .fv { font-size: 10.5pt; font-weight: 600; font-family: 'Courier New', monospace; }
+
+  /* ── PROBLEM PROMPT ── */
+  .pp {
+    background: var(--lightgray); border-radius: 6px;
+    padding: 11px 16px; margin: 12px 0 7px;
+    font-size: 10.5pt; line-height: 1.65;
+  }
+  .pn { font-weight: 700; color: var(--midblue); margin-right: 4px; }
+  .pts {
+    display: inline-block; background: var(--midblue); color: white;
+    font-size: 7.5pt; padding: 1px 7px; border-radius: 10px;
+    font-weight: 700; margin-left: 6px; vertical-align: middle;
+  }
+  .tag {
+    display: inline-block; background: var(--accent); color: white;
+    font-size: 7pt; padding: 1px 6px; border-radius: 10px;
+    font-weight: 600; margin-left: 5px; vertical-align: middle;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tag.g { background: var(--green); }
+
+  /* ── ANSWER FIELDS ── */
+  .aw { margin: 5px 0 13px; position: relative; }
+  .al {
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 1px;
+    color: #888; font-weight: 600; margin-bottom: 4px;
+  }
+  textarea.ans {
+    width: 100%; border: 1.5px solid var(--midgray); border-radius: 6px;
+    padding: 10px 12px; font-family: inherit; font-size: 10pt;
+    line-height: 1.6; resize: vertical; min-height: 80px;
+    color: var(--darkgray); background: white;
+    transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+  }
+  textarea.ans:focus { border-color: var(--midblue); box-shadow: 0 0 0 3px rgba(37,99,168,0.12); }
+  textarea.ans.sh { min-height: 48px; }
+  textarea.ans.tl { min-height: 130px; }
+
+  .fsaved {
+    position: absolute; right: 10px; bottom: 10px;
+    font-size: 8pt; color: var(--saved);
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+  }
+  .fsaved.show { opacity: 1; }
+
+  /* ── TABLE ── */
+  .tw { overflow-x: auto; margin: 10px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+  th { background: var(--blue); color: white; padding: 7px 10px; font-size: 9pt; font-weight: 600; text-align: center; }
+  td { border: 1.5px solid var(--midgray); padding: 0; text-align: center; }
+  td.rl { text-align:left;font-weight:600;color:var(--blue);background:#eff6ff;padding:8px 12px; }
+  td input.ci {
+    width: 100%; border: none; outline: none; padding: 8px 10px;
+    font-family: inherit; font-size: 10pt; background: transparent; text-align: center;
+  }
+  td input.ci:focus { background: #f0f9ff; }
+
+  /* ── TWO-COL ── */
+  .tc { display: flex; gap: 16px; }
+  .tc > * { flex: 1; }
+
+  /* ── GRAPH AREA ── */
+  .gw {
+    border: 1.5px solid var(--midgray); border-radius: 6px; overflow: hidden;
+    background:
+      linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+      linear-gradient(to bottom, #e5e7eb 1px, transparent 1px),
+      linear-gradient(to right, #c9cdd4 1px, transparent 1px),
+      linear-gradient(to bottom, #c9cdd4 1px, transparent 1px), white;
+    background-size: 5mm 5mm, 5mm 5mm, 25mm 25mm, 25mm 25mm;
+    min-height: 200px; position: relative;
+  }
+  .ghint { position:absolute;bottom:8px;right:10px;font-size:8pt;color:#bbb;font-style:italic;pointer-events:none; }
+
+  hr.div { border: none; border-top: 1.5px solid var(--midgray); margin: 18px 0; }
+
+  /* ── TOTAL BADGE ── */
+  .tbadge {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 3px 12px; border-radius: 12px; font-size: 9pt;
+    font-weight: 700; margin-left: 10px; vertical-align: middle;
+  }
+
+  /* ── BOTTOM DL ── */
+  .bottom-dl {
+    background: white; border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    padding: 24px 20px; margin-bottom: 20px; text-align: center;
+  }
+  .bottom-dl h3 { font-size: 12pt; color: var(--blue); margin-bottom: 8px; }
+  .bottom-dl p { font-size: 9.5pt; color: #555; margin-bottom: 14px; line-height: 1.6; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .dl-btn-lg {
+    background: var(--accent); color: white; border: none;
+    border-radius: 8px; padding: 14px 40px; font-size: 12pt;
+    font-weight: 700; cursor: pointer;
+    transition: background 0.2s, transform 0.1s; font-family: inherit;
+  }
+  .dl-btn-lg:hover { background: #a93226; }
+  .dl-btn-lg:active { transform: scale(0.97); }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--darkgray); color: white;
+    padding: 10px 24px; border-radius: 24px;
+    font-size: 10pt; font-weight: 500; z-index: 999;
+    transition: transform 0.3s ease; pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width:600px) {
+    .tc { flex-direction: column; }
+    .fbar { gap: 4px; }
+    .fi { padding: 4px 10px; }
+    .sticky-header { padding: 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<div class="sticky-header">
+  <div class="title-block">
+    <h1>Forces by Hand · Net Force &amp; Components <span class="tbadge">25 pts</span></h1>
+    <div class="sub">Physics · Answers save to this browser automatically · Download when done · Upload PDF to Canvas</div>
+  </div>
+  <div class="save-pill" id="savePill">
+    <div class="dot"></div>
+    <span id="saveText">Ready</span>
+  </div>
+  <button class="dl-btn" id="dlBtnTop" onclick="doDownload()">⬇ Download My Answers</button>
+</div>
+
+<div id="toast"></div>
+
+<div class="page">
+
+  <!-- DL BANNER -->
+  <div class="dl-banner" id="dlBanner">
+    <h3>✅ File downloaded — two steps left before you're done</h3>
+    <p style="color:#166534;font-size:10pt;">Your answers were saved and your file downloaded. <strong>You are not submitted yet.</strong></p>
+    <ol>
+      <li>Find <code style="background:#d1fae5;padding:1px 4px;border-radius:3px;font-family:monospace;">Forces-by-Hand-Answers.html</code> in your Downloads folder</li>
+      <li>Open it in any browser (Chrome, Safari, Edge)</li>
+      <li>Press <strong>Ctrl+P</strong> (Windows) or <strong>⌘+P</strong> (Mac) → set destination to <strong>"Save as PDF"</strong> → Save</li>
+      <li>Upload that PDF to Canvas for this assignment — that's what your teacher grades</li>
+    </ol>
+  </div>
+
+  <!-- HOW TO -->
+  <div class="how-to">
+    <strong>📋 How to complete and submit — read this first:</strong>
+    <ol>
+      <li><strong>Type your answers directly into the boxes below.</strong> Your work saves automatically to this browser — watch for the green "Saved ✓" in the top right.</li>
+      <li><strong>Always use the same browser on the same laptop.</strong> Your answers are stored in this browser only. If you switch browsers or devices, you will start from scratch.</li>
+      <li><strong>Do not use a school or shared computer</strong> — your answers will be visible to anyone else who opens this page on that machine.</li>
+      <li><strong>When you're done, click "⬇ Download My Answers"</strong> at the top or bottom. A file called <code>Forces-by-Hand-Answers.html</code> will download.</li>
+      <li><strong>Open that file in a browser → Ctrl+P / ⌘+P → Save as PDF.</strong></li>
+      <li><strong>Upload the PDF to Canvas.</strong> Downloading is not enough — it must be in Canvas to count.</li>
+    </ol>
+    <div class="warn">⚠️ <strong>Important:</strong> Your answers are saved in <em>this browser only</em>. Clearing your browser history or cache will erase them. Download your answers regularly as a backup.</div>
+  </div>
+
+  <!-- ══════════════════════════════
+       PART 1
+  ══════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Part 1 · Forces, signs, and simple addition</h2>
+      <span class="meta">6 pts · no calculator</span>
+    </div>
+    <div class="card-body">
+
+      <div class="recall">
+        <div class="rl">📌 Recall from last unit</div>
+        Vectors have both size and direction. Forces are vectors — measured in <strong>Newtons (N)</strong>. Same sign rules you've used before: <strong>east and north → positive (+), west and south → negative (−)</strong>. When forces act along the same line, you add them with signs to get the <em>net force</em>.
+      </div>
+
+      <div class="pp">
+        <span class="pn">1.1</span><span class="pts">1 pt</span>
+        Two students push a lab cart. Alex pushes east with 15 N; Jordan pushes west with 15 N. <em>Before doing any math</em>, predict what happens to the cart. Then calculate the net force and confirm your prediction. Does the result surprise you, or was it exactly what you expected? Explain in your own words.
+      </div>
+      <div class="aw">
+        <div class="al">Your prediction, calculation, and explanation</div>
+        <textarea class="ans" data-key="1_1" placeholder="Prediction: …&#10;Net force: …&#10;Does it match? …"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <div class="pp">
+        <span class="pn">1.2</span><span class="pts">2 pts</span>
+        Write the sign (+ or −) for each force, then calculate the net force for each pair. Show the arithmetic.
+      </div>
+      <div class="tw">
+        <table>
+          <tr><th>Force A</th><th>Sign</th><th>Force B</th><th>Sign</th><th>Net force (show work)</th></tr>
+          <tr>
+            <td class="rl">12 N east</td>
+            <td><input class="ci" data-key="1_2a_s1" placeholder="±"></td>
+            <td class="rl">5 N west</td>
+            <td><input class="ci" data-key="1_2a_s2" placeholder="±"></td>
+            <td><input class="ci" data-key="1_2a_net" placeholder="e.g. +7 N east"></td>
+          </tr>
+          <tr>
+            <td class="rl">20 N north</td>
+            <td><input class="ci" data-key="1_2b_s1" placeholder="±"></td>
+            <td class="rl">20 N south</td>
+            <td><input class="ci" data-key="1_2b_s2" placeholder="±"></td>
+            <td><input class="ci" data-key="1_2b_net" placeholder="e.g. 0 N"></td>
+          </tr>
+          <tr>
+            <td class="rl">8 N south</td>
+            <td><input class="ci" data-key="1_2c_s1" placeholder="±"></td>
+            <td class="rl">3 N north</td>
+            <td><input class="ci" data-key="1_2c_s2" placeholder="±"></td>
+            <td><input class="ci" data-key="1_2c_net" placeholder="N, direction"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="pp">
+        <span class="pn">1.3</span><span class="pts">1 pt</span>
+        <span class="tag">Think carefully</span>
+        A hockey puck is sliding across ice at a constant 3 m/s. No one is touching it and there is no friction. How many forces are acting on it? What is the net force? Explain your reasoning.
+      </div>
+      <div class="aw">
+        <div class="al">Your answer</div>
+        <textarea class="ans sh" data-key="1_3" placeholder="Type here…"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <div class="pp">
+        <span class="pn">1.4</span><span class="pts">2 pts</span>
+        A sign hangs from two wires and is perfectly still. The sign weighs 60 N downward.<br>
+        (a) What must be true about the total upward force from the two wires?<br>
+        (b) If one wire snaps, the net force is no longer zero. Describe exactly what happens to the sign and why.
+      </div>
+      <div class="aw">
+        <div class="al">Both parts</div>
+        <textarea class="ans" data-key="1_4" placeholder="(a) …&#10;(b) …"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       PART 2
+  ══════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Part 2 · Breaking diagonal forces into components</h2>
+      <span class="meta">8 pts · calculator OK</span>
+    </div>
+    <div class="card-body">
+
+      <div class="recall">
+        <div class="rl">📌 Recall — SOHCAHTOA</div>
+        You've used cos and sin to break diagonal vectors into horizontal and vertical pieces. Forces work the same way — same formulas, same process, new context.
+      </div>
+
+      <div class="fbar">
+        <div class="fi"><div class="fl">Horizontal</div><div class="fv">Fₓ = F cos θ</div></div>
+        <div class="fi"><div class="fl">Vertical</div><div class="fv">F_y = F sin θ</div></div>
+        <div class="fi"><div class="fl">Net magnitude</div><div class="fv">F_net = √(Fₓ² + F_y²)</div></div>
+        <div class="fi"><div class="fl">Direction</div><div class="fv">θ = tan⁻¹(|F_y| ÷ |Fₓ|)</div></div>
+      </div>
+
+      <div class="worked">
+        <div class="wl">⚽ Worked Example — The Kicked Ball</div>
+        A player kicks with <strong>25 N at 40° above horizontal</strong>.<br><br>
+        Fₓ = 25 × cos 40° = 25 × 0.766 = <strong>19.2 N</strong> (forward)<br>
+        F_y = 25 × sin 40° = 25 × 0.643 = <strong>16.1 N</strong> (upward)<br><br>
+        The kick is simultaneously 19.2 N pushing the ball forward and 16.1 N lifting it off the ground.
+      </div>
+
+      <div class="pp">
+        <span class="pn">2.1</span><span class="pts">2 pts</span>
+        A dog pulls a sled with a rope angled at <strong>25° above horizontal</strong>, applying <strong>30 N</strong> of force. Find both components. Show the full chain: formula → numbers plugged in → answer with units. Then answer the follow-up below.
+      </div>
+      <div class="tc">
+        <div class="aw">
+          <div class="al">Work — both components</div>
+          <textarea class="ans tl" data-key="2_1_work" placeholder="Fₓ = 30 × cos(25°) = …&#10;F_y = 30 × sin(25°) = …"></textarea>
+          <span class="fsaved">✓ saved</span>
+        </div>
+        <div>
+          <div class="aw">
+            <div class="al">Fₓ (horizontal) =</div>
+            <textarea class="ans sh" data-key="2_1_fx" placeholder="value and units"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+          <div class="aw">
+            <div class="al">F_y (vertical) =</div>
+            <textarea class="ans sh" data-key="2_1_fy" placeholder="value and units"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+        </div>
+      </div>
+      <div class="pp" style="margin-top:-4px">
+        Which component actually moves the sled forward? What is the vertical component doing — is it wasted, or does it serve a purpose?
+      </div>
+      <div class="aw">
+        <div class="al">Explanation</div>
+        <textarea class="ans" data-key="2_1_exp" placeholder="Type here…"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <hr class="div">
+
+      <div class="pp">
+        <span class="pn">2.2</span><span class="pts">2 pts</span>
+        <span class="tag">Careful</span>
+        Same dog, same rope tension of <strong>30 N</strong>, but now the angle steepens to <strong>65° above horizontal</strong>. Find both components. Then: as the angle gets steeper, the horizontal component gets smaller. <em>Does that mean a steeper angle is always worse for pulling a sled?</em> Think about what the vertical component does to the normal force on the sled — give a nuanced answer, not just yes or no.
+      </div>
+      <div class="tc">
+        <div class="aw">
+          <div class="al">Work</div>
+          <textarea class="ans tl" data-key="2_2_work" placeholder="Fₓ = …&#10;F_y = …"></textarea>
+          <span class="fsaved">✓ saved</span>
+        </div>
+        <div>
+          <div class="aw">
+            <div class="al">Fₓ =</div>
+            <textarea class="ans sh" data-key="2_2_fx" placeholder="value and units"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+          <div class="aw">
+            <div class="al">F_y =</div>
+            <textarea class="ans sh" data-key="2_2_fy" placeholder="value and units"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+        </div>
+      </div>
+      <div class="aw">
+        <div class="al">Nuanced explanation</div>
+        <textarea class="ans" data-key="2_2_exp" placeholder="Think about what F_y does to the weight the sled puts on the ground…"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <hr class="div">
+
+      <div class="pp">
+        <span class="pn">2.3</span><span class="pts">2 pts</span>
+        <span class="tag">Show every step</span>
+        A ramp makes a <strong>30° angle</strong> with the ground. You push a box with <strong>50 N of force directed along the ramp surface</strong>. Find the horizontal and vertical components of your push. Then sketch the force triangle in the graph area — label the 50 N vector, the 30° angle, Fₓ, and F_y. <em>Write your scale next to the sketch.</em>
+      </div>
+      <div class="tc">
+        <div class="aw">
+          <div class="al">Work — formula → numbers → answer with units</div>
+          <textarea class="ans tl" data-key="2_3_work" placeholder="Fₓ = 50 × cos(30°) = …&#10;F_y = 50 × sin(30°) = …&#10;&#10;Show the decimal value of cos(30°) and sin(30°) explicitly."></textarea>
+          <span class="fsaved">✓ saved</span>
+        </div>
+        <div>
+          <div class="al" style="margin-bottom:4px">Force triangle sketch (label all parts + scale)</div>
+          <div class="gw" style="min-height:180px"><div class="ghint">Scale: 1 cm = ___ N</div></div>
+          <div class="aw" style="margin-top:6px">
+            <div class="al">Describe your sketch or note you'll upload a photo</div>
+            <textarea class="ans sh" data-key="2_3_sketch" placeholder="e.g. 'Drew a right triangle: 50N hypotenuse at 30°, Fₓ horizontal, F_y vertical'"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pp">
+        <span class="pn">2.4</span><span class="pts">2 pts</span>
+        <span class="tag g">Personal connection</span>
+        Think of something you have <em>personally</em> pushed or pulled at an angle — a lawnmower, shopping cart, suitcase handle, door, anything. Describe the specific object and situation. Estimate the angle and approximate force, calculate the components, and explain what each component is doing in that real scenario. A vague or generic answer will not receive full credit.
+      </div>
+      <div class="aw">
+        <div class="al">Your specific object, situation, estimated values, and component analysis</div>
+        <textarea class="ans tl" data-key="2_4" placeholder="Object: …&#10;Situation: …&#10;Estimated angle: …°, estimated force: … N&#10;Fₓ = …   F_y = …&#10;What each component is doing: …"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       PART 3
+  ══════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Part 3 · Adding forces — finding net force</h2>
+      <span class="meta">8 pts</span>
+    </div>
+    <div class="card-body">
+
+      <div class="recall">
+        <div class="rl">📌 Recall — Adding vectors</div>
+        Break each force into Fₓ and F_y → add all Fₓ (keeping signs) → add all F_y → Pythagorean theorem for magnitude → tan⁻¹ for direction. Exact same process you used to add displacement vectors.
+      </div>
+
+      <div class="worked">
+        <div class="wl">🛶 Worked Example — Two Ropes, One Boat</div>
+        Rope A: 30 N due east. Rope B: 40 N due north.<br><br>
+        Net Fₓ = +30 N &nbsp;&nbsp; Net F_y = +40 N<br>
+        F_net = √(30² + 40²) = √2500 = <strong>50 N</strong><br>
+        θ = tan⁻¹(40 ÷ 30) ≈ <strong>53° N of E</strong><br><br>
+        The boat responds to one resultant: 50 N at 53° N of E. It has no idea two ropes are pulling it.
+      </div>
+
+      <div class="pp">
+        <span class="pn">3.1</span><span class="pts">3 pts</span>
+        Two players pull a tire. Player 1 pulls with <strong>60 N at 20° N of E</strong>. Player 2 pulls with <strong>45 N due east</strong>. Find the net force — size and direction. Use the table, then show the final calculation below.
+      </div>
+      <div class="tw">
+        <table>
+          <tr><th>Force</th><th>Size (N)</th><th>Angle</th><th>Fₓ = F cos θ</th><th>F_y = F sin θ</th></tr>
+          <tr>
+            <td class="rl">Player 1</td>
+            <td><input class="ci" value="60 N" readonly style="color:#888"></td>
+            <td><input class="ci" value="20° N of E" readonly style="color:#888"></td>
+            <td><input class="ci" data-key="3_1_p1fx" placeholder="show calc"></td>
+            <td><input class="ci" data-key="3_1_p1fy" placeholder="show calc"></td>
+          </tr>
+          <tr>
+            <td class="rl">Player 2</td>
+            <td><input class="ci" value="45 N" readonly style="color:#888"></td>
+            <td><input class="ci" value="0° (due east)" readonly style="color:#888"></td>
+            <td><input class="ci" data-key="3_1_p2fx" placeholder="show calc"></td>
+            <td><input class="ci" data-key="3_1_p2fy" placeholder="show calc"></td>
+          </tr>
+          <tr>
+            <td class="rl" style="color:var(--accent);font-weight:700">Net</td>
+            <td><input class="ci" data-key="3_1_netmag" placeholder="N"></td>
+            <td><input class="ci" data-key="3_1_netdir" placeholder="direction"></td>
+            <td><input class="ci" data-key="3_1_netfx" placeholder="sum"></td>
+            <td><input class="ci" data-key="3_1_netfy" placeholder="sum"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="aw">
+        <div class="al">Final calculation — F_net magnitude and θ with units</div>
+        <textarea class="ans tl" data-key="3_1_work" placeholder="F_net = √(…² + …²) = … N&#10;θ = tan⁻¹(… ÷ …) = …°&#10;Direction: …"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <hr class="div">
+
+      <div class="pp">
+        <span class="pn">3.2</span><span class="pts">3 pts</span>
+        <span class="tag">Read carefully</span>
+        A soccer ball is kicked with <strong>30 N due east</strong>. At the same moment, wind pushes it with <strong>10 N at 150° measured from the positive x-axis (east)</strong>. That means the wind is blowing partly westward — not northeast. Find the net force.<br><br>
+        <em>Sketch the angle situation before you calculate. The sign of the wind's x-component matters.</em>
+      </div>
+      <div class="tw">
+        <table>
+          <tr><th>Force</th><th>Angle from +x axis</th><th>Fₓ</th><th>F_y</th></tr>
+          <tr>
+            <td class="rl">Kick (30 N)</td>
+            <td><input class="ci" data-key="3_2_kick_ang" placeholder="°"></td>
+            <td><input class="ci" data-key="3_2_kick_fx" placeholder="N"></td>
+            <td><input class="ci" data-key="3_2_kick_fy" placeholder="N"></td>
+          </tr>
+          <tr>
+            <td class="rl">Wind (10 N)</td>
+            <td><input class="ci" data-key="3_2_wind_ang" placeholder="°"></td>
+            <td><input class="ci" data-key="3_2_wind_fx" placeholder="N"></td>
+            <td><input class="ci" data-key="3_2_wind_fy" placeholder="N"></td>
+          </tr>
+          <tr>
+            <td class="rl" style="color:var(--accent);font-weight:700">Net</td>
+            <td><input class="ci" data-key="3_2_net_dir" placeholder="direction"></td>
+            <td><input class="ci" data-key="3_2_net_fx" placeholder="sum"></td>
+            <td><input class="ci" data-key="3_2_net_fy" placeholder="sum"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="aw">
+        <div class="al">Work and final answer</div>
+        <textarea class="ans tl" data-key="3_2_work" placeholder="Sketch the angle first, then show all steps…"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <div class="pp">
+        <span class="pn">3.3</span><span class="pts">2 pts</span>
+        Draw the two force vectors from 3.2 tip-to-tail on the graph paper. Draw the net force vector. Write your scale next to the drawing. Measure the resultant with a ruler — compare to your calculated answer.
+      </div>
+      <div class="tc">
+        <div>
+          <div class="al" style="margin-bottom:4px">Tip-to-tail drawing — label every vector + scale</div>
+          <div class="gw" style="min-height:230px"><div class="ghint">Scale: 1 cm = ___ N · label each arrow</div></div>
+        </div>
+        <div>
+          <div class="aw">
+            <div class="al">Scale used</div>
+            <textarea class="ans sh" data-key="3_3_scale" placeholder="1 cm = ___ N"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+          <div class="aw">
+            <div class="al">Measured F_net from drawing</div>
+            <textarea class="ans sh" data-key="3_3_meas" placeholder="value and units"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+          <div class="aw">
+            <div class="al">Calculated F_net (from 3.2)</div>
+            <textarea class="ans sh" data-key="3_3_calc" placeholder="value and units"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+          <div class="aw">
+            <div class="al">Do they match? Note any difference.</div>
+            <textarea class="ans" data-key="3_3_compare" placeholder="Type here…"></textarea>
+            <span class="fsaved">✓ saved</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       PART 4
+  ══════════════════════════════ -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Part 4 · Equilibrium &amp; reflection</h2>
+      <span class="meta">3 pts</span>
+    </div>
+    <div class="card-body">
+
+      <div class="recall">
+        <div class="rl">🆕 Key idea — Equilibrium</div>
+        When net force = 0, the object is in <em>equilibrium</em>: it stays still <strong>or keeps moving at constant velocity</strong>. Equilibrium does not mean the object isn't moving — it means its motion isn't <em>changing</em>. This is Newton's First Law.
+      </div>
+
+      <div class="pp">
+        <span class="pn">4.1</span><span class="pts">1 pt</span>
+        <span class="tag">Trick question</span>
+        A skydiver is falling at a constant 55 m/s straight down. Is she in equilibrium? How do you know? What does that tell you about the forces acting on her?
+      </div>
+      <div class="aw">
+        <div class="al">Your answer</div>
+        <textarea class="ans" data-key="4_1" placeholder="Type here…"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <div class="pp">
+        <span class="pn">4.2</span><span class="pts">1 pt</span>
+        In your previous unit you found that a round-trip displacement — starting and ending at the same point — equals zero. Explain in two or three sentences how that is exactly the same mathematical idea as a net force of zero. Use the word "vector" at least once.
+      </div>
+      <div class="aw">
+        <div class="al">Your explanation</div>
+        <textarea class="ans" data-key="4_2" placeholder="Type here…"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+      <div class="pp">
+        <span class="pn">4.3</span><span class="pts">1 pt</span>
+        <span class="tag g">Reflection</span>
+        What was the single hardest thing about this assignment for <em>you personally</em> — not in general, but specifically for you? What would you do differently if you started over? A thoughtful, honest answer about a real struggle gets full credit. A vague or generic answer does not.
+      </div>
+      <div class="aw">
+        <div class="al">Personal reflection</div>
+        <textarea class="ans tl" data-key="4_3" placeholder="Be specific — what actually gave you trouble and why?"></textarea>
+        <span class="fsaved">✓ saved</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM DOWNLOAD -->
+  <div class="bottom-dl">
+    <h3>Ready to submit?</h3>
+    <p>Click below to download your answer file. Then open it in a browser, print to PDF (Ctrl+P / ⌘+P → Save as PDF), and upload the PDF to Canvas. <strong>Downloading is not submitting — it must be in Canvas.</strong></p>
+    <button class="dl-btn-lg" onclick="doDownload()">⬇ Download My Answers</button>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ═══════════════════════════════════════════════
+// STORAGE KEY
+// ═══════════════════════════════════════════════
+const STORE_KEY = 'forces_by_hand_v1';
+let saveTimer = null;
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+function toast(msg, dur) {
+  dur = dur || 2800;
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, dur);
+}
+
+// ═══════════════════════════════════════════════
+// SAVE STATUS
+// ═══════════════════════════════════════════════
+function setSave(state, text) {
+  const p = document.getElementById('savePill');
+  const t = document.getElementById('saveText');
+  p.className = 'save-pill ' + state;
+  t.textContent = text;
+}
+
+// ═══════════════════════════════════════════════
+// COLLECT ALL CURRENT ANSWERS
+// ═══════════════════════════════════════════════
+function collectAnswers() {
+  var out = {};
+  document.querySelectorAll('[data-key]').forEach(function(el) {
+    out[el.dataset.key] = el.value || '';
+  });
+  return out;
+}
+
+// ═══════════════════════════════════════════════
+// SAVE TO LOCALSTORAGE
+// ═══════════════════════════════════════════════
+function saveNow() {
+  try {
+    var data = collectAnswers();
+    data._savedAt = new Date().toISOString();
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+    setSave('saved', 'Saved ✓');
+  } catch(e) {
+    setSave('', 'Save failed');
+    toast('⚠️ Could not save — your browser storage may be full or disabled.', 4000);
+  }
+}
+
+function scheduleSave(el) {
+  setSave('saving', 'Saving…');
+  var wrap = el.closest('.aw');
+  if (wrap) {
+    var tick = wrap.querySelector('.fsaved');
+    if (tick) tick.classList.remove('show');
+  }
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function() {
+    saveNow();
+    // Show per-field tick
+    if (wrap) {
+      var tick2 = wrap.querySelector('.fsaved');
+      if (tick2) {
+        tick2.classList.add('show');
+        setTimeout(function(){ tick2.classList.remove('show'); }, 2500);
+      }
+    }
+  }, 800);
+}
+
+// ═══════════════════════════════════════════════
+// LOAD FROM LOCALSTORAGE
+// ═══════════════════════════════════════════════
+function loadAnswers() {
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (!raw) { setSave('', 'Ready — start typing'); return; }
+    var data = JSON.parse(raw);
+    document.querySelectorAll('[data-key]').forEach(function(el) {
+      if (data[el.dataset.key] !== undefined) {
+        el.value = data[el.dataset.key];
+      }
+    });
+    var ts = data._savedAt ? new Date(data._savedAt).toLocaleString() : '';
+    setSave('saved', ts ? 'Loaded ✓ (' + ts + ')' : 'Loaded ✓');
+  } catch(e) {
+    setSave('', 'Ready');
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SETUP FIELD LISTENERS
+// ═══════════════════════════════════════════════
+function setupFields() {
+  document.querySelectorAll('[data-key]').forEach(function(el) {
+    el.addEventListener('input', function(){ scheduleSave(el); });
+    el.addEventListener('change', function(){ scheduleSave(el); });
+  });
+}
+
+// ═══════════════════════════════════════════════
+// ESCAPE HTML FOR PDF DOC
+// ═══════════════════════════════════════════════
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════
+// BUILD PRINT DOCUMENT
+// ═══════════════════════════════════════════════
+function buildPrintDoc(answers) {
+  var now = new Date().toLocaleString();
+
+  function ans(key) {
+    var v = answers[key] || '';
+    if (!v.trim()) return '<span class="empty">— no answer entered —</span>';
+    return esc(v).replace(/\n/g, '<br>');
+  }
+  function row(label, key) {
+    return '<div class="subrow"><span class="sublabel">' + esc(label) + ':</span> <span class="subval">' + ans(key) + '</span></div>';
+  }
+
+  return '<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8">\n' +
+'<title>Forces by Hand \u2014 My Answers</title>\n' +
+'<style>\n' +
+'body{font-family:Georgia,serif;font-size:11pt;color:#111;max-width:740px;margin:40px auto;padding:0 20px;line-height:1.6}\n' +
+'h1{font-size:16pt;color:#1a3a5c;border-bottom:2px solid #1a3a5c;padding-bottom:8px;margin-bottom:4px}\n' +
+'.meta{font-size:9.5pt;color:#666;margin-bottom:20px}\n' +
+'.print-note{background:#fff7ed;border:1.5px solid #f59e0b;border-radius:6px;padding:12px 16px;font-size:10pt;margin-bottom:24px}\n' +
+'.print-note strong{color:#b7770d}\n' +
+'h2{font-size:11pt;font-weight:700;color:#1a3a5c;background:#eff6ff;padding:7px 12px;margin:20px 0 10px;border-left:4px solid #2563a8}\n' +
+'.item{margin-bottom:14px}\n' +
+'.qlabel{font-weight:700;font-size:10.5pt;margin-bottom:5px}\n' +
+'.abox{background:#f9fafb;border:1px solid #d1d5db;border-radius:4px;padding:10px 14px;font-size:10.5pt;min-height:36px}\n' +
+'.empty{color:#aaa;font-style:italic}\n' +
+'.subrow{padding:4px 0 4px 12px;border-left:2px solid #d1d5db;margin:3px 0;font-size:10pt}\n' +
+'.sublabel{font-weight:600;color:#555}\n' +
+'.subval{margin-left:6px}\n' +
+'.footer{margin-top:32px;padding-top:12px;border-top:1px solid #ddd;font-size:9pt;color:#888}\n' +
+'@media print{body{margin:20px}.print-note{display:none}.item{page-break-inside:avoid}}\n' +
+'</style></head><body>\n' +
+'<h1>Forces by Hand \u2014 My Answers</h1>\n' +
+'<div class="meta">Physics \u00b7 Net Force &amp; Components \u00b7 25 pts \u00b7 Downloaded: ' + esc(now) + '</div>\n' +
+'<div class="print-note"><strong>To create your PDF:</strong> Press <strong>Ctrl+P</strong> (Windows) or <strong>\u2318+P</strong> (Mac) \u2192 set destination to <strong>\u201cSave as PDF\u201d</strong> \u2192 Save \u2192 upload the PDF to Canvas.</div>\n' +
+
+'<h2>Part 1 \u00b7 Forces, signs, and simple addition (6 pts)</h2>\n' +
+'<div class="item"><div class="qlabel">1.1 (1 pt) \u2014 Prediction, net force, and explanation</div><div class="abox">' + ans('1_1') + '</div></div>\n' +
+'<div class="item"><div class="qlabel">1.2 (2 pts) \u2014 Sign table</div>\n' +
+row('Row A: Sign of "12 N east"','1_2a_s1') +
+row('Row A: Sign of "5 N west"','1_2a_s2') +
+row('Row A: Net force','1_2a_net') +
+row('Row B: Sign of "20 N north"','1_2b_s1') +
+row('Row B: Sign of "20 N south"','1_2b_s2') +
+row('Row B: Net force','1_2b_net') +
+row('Row C: Sign of "8 N south"','1_2c_s1') +
+row('Row C: Sign of "3 N north"','1_2c_s2') +
+row('Row C: Net force','1_2c_net') +
+'</div>\n' +
+'<div class="item"><div class="qlabel">1.3 (1 pt) \u2014 Hockey puck / equilibrium</div><div class="abox">' + ans('1_3') + '</div></div>\n' +
+'<div class="item"><div class="qlabel">1.4 (2 pts) \u2014 Hanging sign (a) and (b)</div><div class="abox">' + ans('1_4') + '</div></div>\n' +
+
+'<h2>Part 2 \u00b7 Breaking diagonal forces into components (8 pts)</h2>\n' +
+'<div class="item"><div class="qlabel">2.1 (2 pts) \u2014 Dog sled components + explanation</div>\n' +
+row('Work','2_1_work') + row('F\u2093','2_1_fx') + row('F_y','2_1_fy') + row('Explanation','2_1_exp') +
+'</div>\n' +
+'<div class="item"><div class="qlabel">2.2 (2 pts) \u2014 Steep angle components + nuanced explanation</div>\n' +
+row('Work','2_2_work') + row('F\u2093','2_2_fx') + row('F_y','2_2_fy') + row('Explanation','2_2_exp') +
+'</div>\n' +
+'<div class="item"><div class="qlabel">2.3 (2 pts) \u2014 Ramp components + sketch</div>\n' +
+row('Work','2_3_work') + row('Sketch description','2_3_sketch') +
+'</div>\n' +
+'<div class="item"><div class="qlabel">2.4 (2 pts) \u2014 Personal push/pull scenario</div><div class="abox">' + ans('2_4') + '</div></div>\n' +
+
+'<h2>Part 3 \u00b7 Adding forces \u2014 finding net force (8 pts)</h2>\n' +
+'<div class="item"><div class="qlabel">3.1 (3 pts) \u2014 Tire tug: table + full calculation</div>\n' +
+row('Player 1 F\u2093','3_1_p1fx') + row('Player 1 F_y','3_1_p1fy') +
+row('Player 2 F\u2093','3_1_p2fx') + row('Player 2 F_y','3_1_p2fy') +
+row('Net F\u2093','3_1_netfx') + row('Net F_y','3_1_netfy') +
+row('F_net magnitude','3_1_netmag') + row('Direction','3_1_netdir') +
+row('Full work','3_1_work') +
+'</div>\n' +
+'<div class="item"><div class="qlabel">3.2 (3 pts) \u2014 Wind + kick at 150\u00b0</div>\n' +
+row('Kick angle','3_2_kick_ang') + row('Kick F\u2093','3_2_kick_fx') + row('Kick F_y','3_2_kick_fy') +
+row('Wind angle','3_2_wind_ang') + row('Wind F\u2093','3_2_wind_fx') + row('Wind F_y','3_2_wind_fy') +
+row('Net direction','3_2_net_dir') + row('Net F\u2093','3_2_net_fx') + row('Net F_y','3_2_net_fy') +
+row('Full work','3_2_work') +
+'</div>\n' +
+'<div class="item"><div class="qlabel">3.3 (2 pts) \u2014 Tip-to-tail drawing + comparison</div>\n' +
+row('Scale','3_3_scale') + row('Measured F_net','3_3_meas') +
+row('Calculated F_net','3_3_calc') + row('Comparison','3_3_compare') +
+'</div>\n' +
+
+'<h2>Part 4 \u00b7 Equilibrium &amp; reflection (3 pts)</h2>\n' +
+'<div class="item"><div class="qlabel">4.1 (1 pt) \u2014 Skydiver: in equilibrium?</div><div class="abox">' + ans('4_1') + '</div></div>\n' +
+'<div class="item"><div class="qlabel">4.2 (1 pt) \u2014 Displacement \u2194 net force connection</div><div class="abox">' + ans('4_2') + '</div></div>\n' +
+'<div class="item"><div class="qlabel">4.3 (1 pt) \u2014 Personal reflection</div><div class="abox">' + ans('4_3') + '</div></div>\n' +
+
+'<div class="footer">Forces by Hand \u00b7 Physics \u00b7 Generated ' + esc(now) + '</div>\n' +
+'</body></html>';
+}
+
+// ═══════════════════════════════════════════════
+// DOWNLOAD
+// ═══════════════════════════════════════════════
+function doDownload() {
+  // Save first
+  saveNow();
+
+  var answers = collectAnswers();
+  var html = buildPrintDoc(answers);
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Forces-by-Hand-Answers.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+
+  // Record download in localStorage
+  try {
+    var dlRecord = JSON.parse(localStorage.getItem(STORE_KEY + '_dl') || '{"count":0}');
+    dlRecord.count = (dlRecord.count || 0) + 1;
+    dlRecord.lastAt = new Date().toISOString();
+    localStorage.setItem(STORE_KEY + '_dl', JSON.stringify(dlRecord));
+  } catch(e) {}
+
+  // Show banner
+  document.getElementById('dlBanner').style.display = 'block';
+  document.getElementById('dlBanner').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  toast('\u2705 File downloaded! Open it \u2192 print to PDF \u2192 upload to Canvas.', 5000);
+  setSave('saved', 'Downloaded \u2713');
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+window.addEventListener('load', function() {
+  loadAnswers();
+  setupFields();
+
+  // Check for prior download
+  try {
+    var dlRecord = JSON.parse(localStorage.getItem(STORE_KEY + '_dl') || 'null');
+    if (dlRecord && dlRecord.count > 0) {
+      var d = new Date(dlRecord.lastAt);
+      var banner = document.getElementById('dlBanner');
+      banner.style.display = 'block';
+      var note = document.createElement('p');
+      note.style.cssText = 'margin-top:10px;font-size:9.5pt;color:#166534;font-style:italic;';
+      note.textContent = 'Note: You last downloaded on ' + d.toLocaleDateString() + ' at ' + d.toLocaleTimeString() + '. If you\u2019ve made changes since, download again and re-upload to Canvas.';
+      banner.appendChild(note);
+    }
+  } catch(e) {}
+
+  // Warn if localStorage unavailable
+  try {
+    localStorage.setItem('_test', '1');
+    localStorage.removeItem('_test');
+  } catch(e) {
+    setSave('', 'Storage unavailable');
+    toast('\u26a0\ufe0f Browser storage is blocked. Your answers won\u2019t be saved between sessions. Complete in one sitting or contact your teacher.', 7000);
+  }
+});
+</script>
+</body>
+</html>
