@@ -1349,107 +1349,100 @@ function drawSim() {
   const goalColor = insidePost ? '#4ade80' : '#d63a2f';
 
   // ── LAYOUT ──
-  // Origin centered horizontally, low enough that arrows go upward with room for labels above
-  const scale = 3.0;
-  const ox = W / 2, oy = H - 60;
+  // Status box height reserved at bottom
+  const sbH = showDeflection ? 108 : 78;
+  const sbPad = 12; // gap between status box top and arrow area bottom
 
-  // Grid
+  // Origin: centered horizontally, sits in upper 2/3 so arrows and status box never overlap
+  const scale = 3.0;
+  const ox = W / 2;
+  const arrowAreaBottom = H - sbH - sbPad - 20; // bottom of arrow drawing area
+  const oy = arrowAreaBottom;  // origin at bottom of arrow area
+
+  // Grid — only in arrow area
   ctx.strokeStyle = '#1a1a1a';
   ctx.lineWidth = 1;
-  for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-  for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, arrowAreaBottom); ctx.stroke(); }
+  for (let y = 0; y < arrowAreaBottom; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 
   // Axes
-  ctx.strokeStyle = '#2a2a2a';
+  ctx.strokeStyle = '#272727';
   ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(ox, 16); ctx.lineTo(ox, H - 16); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(16, oy); ctx.lineTo(W - 16, oy); ctx.stroke();
-  ctx.fillStyle = '#2e2e2e'; ctx.font = '10px "IBM Plex Mono"';
-  ctx.textAlign = 'center'; ctx.fillText('N (+y)', ox, 12);
-  ctx.textAlign = 'left';   ctx.fillText('E (+x)', W - 40, oy - 5);
-  ctx.textAlign = 'right';  ctx.fillText('W (−x)', 40, oy - 5);
-
-  // Origin dot + label
-  ctx.beginPath(); ctx.arc(ox, oy, 6, 0, Math.PI*2);
-  ctx.fillStyle = '#fff'; ctx.fill();
-  ctx.fillStyle = '#777'; ctx.font = '10px "IBM Plex Mono"';
-  ctx.textAlign = 'center'; ctx.fillText('ball (origin)', ox, oy + 20);
+  ctx.beginPath(); ctx.moveTo(ox, 14); ctx.lineTo(ox, arrowAreaBottom); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(14, oy); ctx.lineTo(W - 14, oy); ctx.stroke();
+  ctx.fillStyle = '#333'; ctx.font = '10px "IBM Plex Mono"';
+  ctx.textAlign = 'center'; ctx.fillText('N (+y)', ox, 11);
+  ctx.textAlign = 'left';   ctx.fillText('E (+x)', W - 44, oy - 5);
+  ctx.textAlign = 'right';  ctx.fillText('W (−x)', 44, oy - 5);
 
   // ── VECTOR TIPS ──
   const shot_tip_x = ox + shot_x * scale;
   const shot_tip_y = oy - shot_y * scale;
 
-  // ── SHOT ARROW ──
+  // ── SHOT ARROW (yellow) ──
   arrowLine(ctx, ox, oy, shot_tip_x, shot_tip_y, '#e8c840', 2.5);
 
-  // Shot label — anchored RIGHT side, vertically near arrow tip
-  const shotLabelX = W - 20;
-  const shotLabelY = shot_tip_y + 10;
+  // Shot label — fixed to top-right, never moves
   ctx.fillStyle = '#e8c840'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'right';
-  ctx.fillText('Shot: 48 N at 32° E of N', shotLabelX, shotLabelY);
-  ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#888';
-  ctx.fillText('x = 48 × sin(32°) = ' + shot_x.toFixed(1) + ' N east', shotLabelX, shotLabelY + 15);
-  ctx.fillText('y = 48 × cos(32°) = ' + shot_y.toFixed(1) + ' N north', shotLabelX, shotLabelY + 29);
-  // Thin leader from label to tip
-  ctx.strokeStyle = '#e8c840'; ctx.lineWidth = 0.6; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(shotLabelX - 180, shotLabelY - 4); ctx.lineTo(shot_tip_x + 4, shot_tip_y); ctx.stroke();
-  ctx.setLineDash([]);
+  ctx.fillText('Shot: 48 N @ 32° E of N', W - 14, 24);
+  ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#666';
+  ctx.fillText('x = 48 × sin(32°) = ' + shot_x.toFixed(1) + ' N east', W - 14, 39);
+  ctx.fillText('y = 48 × cos(32°) = ' + shot_y.toFixed(1) + ' N north', W - 14, 53);
 
   if (showDeflection) {
     const def_tip_x = shot_tip_x + def_x * scale;
     const def_tip_y = shot_tip_y - def_y * scale;
+
+    // Deflection arrow (blue)
     arrowLine(ctx, shot_tip_x, shot_tip_y, def_tip_x, def_tip_y, '#5b9bff', 2.5);
 
-    // Deflection label — anchored LEFT side
-    const defLabelX = 20;
-    const defLabelY = def_tip_y + 10;
-    ctx.fillStyle = '#5b9bff'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'left';
-    ctx.fillText('Deflection: 18 N at 15° W of N', defLabelX, defLabelY);
-    ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#888';
-    ctx.fillText('x = −18 × sin(15°) = ' + def_x.toFixed(1) + ' N west', defLabelX, defLabelY + 15);
-    ctx.fillText('y = 18 × cos(15°) = ' + def_y.toFixed(1) + ' N north', defLabelX, defLabelY + 29);
-    ctx.strokeStyle = '#5b9bff'; ctx.lineWidth = 0.6; ctx.setLineDash([3,3]);
-    ctx.beginPath(); ctx.moveTo(defLabelX + 220, defLabelY - 4); ctx.lineTo(def_tip_x - 4, def_tip_y); ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Net force resultant: origin → def_tip
+    // Net force arrow (green) — origin to final tip
     arrowLine(ctx, ox, oy, def_tip_x, def_tip_y, '#4ade80', 3);
 
-    // Net force label — top-left corner, well clear of everything
+    // Deflection label — fixed top-left
+    ctx.fillStyle = '#5b9bff'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'left';
+    ctx.fillText('Deflection: 18 N @ 15° W of N', 14, 24);
+    ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#666';
+    ctx.fillText('x = −18 × sin(15°) = ' + def_x.toFixed(1) + ' N west', 14, 39);
+    ctx.fillText('y = 18 × cos(15°) = ' + def_y.toFixed(1) + ' N north', 14, 53);
+
+    // Net force label — below deflection label, left side
     ctx.fillStyle = '#4ade80'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'left';
-    ctx.fillText('Net force (resultant)', 20, 28);
-    ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#888';
-    ctx.fillText('origin → tip of last vector', 20, 44);
-    ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 0.6; ctx.setLineDash([3,3]);
-    // Leader line from label toward midpoint of net force arrow
-    const midNetX = ox + (def_tip_x - ox) * 0.4;
-    const midNetY = oy + (def_tip_y - oy) * 0.4;
-    ctx.beginPath(); ctx.moveTo(20, 36); ctx.lineTo(midNetX, midNetY); ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.fillText('Net force resultant', 14, 76);
+    ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#666';
+    ctx.fillText('(from origin to tip of last arrow)', 14, 91);
+
   } else {
+    // Shot only — green net = yellow shot
     arrowLine(ctx, ox, oy, shot_tip_x, shot_tip_y, '#4ade80', 3);
     ctx.fillStyle = '#4ade80'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'left';
-    ctx.fillText('Net force = shot only', 20, 28);
+    ctx.fillText('Net force = shot only', 14, 24);
   }
 
-  // ── STATUS BOX — bottom center, full width minus margins ──
-  const sbW = W - 40, sbH = showDeflection ? 100 : 70;
-  const sbx = 20, sby = H - sbH - 30;
+  // Origin dot on top of everything
+  ctx.beginPath(); ctx.arc(ox, oy, 6, 0, Math.PI*2);
+  ctx.fillStyle = '#fff'; ctx.fill();
+  ctx.fillStyle = '#666'; ctx.font = '10px "IBM Plex Mono"';
+  ctx.textAlign = 'center'; ctx.fillText('ball (origin)', ox, oy + 16);
+
+  // ── STATUS BOX — pinned to very bottom, never overlaps arrow area ──
+  const sbW = W - 28;
+  const sbx = 14, sby = H - sbH - 10;
   ctx.fillStyle = insidePost ? 'rgba(74,222,128,.08)' : 'rgba(214,58,47,.08)';
   ctx.strokeStyle = goalColor; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.roundRect(sbx, sby, sbW, sbH, 4); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = goalColor; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'center';
   const cx = sbx + sbW / 2;
+  ctx.fillStyle = goalColor; ctx.font = '11px "IBM Plex Mono"'; ctx.textAlign = 'center';
   ctx.fillText('Direction: ' + netAngleDeg.toFixed(1) + '° ' + netDir + '   |   Magnitude: ' + netMag.toFixed(1) + ' N', cx, sby + 20);
   if (showDeflection) {
     ctx.fillText('Net x: ' + net_x.toFixed(1) + ' N east   |   Net y: ' + net_y.toFixed(1) + ' N north', cx, sby + 38);
     ctx.fillText('Goal crossing: ' + (goalPos >= 0 ? '+' : '') + goalPos.toFixed(2) + ' m from center   (post = ±3.66 m)', cx, sby + 56);
-    ctx.font = 'bold 13px "IBM Plex Mono"';
-    ctx.fillText(insidePost ? '✓  INSIDE POST — GOAL?' : '✗  OUTSIDE POST — NO GOAL?', cx, sby + 80);
+    ctx.font = 'bold 14px "IBM Plex Mono"';
+    ctx.fillText(insidePost ? '✓  INSIDE POST — GOAL?' : '✗  OUTSIDE POST — NO GOAL?', cx, sby + 84);
   } else {
     ctx.fillText('Goal crossing: ' + (goalPos >= 0 ? '+' : '') + goalPos.toFixed(2) + ' m from center   (post = ±3.66 m)', cx, sby + 38);
-    ctx.font = 'bold 13px "IBM Plex Mono"';
-    ctx.fillText(insidePost ? '✓  INSIDE POST — GOAL?' : '✗  OUTSIDE POST — NO GOAL?', cx, sby + 60);
+    ctx.font = 'bold 14px "IBM Plex Mono"';
+    ctx.fillText(insidePost ? '✓  INSIDE POST — GOAL?' : '✗  OUTSIDE POST — NO GOAL?', cx, sby + 62);
   }
 
   // ── READOUT ──
