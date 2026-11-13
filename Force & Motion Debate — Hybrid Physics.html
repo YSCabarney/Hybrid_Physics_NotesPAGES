@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Debate — Hybrid Physics</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f8f8f4;
+    --accent: #e8c840;
+    --accent2: #2e6fff;
+    --red: #d63a2f;
+    --blue: #2e6fff;
+    --panel: #161616;
+    --panel2: #1e1e1e;
+    --border: #2e2e2e;
+    --muted: #888;
+    --team-a: #e8c840;
+    --team-b: #2e6fff;
+    --radius: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    background: var(--black);
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .course-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .08em;
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  .due-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── NAV TABS ── */
+  nav {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 24px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color .15s, border-color .15s;
+  }
+  nav button:hover { color: var(--white); }
+  nav button.active { color: var(--white); border-bottom-color: var(--accent); }
+
+  /* ── CONTENT SECTIONS ── */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -.01em;
+  }
+  h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: .08em;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 14px; color: #ccc; max-width: 68ch; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--white); }
+  ul, ol { padding-left: 20px; color: #ccc; margin-bottom: 14px; }
+  li { margin-bottom: 5px; }
+
+  /* ── CARDS / PANELS ── */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 640px) { .card-row { grid-template-columns: 1fr; } }
+
+  /* ── DEBATE SCENARIO ── */
+  .scenario-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .debate-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--accent);
+    flex-shrink: 0;
+    opacity: .9;
+  }
+  .scenario-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: .1em;
+    margin-bottom: 6px;
+  }
+  .scenario-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.015em;
+    margin-bottom: 10px;
+  }
+
+  /* ── TEAM BADGES ── */
+  .teams-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .team-badge {
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    flex: 1;
+    min-width: 200px;
+  }
+  .team-badge.side-a { background: rgba(232,200,64,.1); border: 1px solid rgba(232,200,64,.35); }
+  .team-badge.side-b { background: rgba(46,111,255,.1); border: 1px solid rgba(46,111,255,.35); }
+  .team-badge .side-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+    margin-bottom: 4px;
+  }
+  .side-a .side-label { color: var(--team-a); }
+  .side-b .side-label { color: var(--team-b); }
+  .team-badge .team-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .team-badge .members {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .jury-badge {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .jury-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .1em;
+    white-space: nowrap;
+  }
+  .jury-teams { font-size: 13px; color: #ccc; }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 36px 0;
+  }
+
+  /* ── MATH BLOCKS ── */
+  .math-block {
+    background: var(--panel2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #ddd;
+  }
+  .math-block .math-label {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+
+  /* ── CLAIM BOXES ── */
+  .claim-box {
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .claim-box.claim-a { background: rgba(232,200,64,.08); border: 1px solid rgba(232,200,64,.25); }
+  .claim-box.claim-b { background: rgba(46,111,255,.08); border: 1px solid rgba(46,111,255,.25); }
+  .claim-box .claim-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    margin-bottom: 6px;
+  }
+  .claim-a .claim-label { color: var(--team-a); }
+  .claim-b .claim-label { color: var(--team-b); }
+  .claim-box p { color: #ccc; margin: 0; max-width: 100%; }
+
+  /* ── SVG DIAGRAMS ── */
+  .diagram-wrap {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* ── INSTRUCTIONS ── */
+  .step-row {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 20px;
+  }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .step-body h3 { margin-bottom: 6px; }
+  .step-body p { margin-bottom: 6px; }
+
+  /* ── RUBRIC TABLE ── */
+  .rubric-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+  .rubric-table th {
+    background: var(--panel2);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .07em;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .rubric-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: #ccc;
+    vertical-align: top;
+  }
+  .rubric-table tr:last-child td { border-bottom: none; }
+  .rubric-table td:last-child {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .rubric-total td {
+    background: rgba(232,200,64,.08);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--white) !important;
+    border-top: 1px solid rgba(232,200,64,.3);
+  }
+  .rubric-total td:last-child { color: var(--accent) !important; font-size: 15px; }
+
+  /* ── OVERVIEW CARDS ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 640px) { .overview-grid { grid-template-columns: 1fr; } }
+  .ov-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .ov-card .big-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .ov-card .ov-label { font-size: 12px; color: var(--muted); }
+
+  /* ── ALERT / INFO BOX ── */
+  .info-box {
+    background: rgba(46,111,255,.08);
+    border: 1px solid rgba(46,111,255,.3);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #ccc;
+  }
+  .info-box strong { color: #7aabff; }
+
+  .warn-box {
+    background: rgba(232,200,64,.08);
+    border: 1px solid rgba(232,200,64,.3);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #ccc;
+  }
+  .warn-box strong { color: var(--accent); }
+
+  /* ── FORMULA REF ── */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 540px) { .formula-grid { grid-template-columns: 1fr; } }
+  .formula-pill {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #ddd;
+  }
+  .formula-pill span { color: var(--accent); }
+
+  /* ── SIMULATION CANVAS ── */
+  canvas { display: block; }
+  .sim-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .sim-btn {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 7px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .sim-btn:hover { background: #2a2a2a; border-color: var(--accent); }
+  .sim-btn.active { background: rgba(232,200,64,.15); border-color: var(--accent); color: var(--accent); }
+
+  .debate-sep {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0;
+  }
+  .debate-sep-line { flex: 1; height: 1px; background: var(--border); }
+  .debate-sep-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--border);
+    letter-spacing: .1em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <span class="course-tag">HYBRID PHYSICS</span>
+    <h1>Force &amp; Motion Debate</h1>
+  </div>
+  <span class="due-tag">Present: Friday, Nov 21</span>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('overview', this)">Overview</button>
+  <button onclick="showTab('debate1', this)">Debate 1 — The Crash</button>
+  <button onclick="showTab('debate2', this)">Debate 2 — The Robot</button>
+  <button onclick="showTab('instructions', this)">Instructions</button>
+  <button onclick="showTab('rubric', this)">Rubric</button>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     OVERVIEW
+═══════════════════════════════════════ -->
+<div id="tab-overview" class="tab-content active">
+<main>
+  <h4>THE ASSIGNMENT</h4>
+  <h2>You're the expert.<br>Now prove it.</h2>
+  <p style="margin-top:14px;">Two scenarios. Four teams. Each team builds a physics argument and defends it in front of a jury — your classmates. The jury has to decide who's right using the same math and concepts you've been working with all unit.</p>
+
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="big-num">4</div>
+      <div class="ov-label">Teams competing</div>
+    </div>
+    <div class="ov-card">
+      <div class="big-num">2</div>
+      <div class="ov-label">Debate scenarios</div>
+    </div>
+    <div class="ov-card">
+      <div class="big-num">50</div>
+      <div class="ov-label">Points total</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>How it works:</strong> Two teams debate each other. The other two teams are the jury — they evaluate the argument using the rubric and vote on who made the stronger physics case. Then the jury teams debate each other and the first two teams become the jury.
+  </div>
+
+  <hr class="section-divider">
+  <h3>The Four Teams</h3>
+
+  <div class="card-row" style="margin-top:16px;">
+    <div class="card">
+      <h4>DEBATE 1 — SIDE A</h4>
+      <div class="scenario-label" style="margin-bottom:8px;">Team Velocity</div>
+      <p style="margin-bottom:8px;"><strong>Sam, Mateo, Aiden, Erik</strong></p>
+      <p style="font-size:12px;">Argues that the GPS data proves the car was <em>not</em> speeding at the moment of impact.</p>
+    </div>
+    <div class="card">
+      <h4>DEBATE 1 — SIDE B</h4>
+      <div class="scenario-label" style="color:var(--blue);margin-bottom:8px;">Team Displacement</div>
+      <p style="margin-bottom:8px;"><strong>Nate, Abdoulaye, Javi, Chris</strong></p>
+      <p style="font-size:12px;">Argues that displacement analysis proves the car <em>was</em> traveling too fast to stop in time.</p>
+    </div>
+  </div>
+
+  <div class="card-row">
+    <div class="card">
+      <h4>DEBATE 2 — SIDE A</h4>
+      <div class="scenario-label" style="margin-bottom:8px;">Team Net Force</div>
+      <p style="margin-bottom:8px;"><strong>Danny, Collin, Jayden, Will</strong></p>
+      <p style="font-size:12px;">Argues the robot arm applied the correct force and the bridge collapse was <em>not</em> their fault.</p>
+    </div>
+    <div class="card">
+      <h4>DEBATE 2 — SIDE B</h4>
+      <div class="scenario-label" style="color:var(--blue);margin-bottom:8px;">Team Equilibrium</div>
+      <p style="margin-bottom:8px;"><strong>Timoni, Elijah, Maxi, Kenan</strong></p>
+      <p style="font-size:12px;">Argues the robot arm applied too much force and destroyed the equilibrium of the structure.</p>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+  <h3>Concepts you're allowed to use</h3>
+  <p>Everything in your debate must come from what we've covered. That means:</p>
+  <div class="formula-grid">
+    <div class="formula-pill">velocity: <span>v = Δx / t</span></div>
+    <div class="formula-pill">components: <span>Fₓ = F cos θ</span></div>
+    <div class="formula-pill">components: <span>Fᵧ = F sin θ</span></div>
+    <div class="formula-pill">magnitude: <span>F = √(Fₓ² + Fᵧ²)</span></div>
+    <div class="formula-pill">direction: <span>θ = tan⁻¹(|Fᵧ| ÷ |Fₓ|)</span></div>
+    <div class="formula-pill">net force: <span>Fₙₑₜ = F₁ + F₂ + …</span></div>
+  </div>
+  <p>Vectors, scalars, displacement vs. distance, equilibrium, Newton's First Law. That's your toolkit.</p>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DEBATE 1
+═══════════════════════════════════════ -->
+<div id="tab-debate1" class="tab-content">
+<main>
+
+  <div class="scenario-header">
+    <div class="debate-number">01</div>
+    <div>
+      <div class="scenario-label">DEBATE SCENARIO</div>
+      <div class="scenario-title">The Chester Intersection Crash</div>
+      <p>A car runs a red light at the intersection of Avenue of the States and 9th Street in Chester. It hits a delivery van. The driver claims the GPS malfunctioned and showed the wrong speed. The insurance company says the displacement data tells a different story. <strong>Who's right?</strong></p>
+    </div>
+  </div>
+
+  <div class="teams-row">
+    <div class="team-badge side-a">
+      <div class="side-label">SIDE A — ARGUES: NOT SPEEDING</div>
+      <div class="team-name">Team Velocity</div>
+      <div class="members">Sam · Mateo · Aiden · Erik</div>
+    </div>
+    <div class="team-badge side-b">
+      <div class="side-label">SIDE B — ARGUES: WAS SPEEDING</div>
+      <div class="team-name">Team Displacement</div>
+      <div class="members">Nate · Abdoulaye · Javi · Chris</div>
+    </div>
+  </div>
+
+  <div class="jury-badge">
+    <div class="jury-label">JURY</div>
+    <div class="jury-teams">Danny, Collin, Jayden, Will &amp; Timoni, Elijah, Maxi, Kenan — you decide who wins based on the physics.</div>
+  </div>
+
+  <hr class="section-divider">
+  <h3>The Evidence</h3>
+  <p>Both teams get access to the same data. How you interpret it is what the debate is about.</p>
+
+  <div class="card">
+    <h4>INCIDENT REPORT — CHESTER PD</h4>
+    <h3>What happened</h3>
+    <p>At 4:17 PM, a sedan traveling north on 9th Street entered the intersection against a red light. The posted speed limit is <strong>25 mph (≈ 11.2 m/s)</strong>. The sedan collided with a delivery van traveling east on Avenue of the States. Skid marks from the sedan measure <strong>18.4 meters</strong> before the point of impact.</p>
+    <p>The sedan's GPS unit logged the following data in the 6 seconds before the crash:</p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:4px;">
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="padding:8px 12px;color:var(--muted);text-align:left;">Time (s)</th>
+          <th style="padding:8px 12px;color:var(--muted);text-align:left;">GPS Position — North (m)</th>
+          <th style="padding:8px 12px;color:var(--muted);text-align:left;">GPS Position — East (m)</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;">t = 0</td><td style="padding:8px 12px;">0.0</td><td style="padding:8px 12px;">0.0</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;">t = 1</td><td style="padding:8px 12px;">11.2</td><td style="padding:8px 12px;">0.0</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;">t = 2</td><td style="padding:8px 12px;">22.4</td><td style="padding:8px 12px;">0.0</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;">t = 3</td><td style="padding:8px 12px;">33.6</td><td style="padding:8px 12px;">0.0</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;">t = 4</td><td style="padding:8px 12px;">44.8</td><td style="padding:8px 12px;">0.0</td></tr>
+        <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;">t = 5</td><td style="padding:8px 12px;">53.6</td><td style="padding:8px 12px;">−2.1</td></tr>
+        <tr><td style="padding:8px 12px;">t = 6 (impact)</td><td style="padding:8px 12px;">64.5</td><td style="padding:8px 12px;">−2.1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="warn-box" style="margin-top:0;">
+    <strong>Notice:</strong> At t = 5 and t = 6, the GPS shows the car drifting slightly east — but the road goes straight north. The driver says this is the GPS glitch. The insurance company says that drift is real and proves the car swerved.
+  </div>
+
+  <div class="diagram-wrap">
+    <h4 style="margin-bottom:14px;">SCENE DIAGRAM</h4>
+    <svg viewBox="0 0 620 340" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-height:340px;">
+      <defs>
+        <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#2e6fff"/>
+        </marker>
+        <marker id="arrowYellow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#e8c840"/>
+        </marker>
+        <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#555"/>
+        </marker>
+      </defs>
+      <!-- Road background -->
+      <rect width="620" height="340" fill="#141414"/>
+      <!-- Horizontal road (Avenue of the States, east-west) -->
+      <rect x="0" y="145" width="620" height="60" fill="#222"/>
+      <!-- Vertical road (9th Street, north-south) -->
+      <rect x="270" y="0" width="70" height="340" fill="#222"/>
+      <!-- Road markings horizontal -->
+      <line x1="0" y1="175" x2="262" y2="175" stroke="#555" stroke-width="1.5" stroke-dasharray="20,12"/>
+      <line x1="348" y1="175" x2="620" y2="175" stroke="#555" stroke-width="1.5" stroke-dasharray="20,12"/>
+      <!-- Road markings vertical -->
+      <line x1="305" y1="0" x2="305" y2="137" stroke="#555" stroke-width="1.5" stroke-dasharray="20,12"/>
+      <line x1="305" y1="213" x2="305" y2="340" stroke="#555" stroke-width="1.5" stroke-dasharray="20,12"/>
+      <!-- Intersection box -->
+      <rect x="270" y="145" width="70" height="60" fill="#252525" stroke="#333" stroke-width="1"/>
+      <!-- Speed limit sign -->
+      <rect x="20" y="108" width="52" height="58" fill="#fff" rx="4"/>
+      <rect x="23" y="111" width="46" height="52" fill="#fff" stroke="#c00" stroke-width="2" rx="2"/>
+      <text x="46" y="130" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="bold" fill="#000">SPEED</text>
+      <text x="46" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="bold" fill="#000">LIMIT</text>
+      <text x="46" y="156" text-anchor="middle" font-family="Georgia,serif" font-size="20" font-weight="bold" fill="#000">25</text>
+      <!-- Skid marks (south of intersection, car already skidding on approach) -->
+      <line x1="296" y1="320" x2="296" y2="218" stroke="#ccc" stroke-width="2" stroke-dasharray="7,5" opacity=".3"/>
+      <line x1="313" y1="320" x2="313" y2="218" stroke="#ccc" stroke-width="2" stroke-dasharray="7,5" opacity=".3"/>
+      <!-- Skid label -->
+      <text x="324" y="285" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#666">18.4 m</text>
+      <text x="324" y="297" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#666">skid marks</text>
+      <!-- Sedan (blue, traveling north — shown just south of intersection, moving into it) -->
+      <rect x="286" y="222" width="28" height="46" fill="#2e6fff" rx="4"/>
+      <rect x="289" y="227" width="22" height="14" fill="rgba(255,255,255,.3)" rx="2"/>
+      <rect x="289" y="250" width="22" height="14" fill="rgba(255,255,255,.15)" rx="2"/>
+      <text x="300" y="244" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#fff">SEDAN</text>
+      <!-- Sedan direction arrow (pointing north, into the intersection) -->
+      <line x1="300" y1="219" x2="300" y2="200" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+      <!-- Delivery van (yellow, traveling east — shown west of intersection, moving into it) -->
+      <rect x="122" y="153" width="66" height="34" fill="#e8c840" rx="4"/>
+      <rect x="122" y="156" width="20" height="28" fill="rgba(0,0,0,.2)" rx="2"/>
+      <text x="162" y="174" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#111">DELIVERY VAN</text>
+      <!-- Van direction arrow (pointing east, into the intersection) -->
+      <line x1="192" y1="170" x2="260" y2="170" stroke="#e8c840" stroke-width="2.5" marker-end="url(#arrowYellow)"/>
+      <!-- Impact X at intersection center -->
+      <text x="305" y="183" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-weight="bold" fill="#d63a2f">✕</text>
+      <text x="305" y="197" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#d63a2f">IMPACT</text>
+      <!-- Street labels -->
+      <text x="307" y="16" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#666">9th St (N)</text>
+      <text x="430" y="141" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#666">Avenue of the States (E)</text>
+      <!-- North arrow -->
+      <line x1="585" y1="308" x2="585" y2="284" stroke="#555" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+      <text x="580" y="320" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#555">N ↑</text>
+    </svg>
+    <div class="diagram-caption">Chester intersection — 9th St &amp; Avenue of the States. Sedan (blue) heading north. Van (yellow) heading east. Impact at center (✕). Skid marks shown dashed.</div>
+  </div>
+
+  <hr class="section-divider">
+  <h3>Additional Evidence — Available to Both Teams</h3>
+  <p>The following data was collected from the scene, the vehicle, and witnesses. <strong>Not all of it will help your argument.</strong> Part of your job is deciding what to use and what to leave out.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>WITNESS STATEMENTS</h4>
+    <ul style="margin-top:4px;">
+      <li>"The car looked like it was going the same speed the whole time — maybe a little fast but nothing crazy." — Pedestrian at the corner</li>
+      <li>"That car blew through without slowing down at all. It was definitely going faster than 25." — Driver of van</li>
+      <li>"I didn't see the car until right before the crash. It seemed like it swerved a little before it hit." — Shop owner, northeast corner</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>ADDITIONAL MEASUREMENTS — SCENE INVESTIGATOR</h4>
+    <ul style="margin-top:4px;">
+      <li>Skid marks: <strong>18.4 m</strong> total length, beginning approximately 20 m south of the intersection centerline</li>
+      <li>Skid marks are <strong>straight</strong> for the first 14 m, then curve slightly west for the last 4.4 m</li>
+      <li>Width of 9th Street at that location: <strong>7.3 m</strong> (two lanes)</li>
+      <li>Time from red light activation to impact: estimated <strong>8 seconds</strong> (based on traffic camera timestamp)</li>
+      <li>Posted speed limit: <strong>25 mph ≈ 11.2 m/s</strong></li>
+      <li>School zone speed limit (active 7am–4pm): <strong>15 mph ≈ 6.7 m/s</strong> — incident occurred at 4:17 PM</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>GPS UNIT MANUFACTURER NOTES (provided by insurance company)</h4>
+    <ul style="margin-top:4px;">
+      <li>This model GPS logs position every 1 second with an accuracy of <strong>±0.5 m</strong></li>
+      <li>Speed displayed on screen is calculated from position change and updated every 1 second</li>
+      <li>Known issue in this firmware version: <strong>speed display can lag by up to 1 second</strong> under rapid acceleration</li>
+      <li>Position logs are stored independently of the speed display and are considered more reliable</li>
+      <li>East/West drift of up to <strong>±1.5 m</strong> is within normal GPS error range; drift beyond ±1.5 m may indicate actual lateral movement</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>DRIVER'S STATEMENT</h4>
+    <p style="margin-top:4px;">"I was going 25 the whole time. The GPS showed 25. I don't know why it shows that east drift — my car doesn't drift, the road goes straight. I think the GPS froze or glitched right before the crash. I didn't speed up or swerve."</p>
+  </div>
+
+  <hr class="section-divider">
+  <h3>Your Team's Evidence Packet</h3>
+  <p>Each team gets the same raw data above. Use these prompts to build your argument. <strong>These are questions to guide your thinking — not steps to follow in order.</strong> You pick which calculations to show and which evidence to highlight.</p>
+
+  <div class="claim-box claim-a" style="margin-bottom:16px;">
+    <div class="claim-label">SIDE A — TEAM VELOCITY · Sam, Mateo, Aiden, Erik</div>
+    <p style="margin-bottom:10px;"><strong>Your position:</strong> The GPS data proves the car was not speeding. The east drift is a malfunction, not real movement.</p>
+    <p style="margin-bottom:8px;"><strong>Questions to work through (you don't have to use all of these):</strong></p>
+    <ul>
+      <li>What is the car's velocity during each 1-second interval from t = 0 to t = 4? What do those numbers tell you?</li>
+      <li>The GPS says position changed north by the same amount each second for four seconds. What does constant position change over equal time intervals mean for velocity? (Hint: think back to your motion graphs from Week 1.)</li>
+      <li>The road goes straight north. The GPS shows a 2.1 m eastward drift. How does that compare to the GPS manufacturer's stated accuracy of ±1.5 m? What could you argue from that?</li>
+      <li>The driver says the speed display showed 25 mph the whole time. The manufacturer notes that speed display can lag during rapid acceleration. Does that help or hurt your argument?</li>
+      <li>Is the 18.4 m skid mark useful to your argument? Why or why not?</li>
+      <li>What is a scalar vs. a vector, and which one is the GPS speed display showing? Does that distinction matter here?</li>
+    </ul>
+  </div>
+
+  <div class="claim-box claim-b">
+    <div class="claim-label">SIDE B — TEAM DISPLACEMENT · Nate, Abdoulaye, Javi, Chris</div>
+    <p style="margin-bottom:10px;"><strong>Your position:</strong> The displacement data proves the car was moving faster than the speed limit at the moment of impact.</p>
+    <p style="margin-bottom:8px;"><strong>Questions to work through (you don't have to use all of these):</strong></p>
+    <ul>
+      <li>What is the car's total displacement from t = 0 to t = 6? Remember: displacement is a vector — it has both a north component and an east component. How do you find the magnitude of a diagonal vector?</li>
+      <li>What is the car's average velocity over the full 6 seconds? How does that compare to the speed limit?</li>
+      <li>Look at t = 4 to t = 5 and t = 5 to t = 6. The position changes in those intervals are different from t = 0–4. What could that mean about the car's speed near the intersection?</li>
+      <li>The GPS manufacturer says position logs are more reliable than the speed display, and that drift beyond ±1.5 m may indicate real lateral movement. The east drift is 2.1 m. What does that suggest?</li>
+      <li>The skid marks are 18.4 m long and begin 20 m south of the intersection. What does this tell you about where the driver started braking — and what does that imply about their speed?</li>
+      <li>Witness 3 said the car "seemed like it swerved a little." Does any of the GPS data support that? What is a vector, and how does direction factor into this?</li>
+    </ul>
+  </div>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DEBATE 2
+═══════════════════════════════════════ -->
+<div id="tab-debate2" class="tab-content">
+<main>
+
+  <div class="scenario-header">
+    <div class="debate-number">02</div>
+    <div>
+      <div class="scenario-label">DEBATE SCENARIO</div>
+      <div class="scenario-title">The Robot Arm &amp; the Bridge Model</div>
+      <p>A robotics team is testing a construction robot arm that places steel beams on a model bridge. The arm applies a diagonal pushing force to seat the beam. The beam doesn't seat correctly — it shifts and the bridge model collapses. <strong>Did the robot apply too much force, or was the bridge already unbalanced?</strong></p>
+    </div>
+  </div>
+
+  <div class="teams-row">
+    <div class="team-badge side-a">
+      <div class="side-label">SIDE A — ARGUES: CORRECT FORCE, BRIDGE WAS ALREADY UNBALANCED</div>
+      <div class="team-name">Team Net Force</div>
+      <div class="members">Danny · Collin · Jayden · Will</div>
+    </div>
+    <div class="team-badge side-b">
+      <div class="side-label">SIDE B — ARGUES: TOO MUCH FORCE DESTROYED EQUILIBRIUM</div>
+      <div class="team-name">Team Equilibrium</div>
+      <div class="members">Timoni · Elijah · Maxi · Kenan</div>
+    </div>
+  </div>
+
+  <div class="jury-badge">
+    <div class="jury-label">JURY</div>
+    <div class="jury-teams">Sam, Mateo, Aiden, Erik &amp; Nate, Abdoulaye, Javi, Chris — you decide who wins based on the physics.</div>
+  </div>
+
+  <hr class="section-divider">
+  <h3>The Evidence</h3>
+
+  <div class="card">
+    <h4>ENGINEERING INCIDENT REPORT</h4>
+    <h3>What happened</h3>
+    <p>The robot arm was programmed to place a beam with a force of <strong>120 N at 35° below horizontal</strong> (pushing down and forward to seat the beam into its bracket). The bridge model was designed to stay in equilibrium with any downward force up to <strong>80 N</strong>. Two support cables were each rated to hold <strong>60 N upward</strong>.</p>
+    <p>At the moment of placement, sensor data recorded:</p>
+    <ul style="margin-top:8px;">
+      <li>Robot arm force: <strong>120 N at 35° below horizontal</strong></li>
+      <li>Cable 1 upward tension: <strong>58 N</strong></li>
+      <li>Cable 2 upward tension: <strong>61 N</strong></li>
+      <li>Bridge beam weight: <strong>45 N downward</strong></li>
+    </ul>
+    <p style="margin-top:12px;">The beam shifted 14 cm to the right before the collapse. The robot arm's angle sensor showed 35°, but the team that programmed it claims they set it to 20°.</p>
+  </div>
+
+  <div class="warn-box">
+    <strong>The core dispute:</strong> Team Net Force argues the cables were already providing unequal tension before the robot pushed — one under its rated spec, one slightly over — and that imbalance caused the beam to shift. Team Equilibrium argues the robot's 35° angle produced a vertical force component that pushed the beam beyond its design limit, destroying equilibrium regardless of what the cables were doing.
+  </div>
+
+  <div class="diagram-wrap">
+    <h4 style="margin-bottom:14px;">FORCE DIAGRAM — BRIDGE BEAM AT MOMENT OF PLACEMENT</h4>
+    <svg viewBox="0 0 620 360" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-height:360px;">
+      <defs>
+        <marker id="arrowRed2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#d63a2f"/>
+        </marker>
+        <marker id="arrowYellow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#e8c840"/>
+        </marker>
+        <marker id="arrowBlue2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#2e6fff"/>
+        </marker>
+        <marker id="arrowGreen2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#4ade80"/>
+        </marker>
+      </defs>
+      <rect width="620" height="360" fill="#141414"/>
+
+      <!-- Bridge beam (horizontal bar) -->
+      <rect x="120" y="195" width="380" height="18" fill="#2a2a2a" stroke="#555" stroke-width="1.5" rx="2"/>
+      <!-- Bridge supports / feet -->
+      <rect x="130" y="213" width="12" height="40" fill="#333"/>
+      <rect x="478" y="213" width="12" height="40" fill="#333"/>
+      <rect x="110" y="250" width="52" height="8" fill="#333" rx="2"/>
+      <rect x="458" y="250" width="52" height="8" fill="#333" rx="2"/>
+      <!-- Beam label -->
+      <text x="310" y="190" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#666">bridge beam — 45 N weight</text>
+
+      <!-- Cable 1 (left) — going up from beam to anchor point -->
+      <line x1="195" y1="195" x2="155" y2="85" stroke="#aaa" stroke-width="2" stroke-dasharray="5,3"/>
+      <!-- Cable 1 upward arrow -->
+      <line x1="195" y1="195" x2="175" y2="130" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowBlue2)"/>
+      <circle cx="155" cy="82" r="5" fill="#555" stroke="#aaa" stroke-width="1.5"/>
+      <text x="128" y="78" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#aaa">Cable 1</text>
+      <text x="128" y="91" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">58 N ↑</text>
+
+      <!-- Cable 2 (right) — going up from beam to anchor point -->
+      <line x1="430" y1="195" x2="470" y2="85" stroke="#aaa" stroke-width="2" stroke-dasharray="5,3"/>
+      <!-- Cable 2 upward arrow -->
+      <line x1="430" y1="195" x2="450" y2="130" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowBlue2)"/>
+      <circle cx="470" cy="82" r="5" fill="#555" stroke="#aaa" stroke-width="1.5"/>
+      <text x="476" y="78" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#aaa">Cable 2</text>
+      <text x="476" y="91" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">61 N ↑</text>
+
+      <!-- Weight arrow (downward from beam center) -->
+      <line x1="310" y1="213" x2="310" y2="262" stroke="#d63a2f" stroke-width="2.5" marker-end="url(#arrowRed2)"/>
+      <text x="318" y="250" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#d63a2f">45 N ↓</text>
+      <text x="318" y="263" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#d63a2f">(weight)</text>
+
+      <!-- Robot arm body (coming from upper left, arm extends down-right to contact beam) -->
+      <!-- The arm pushes the beam: origin at left side, force goes RIGHT and DOWN at 35° -->
+      <!-- Arm contact point on beam: x=195, y=195 (left portion of beam) -->
+      <!-- Force origin (shoulder): x=100, y=120 -->
+      <rect x="50" y="96" width="64" height="32" fill="#1a1a1a" stroke="#e8c840" stroke-width="1.5" rx="3"/>
+      <text x="82" y="111" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#e8c840">ROBOT ARM</text>
+      <text x="82" y="122" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#888">120 N @ 35°</text>
+      <!-- Arm linkage line -->
+      <line x1="114" y1="112" x2="175" y2="175" stroke="#e8c840" stroke-width="2.5"/>
+      <!-- Robot force arrow: from contact point, pushing RIGHT and DOWN at 35° below horizontal -->
+      <!-- At 35°: Fx component is to the right, Fy component is downward -->
+      <!-- Contact point: (175, 195). Force tip: (175 + Fx_scaled, 195 + Fy_scaled) -->
+      <!-- Scale: 1N = 1px roughly. Fx=98N→scaled to 90px right, Fy=69N→scaled to 63px down -->
+      <line x1="175" y1="185" x2="265" y2="237" stroke="#e8c840" stroke-width="3" marker-end="url(#arrowYellow2)"/>
+      <!-- Label the resultant -->
+      <text x="192" y="202" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">120 N</text>
+      <!-- Angle arc from horizontal at contact point -->
+      <path d="M 215 185 A 40 40 0 0 1 234 206" fill="none" stroke="#e8c840" stroke-width="1.5"/>
+      <text x="224" y="200" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#e8c840">35°</text>
+      <!-- Horizontal reference line for angle -->
+      <line x1="175" y1="185" x2="275" y2="185" stroke="#555" stroke-width="1" stroke-dasharray="4,3"/>
+
+      <!-- Component dashed lines forming right triangle -->
+      <!-- Fₓ: horizontal from (175,185) rightward to (265,185) -->
+      <line x1="175" y1="185" x2="265" y2="185" stroke="#2e6fff" stroke-width="1.5" stroke-dasharray="5,3" opacity=".8"/>
+      <!-- Fᵧ: vertical from (265,185) downward to (265,237) -->
+      <line x1="265" y1="185" x2="265" y2="237" stroke="#d63a2f" stroke-width="1.5" stroke-dasharray="5,3" opacity=".8"/>
+      <!-- Right angle marker -->
+      <rect x="255" y="185" width="10" height="10" fill="none" stroke="#555" stroke-width="1"/>
+      <!-- Component labels -->
+      <text x="210" y="178" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2e6fff">Fₓ = ? (horizontal →)</text>
+      <text x="270" y="216" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#d63a2f">Fᵧ = ? (↓)</text>
+
+      <!-- Design limit note -->
+      <text x="310" y="308" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#555">Design limit: total downward force on beam ≤ 80 N</text>
+    </svg>
+    <div class="diagram-caption">Bridge beam at moment of placement. Robot arm (left) pushes right and downward at 35° below horizontal with 120 N total force. Cables provide upward tension. Dashed lines show the horizontal (Fₓ) and vertical (Fᵧ) components of the robot force — your teams need to calculate both.</div>
+  </div>
+
+  <!-- SIMULATION -->
+  <div class="diagram-wrap">
+    <h4 style="margin-bottom:12px;">INTERACTIVE — CHANGE THE ANGLE, WATCH THE VERTICAL FORCE</h4>
+    <canvas id="simCanvas" width="560" height="200" style="max-width:100%;border-radius:4px;"></canvas>
+    <div class="sim-controls">
+      <button class="sim-btn" onclick="setAngle(20)">20° (programmed)</button>
+      <button class="sim-btn active" onclick="setAngle(35)">35° (actual)</button>
+      <button class="sim-btn" onclick="setAngle(50)">50°</button>
+      <button class="sim-btn" onclick="setAngle(65)">65°</button>
+    </div>
+    <div id="sim-readout" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#aaa;margin-top:12px;line-height:1.9;"></div>
+  </div>
+
+  <hr class="section-divider">
+  <h3>Additional Evidence — Available to Both Teams</h3>
+  <p>The following data was collected from sensors, the engineering team, and the robotics company. <strong>Not all of it supports both sides equally.</strong> Decide what to use, what to leave out, and what to push back on.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>ROBOT ARM SENSOR LOG</h4>
+    <ul style="margin-top:4px;">
+      <li>Programmed force: <strong>120 N</strong></li>
+      <li>Programmed angle: <strong>20° below horizontal</strong> (per robotics team log)</li>
+      <li>Angle recorded by arm sensor at time of placement: <strong>35° below horizontal</strong></li>
+      <li>Force recorded by arm sensor at time of placement: <strong>120 N</strong> (consistent with programming)</li>
+      <li>Arm sensor calibration: last verified <strong>3 weeks before incident</strong>; manufacturer recommends weekly calibration for precision placement</li>
+      <li>Beam shift recorded: <strong>14 cm to the right</strong> before collapse</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>BRIDGE DESIGN SPECIFICATIONS</h4>
+    <ul style="margin-top:4px;">
+      <li>Maximum downward force before equilibrium fails: <strong>80 N</strong></li>
+      <li>Each support cable rated for: <strong>60 N upward</strong> (combined max: 120 N)</li>
+      <li>Bridge beam weight: <strong>45 N downward</strong></li>
+      <li>Design assumes: force applied at <strong>20° or less</strong> below horizontal</li>
+      <li>Design note: <em>"Unequal cable tension exceeding 5 N difference may cause lateral beam shift prior to full collapse."</em></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>CABLE SENSOR READINGS — AT MOMENT OF PLACEMENT</h4>
+    <ul style="margin-top:4px;">
+      <li>Cable 1 (left side): <strong>58 N upward</strong></li>
+      <li>Cable 2 (right side): <strong>61 N upward</strong></li>
+      <li>Both cables within individual rating (60 N each)</li>
+      <li>Pre-placement baseline reading (before robot arm engaged): Cable 1: <strong>22.5 N</strong>, Cable 2: <strong>22.5 N</strong> (beam weight only, balanced)</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>ROBOTICS TEAM STATEMENT</h4>
+    <p style="margin-top:4px;">"We programmed 20°. We don't know why the sensor logged 35°. The arm sensor is overdue for calibration — it may have drifted. The force was correct at 120 N. If the angle was really 35°, that's a hardware failure, not a programming error. And even at 35°, we calculated the net downward force and it still didn't exceed the design limit."</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>BRIDGE ENGINEERING TEAM STATEMENT</h4>
+    <p style="margin-top:4px;">"The bridge was in perfect equilibrium before the arm engaged — our pre-placement sensors confirm equal cable tension at 22.5 N each. The 80 N design limit refers to vertical force on the beam, not total force. The robot applied a diagonal force at 35°, which means only part of it was vertical — but that vertical part is what matters for our design limit. The cables were fine. The angle was the problem."</p>
+  </div>
+
+  <hr class="section-divider">
+  <h3>Your Team's Evidence Packet</h3>
+  <p>Use these prompts to build your argument. <strong>You don't have to answer every question — pick the ones that help your case and be ready to explain why.</strong></p>
+
+  <div class="claim-box claim-a" style="margin-bottom:16px;">
+    <div class="claim-label">SIDE A — TEAM NET FORCE · Danny, Collin, Jayden, Will</div>
+    <p style="margin-bottom:10px;"><strong>Your position:</strong> The robot applied the correct force. The bridge collapsed because the cables were providing unequal tension — the structure was already unbalanced.</p>
+    <p style="margin-bottom:8px;"><strong>Questions to work through (pick what helps your argument):</strong></p>
+    <ul>
+      <li>The robot applied 120 N at 35° below horizontal. A diagonal force has two components. Which component — horizontal or vertical — is the one that actually pushes down on the beam? How would you calculate it?</li>
+      <li>The bridge design limit is 80 N of downward force. The beam itself weighs 45 N. What is the total downward force on the beam, combining the beam weight and the robot's vertical component? Does it exceed 80 N?</li>
+      <li>Cable 1 read 58 N and Cable 2 read 61 N. That's a 3 N difference. The design notes say a difference exceeding 5 N can cause lateral shift. Is 3 N over or under that threshold? What does that tell you?</li>
+      <li>Before the robot arm engaged, cables were at 22.5 N each — perfectly balanced. After the arm engaged, they read differently. What caused the cable tension to change? Was it the cable itself or the force applied?</li>
+      <li>The robotics team says they programmed 20°. If the actual angle was 35° due to a sensor malfunction, who is responsible for that — and does it change whether the force exceeded the design limit?</li>
+      <li>What does it mean for an object to be in equilibrium? Was the beam in equilibrium before the robot arm moved? Use the pre-placement cable readings to support your answer.</li>
+    </ul>
+  </div>
+
+  <div class="claim-box claim-b">
+    <div class="claim-label">SIDE B — TEAM EQUILIBRIUM · Timoni, Elijah, Maxi, Kenan</div>
+    <p style="margin-bottom:10px;"><strong>Your position:</strong> The robot arm applied too much downward force by using the wrong angle. That force destroyed the bridge's equilibrium. The cables were not the problem.</p>
+    <p style="margin-bottom:8px;"><strong>Questions to work through (pick what helps your argument):</strong></p>
+    <ul>
+      <li>The robot applied 120 N at 35° below horizontal. What formula gives you the vertical (downward) component of a diagonal force? Calculate it. How does it compare to the 80 N design limit?</li>
+      <li>The bridge was designed for a maximum angle of 20°. If the arm had used 20° (as programmed), what would the vertical component have been? Would the bridge have stayed in equilibrium?</li>
+      <li>The pre-placement cable readings showed perfect balance — 22.5 N each. That means the cables were working correctly before the arm moved. What does that tell you about whether the cables caused the collapse?</li>
+      <li>The bridge design notes say the 80 N limit refers to vertical force on the beam. The robot arm force is diagonal — only part of it acts vertically. How do you separate the vertical component from the full 120 N? Which trig function do you use?</li>
+      <li>The robotics team says "even at 35°, the net downward force didn't exceed the design limit." Do you agree? What calculation would you need to do to check that claim — and what numbers would you plug in?</li>
+      <li>What does equilibrium mean, and what has to be true about the net force for a structure to be in equilibrium? Use that definition to frame your argument.</li>
+    </ul>
+  </div>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════
+     INSTRUCTIONS
+═══════════════════════════════════════ -->
+<div id="tab-instructions" class="tab-content">
+<main>
+  <h4>PRESENTATION GUIDE</h4>
+  <h2>How to build your argument</h2>
+  <p style="margin-top:12px;">Your team has until <strong>Friday, November 21</strong> to build and present a physics argument. Here's exactly what that looks like.</p>
+
+  <hr class="section-divider" style="margin-top:28px;">
+
+  <div class="step-row">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>Read the scenario together</h3>
+      <p>Go to your debate tab (Debate 1 or Debate 2). Read the full scenario, evidence table, and diagram as a group. Make sure everyone on the team understands what actually happened — before you start calculating anything.</p>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Do the math — by hand, together</h3>
+      <p>Read through your evidence packet and decide as a team which data points support your argument. Then do the math — use the formulas from class: v = Δx/t, Fₓ = F cos θ, Fᵧ = F sin θ, Pythagorean theorem, tan⁻¹ for direction. You won't need every number in the evidence. Pick what matters, calculate it, and show every step: formula → numbers plugged in → answer with units. This work goes in your presentation.</p>
+      <div class="info-box" style="margin-top:10px;">
+        <strong>Important:</strong> Every team member should be able to explain every calculation. If one person does all the math and the others just copy it, that will show during the presentation.
+      </div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Build your presentation</h3>
+      <p>You can use a <strong>slideshow</strong> (Google Slides, PowerPoint, Canva) or a <strong>poster</strong>. Either works. Your presentation must include:</p>
+      <ul style="margin-top:8px;">
+        <li>A clear statement of your team's claim (one sentence)</li>
+        <li>A diagram or drawing showing the forces in your scenario</li>
+        <li>Your full calculation, shown step by step</li>
+        <li>A direct response to the other team's likely argument</li>
+        <li>A conclusion that connects back to the physics concepts (vectors, net force, equilibrium, velocity, displacement)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>Split it up — everyone presents</h3>
+      <p>Every member of the team must present a portion of the argument. Decide in advance who covers what:</p>
+      <ul style="margin-top:8px;">
+        <li><strong>Person 1:</strong> Introduce the scenario and your team's claim</li>
+        <li><strong>Person 2:</strong> Walk through the math and diagram</li>
+        <li><strong>Person 3:</strong> Address the other team's likely counter-argument</li>
+        <li><strong>Person 4:</strong> Conclusion — why your physics proves your claim</li>
+      </ul>
+      <p style="margin-top:8px;">If your team has fewer than 4 members presenting one section, combine roles. If more, split sections further. No one sits out.</p>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h3>Be ready for the jury</h3>
+      <p>After your team presents, the jury teams will evaluate your argument. They may ask one question. Your team should be ready to defend your math or explain a step. The jury then votes — privately — on which team made the stronger physics argument.</p>
+      <div class="warn-box" style="margin-top:10px;">
+        <strong>Jury teams:</strong> While the other debate is happening, you are evaluating — not checking your phone. Use the rubric to take notes on both presentations. You'll vote at the end.
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+  <h3>Presentation day schedule</h3>
+  <div class="card">
+    <table style="width:100%;font-size:13px;border-collapse:collapse;">
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;width:90px;">~5 min</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Setup — teams take their spots, jury gets rubric sheets</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~8 min</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Debate 1 — Team Velocity presents, then Team Displacement presents</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~2 min</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Jury questions, then vote</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~8 min</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Debate 2 — Team Net Force presents, then Team Equilibrium presents</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~2 min</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Jury questions, then vote</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~5 min</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Teacher debrief — what the physics actually says</td>
+      </tr>
+    </table>
+  </div>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════
+     RUBRIC
+═══════════════════════════════════════ -->
+<div id="tab-rubric" class="tab-content">
+<main>
+  <h4>ASSESSMENT</h4>
+  <h2>Rubric — 50 points</h2>
+  <p style="margin-top:12px;">Each team member earns points individually based on their own contribution and the team's overall performance. The jury vote is worth bonus recognition but does not change the grade.</p>
+
+  <hr class="section-divider" style="margin-top:28px;">
+
+  <h3>Section 1 — Physics Accuracy <span style="color:var(--muted);font-weight:400;font-size:14px;">(20 pts)</span></h3>
+  <table class="rubric-table">
+    <tr>
+      <th>Criteria</th>
+      <th>Full credit</th>
+      <th>Partial</th>
+      <th>Points</th>
+    </tr>
+    <tr>
+      <td><strong>Correct calculation</strong><br>All math is right: formulas used correctly, numbers plugged in, answer with units.</td>
+      <td>All steps correct, units present</td>
+      <td>Minor arithmetic error, right formula</td>
+      <td>8 pts</td>
+    </tr>
+    <tr>
+      <td><strong>Work shown</strong><br>Formula → numbers → answer. Each step is visible, not just the final number.</td>
+      <td>Every step shown clearly</td>
+      <td>Some steps missing or unclear</td>
+      <td>6 pts</td>
+    </tr>
+    <tr>
+      <td><strong>Correct use of concepts</strong><br>Vectors vs. scalars, components, net force, equilibrium, velocity — used accurately and in the right context.</td>
+      <td>Concepts applied correctly throughout</td>
+      <td>One concept misapplied or missing</td>
+      <td>6 pts</td>
+    </tr>
+    <tr class="rubric-total">
+      <td colspan="3">Section 1 total</td>
+      <td>/ 20</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top:28px;">Section 2 — Argument &amp; Presentation <span style="color:var(--muted);font-weight:400;font-size:14px;">(18 pts)</span></h3>
+  <table class="rubric-table">
+    <tr>
+      <th>Criteria</th>
+      <th>Full credit</th>
+      <th>Partial</th>
+      <th>Points</th>
+    </tr>
+    <tr>
+      <td><strong>Clear claim</strong><br>Team states their position in one clear sentence at the start.</td>
+      <td>Claim is specific and stated upfront</td>
+      <td>Claim is vague or stated late</td>
+      <td>4 pts</td>
+    </tr>
+    <tr>
+      <td><strong>Diagram or visual</strong><br>At least one labeled force diagram or drawing. Vectors labeled with magnitude and direction.</td>
+      <td>Diagram is clear, complete, labeled</td>
+      <td>Diagram present but missing labels</td>
+      <td>4 pts</td>
+    </tr>
+    <tr>
+      <td><strong>Counter-argument addressed</strong><br>Team anticipates the other side's main point and responds to it using physics.</td>
+      <td>Counter addressed with specific math or concept</td>
+      <td>Counter acknowledged but not rebutted</td>
+      <td>5 pts</td>
+    </tr>
+    <tr>
+      <td><strong>Conclusion</strong><br>Team connects their calculation back to the scenario and states what it proves.</td>
+      <td>Clear, physics-based conclusion</td>
+      <td>Conclusion vague or missing physics</td>
+      <td>5 pts</td>
+    </tr>
+    <tr class="rubric-total">
+      <td colspan="3">Section 2 total</td>
+      <td>/ 18</td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top:28px;">Section 3 — Individual Participation <span style="color:var(--muted);font-weight:400;font-size:14px;">(12 pts)</span></h3>
+  <table class="rubric-table">
+    <tr>
+      <th>Criteria</th>
+      <th>Full credit</th>
+      <th>Partial</th>
+      <th>Points</th>
+    </tr>
+    <tr>
+      <td><strong>Each member presents</strong><br>Every team member speaks during the presentation and covers a meaningful portion.</td>
+      <td>All members present a clear section</td>
+      <td>One member presents significantly less</td>
+      <td>6 pts</td>
+    </tr>
+    <tr>
+      <td><strong>Can explain the math</strong><br>If asked, each member can explain a step — not just read off a slide.</td>
+      <td>Member explains clearly in own words</td>
+      <td>Member reads directly, can't explain</td>
+      <td>6 pts</td>
+    </tr>
+    <tr class="rubric-total">
+      <td colspan="3">Section 3 total</td>
+      <td>/ 12</td>
+    </tr>
+  </table>
+
+  <div class="card" style="margin-top:28px;border-color:rgba(232,200,64,.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h4>TOTAL</h4>
+        <div style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--accent);line-height:1;">50 pts</div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);max-width:360px;">
+        The jury vote is not part of your grade. It's recognition. The team that wins the jury vote gets acknowledged — but a team that loses the vote and still shows excellent physics work earns the same points as a team that wins.
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'debate2') setTimeout(drawSim, 30);
+}
+
+// ── SIMULATION ──
+let currentAngle = 35;
+
+function setAngle(deg) {
+  currentAngle = deg;
+  document.querySelectorAll('.sim-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.startsWith(deg + '°'));
+  });
+  drawSim();
+}
+
+function drawSim() {
+  const canvas = document.getElementById('simCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const F = 120;
+  const theta = currentAngle * Math.PI / 180;
+  const Fx = F * Math.cos(theta);
+  const Fy = F * Math.sin(theta);
+  const limitY = 80;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#141414';
+  ctx.fillRect(0, 0, W, H);
+
+  // origin
+  const ox = 160, oy = 100;
+  const scale = 1.2;
+
+  // design limit line
+  ctx.save();
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([6, 4]);
+  const limitPixels = limitY * scale;
+  ctx.beginPath();
+  ctx.moveTo(ox, oy + limitPixels);
+  ctx.lineTo(ox + 200, oy + limitPixels);
+  ctx.stroke();
+  ctx.fillStyle = '#555';
+  ctx.font = '10px "IBM Plex Mono"';
+  ctx.fillText('80 N limit', ox + 205, oy + limitPixels + 4);
+  ctx.setLineDash([]);
+  ctx.restore();
+
+  // Fₓ (horizontal)
+  ctx.save();
+  ctx.strokeStyle = '#2e6fff';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ox + Fx * scale, oy);
+  ctx.stroke();
+  drawArrowhead(ctx, ox, oy, ox + Fx * scale, oy, '#2e6fff');
+  ctx.fillStyle = '#2e6fff';
+  ctx.font = '11px "IBM Plex Mono"';
+  ctx.fillText('Fₓ = ' + Fx.toFixed(1) + ' N', ox + Fx * scale * 0.4, oy - 8);
+  ctx.restore();
+
+  // Fᵧ (vertical, downward) — note: 80N limit is total downward; beam adds 45N on top of this
+  const totalDown = Fy + 45;
+  const fyColor = totalDown > limitY ? '#d63a2f' : '#4ade80';
+  ctx.save();
+  ctx.strokeStyle = fyColor;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(ox + Fx * scale, oy);
+  ctx.lineTo(ox + Fx * scale, oy + Fy * scale);
+  ctx.stroke();
+  drawArrowhead(ctx, ox + Fx * scale, oy, ox + Fx * scale, oy + Fy * scale, fyColor);
+  ctx.fillStyle = fyColor;
+  ctx.font = '11px "IBM Plex Mono"';
+  ctx.fillText('Fᵧ = ' + Fy.toFixed(1) + ' N (robot only)', ox + Fx * scale + 8, oy + Fy * scale * 0.5 + 4);
+  ctx.restore();
+
+  // resultant
+  ctx.save();
+  ctx.strokeStyle = '#e8c840';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ox + Fx * scale, oy + Fy * scale);
+  ctx.stroke();
+  drawArrowhead(ctx, ox, oy, ox + Fx * scale, oy + Fy * scale, '#e8c840');
+  ctx.fillStyle = '#e8c840';
+  ctx.font = '11px "IBM Plex Mono"';
+  ctx.fillText('120 N @ ' + currentAngle + '°', ox + 10, oy - 12);
+  ctx.restore();
+
+  // angle arc
+  ctx.save();
+  ctx.strokeStyle = '#e8c840';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(ox, oy, 28, 0, theta);
+  ctx.stroke();
+  ctx.fillStyle = '#e8c840';
+  ctx.font = '10px "IBM Plex Mono"';
+  ctx.fillText(currentAngle + '°', ox + 32, oy + 14);
+  ctx.restore();
+
+  // origin dot
+  ctx.beginPath();
+  ctx.arc(ox, oy, 4, 0, Math.PI * 2);
+  ctx.fillStyle = '#e8c840';
+  ctx.fill();
+
+  // readout
+  document.getElementById('sim-readout').innerHTML =
+    'Angle: <span style="color:#e8c840">' + currentAngle + '°</span> &nbsp;|&nbsp; ' +
+    'Fₓ = <span style="color:#2e6fff">' + Fx.toFixed(1) + ' N</span> (horizontal) &nbsp;|&nbsp; ' +
+    'Fᵧ = <span style="color:' + fyColor + '">' + Fy.toFixed(1) + ' N</span> (robot, downward)<br>' +
+    'Total downward on beam: Fᵧ + beam weight = ' + Fy.toFixed(1) + ' + 45 = <span style="color:' + fyColor + '">' + totalDown.toFixed(1) + ' N</span>' +
+    (totalDown > limitY ? ' &nbsp;<span style="color:#d63a2f">⚠ EXCEEDS 80 N DESIGN LIMIT</span>' : ' &nbsp;<span style="color:#4ade80">✓ within 80 N design limit</span>');
+}
+
+function drawArrowhead(ctx, x1, y1, x2, y2, color) {
+  const angle = Math.atan2(y2 - y1, x2 - x1);
+  const size = 8;
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - size * Math.cos(angle - 0.4), y2 - size * Math.sin(angle - 0.4));
+  ctx.lineTo(x2 - size * Math.cos(angle + 0.4), y2 - size * Math.sin(angle + 0.4));
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+// sim draws when debate2 tab is opened via showTab above
+</script>
+</body>
+</html>
