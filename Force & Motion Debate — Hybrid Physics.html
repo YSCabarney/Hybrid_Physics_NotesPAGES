@@ -832,97 +832,120 @@
   <!-- PITCH DIAGRAM SVG -->
   <div class="diagram-wrap">
     <h4 style="margin-bottom:14px;">PITCH DIAGRAM — TOP-DOWN VIEW</h4>
-    <svg viewBox="0 0 620 340" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-height:340px;">
+    <svg viewBox="0 0 700 420" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-height:420px;">
       <defs>
         <marker id="arrowShot" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
           <path d="M0,0 L0,6 L9,3 z" fill="#e8c840"/>
         </marker>
         <marker id="arrowDef" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L9,3 z" fill="#2e6fff"/>
+          <path d="M0,0 L0,6 L9,3 z" fill="#5b9bff"/>
         </marker>
         <marker id="arrowNet" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
           <path d="M0,0 L0,6 L9,3 z" fill="#4ade80"/>
         </marker>
+        <marker id="arrowNorth" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#666"/>
+        </marker>
       </defs>
 
-      <!-- Pitch background -->
-      <rect width="620" height="340" fill="#1a2e1a"/>
-      <!-- Pitch markings -->
-      <rect x="20" y="20" width="580" height="300" fill="none" stroke="#2d4a2d" stroke-width="1.5"/>
-      <!-- Center line -->
-      <line x1="310" y1="20" x2="310" y2="320" stroke="#2d4a2d" stroke-width="1" stroke-dasharray="8,6"/>
+      <!-- ── PITCH ── -->
+      <rect width="700" height="420" fill="#1c3320"/>
+      <!-- Outer boundary -->
+      <rect x="30" y="20" width="640" height="380" fill="none" stroke="#2a4a2a" stroke-width="2"/>
+      <!-- Halfway line -->
+      <line x1="30" y1="210" x2="670" y2="210" stroke="#2a4a2a" stroke-width="1" stroke-dasharray="10,7"/>
       <!-- Center circle -->
-      <circle cx="310" cy="170" r="40" fill="none" stroke="#2d4a2d" stroke-width="1"/>
-      <!-- Penalty areas (top = goal we're shooting at) -->
-      <rect x="178" y="20" width="264" height="80" fill="none" stroke="#2d4a2d" stroke-width="1"/>
-      <!-- Goal boxes -->
-      <rect x="246" y="20" width="128" height="30" fill="none" stroke="#2d4a2d" stroke-width="1"/>
+      <circle cx="350" cy="210" r="52" fill="none" stroke="#2a4a2a" stroke-width="1"/>
+      <circle cx="350" cy="210" r="3" fill="#2a4a2a"/>
+      <!-- Top penalty area -->
+      <rect x="200" y="20" width="300" height="90" fill="none" stroke="#2a4a2a" stroke-width="1"/>
+      <!-- Top goal box -->
+      <rect x="278" y="20" width="144" height="34" fill="none" stroke="#2a4a2a" stroke-width="1"/>
 
-      <!-- GOAL (top, north) — 7.32m wide, centered -->
-      <!-- Field width ~580px = ~68m pitch. 7.32m goal = ~63px. Center x=310 -->
-      <rect x="279" y="10" width="62" height="12" fill="none" stroke="#fff" stroke-width="2.5"/>
-      <text x="310" y="8" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#fff">GOAL (7.32 m)</text>
-      <!-- Goal posts -->
-      <circle cx="279" cy="20" r="3" fill="#fff"/>
-      <circle cx="341" cy="20" r="3" fill="#fff"/>
-      <!-- Near post label, far post label -->
-      <text x="272" y="34" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#888">near</text>
-      <text x="334" y="34" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#888">far</text>
+      <!-- ── GOAL (top, north) ── -->
+      <!-- Field 640px wide = ~68m. Scale: 9.4px/m. Goal 7.32m = ~69px. Center=350. Left post=315, right=384 -->
+      <rect x="316" y="8" width="68" height="14" fill="rgba(255,255,255,.08)" stroke="#fff" stroke-width="2.5"/>
+      <!-- Posts as thick circles -->
+      <circle cx="316" cy="20" r="4" fill="#ddd"/>
+      <circle cx="384" cy="20" r="4" fill="#ddd"/>
+      <!-- Post labels — well separated -->
+      <text x="300" y="38" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#aaa">near post</text>
+      <text x="400" y="38" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#aaa">far post</text>
+      <!-- Goal label above -->
+      <text x="350" y="17" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="11" font-weight="bold" fill="#fff">GOAL — 7.32 m wide</text>
 
-      <!-- Ball position (shot origin) — 9m left of center, 14m from goal line -->
-      <!-- Scale: ~8.5px per meter. 9m left = 76px left of center(310) = x=234. 14m from goal = ~119px from y=20 → y=139 -->
-      <circle cx="234" cy="142" r="7" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
-      <text x="220" y="160" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#aaa">ball</text>
-      <text x="209" y="172" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#666">(9m left, 14m out)</text>
+      <!-- ── BALL POSITION ──
+           Scale: 9.4px/m. Ball is 9m left of center (350) = x=350−85=265. 14m from goal line (y=20) = y=20+132=152.
+           Move ball down to y=240 so arrows have room to breathe northward. That means 14m = 132px scale OK. -->
+      <!-- Ball -->
+      <circle cx="265" cy="240" r="9" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
 
-      <!-- SHOT arrow — 48N at 32° east of north. North = up (-y). East = right (+x). -->
-      <!-- 32° east of north: x-component = sin(32°)=0.53 east, y-component = cos(32°)=0.848 north -->
-      <!-- Scale to ~95px: dx = 0.53×95=50, dy = -0.848×95=−81 -->
-      <line x1="234" y1="142" x2="284" y2="61" stroke="#e8c840" stroke-width="2.5" marker-end="url(#arrowShot)"/>
-      <text x="265" y="95" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">48 N</text>
-      <text x="258" y="107" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">32° E of N</text>
+      <!-- ── MIDFIELDER — to the left and below the ball ── -->
+      <circle cx="240" cy="268" r="8" fill="#e8c840" opacity=".8"/>
+      <text x="204" y="288" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="bold" fill="#e8c840">MIDFIELDER</text>
 
-      <!-- DEFLECTION arrow — 18N at 15° west of north. dx = -sin(15°)×50 = -0.259×50=−13, dy = -cos(15°)×50=−0.966×50=−48 -->
-      <line x1="234" y1="142" x2="221" y2="94" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowDef)"/>
-      <text x="175" y="108" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">18 N</text>
-      <text x="162" y="120" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">15° W of N</text>
+      <!-- ── DEFENDER — to the right of the ball ── -->
+      <ellipse cx="295" cy="248" rx="16" ry="9" fill="#5b9bff" opacity=".3"/>
+      <circle cx="295" cy="236" r="8" fill="#5b9bff" opacity=".7"/>
+      <text x="316" y="244" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="bold" fill="#5b9bff">DEFENDER</text>
 
-      <!-- Defender silhouette (sliding) -->
-      <ellipse cx="244" cy="150" rx="14" ry="8" fill="#2e6fff" opacity=".35"/>
-      <circle cx="244" cy="138" r="6" fill="#2e6fff" opacity=".5"/>
-      <text x="258" y="156" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#2e6fff">defender</text>
+      <!-- ── SHOT ARROW — 48N at 32° east of north ──
+           32° E of N: dx=sin32°=0.53, dy=-cos32°=-0.848. Scale 130px: dx=69, dy=-110 → tip=(334, 130) -->
+      <line x1="265" y1="240" x2="334" y2="130" stroke="#e8c840" stroke-width="3" marker-end="url(#arrowShot)"/>
+      <!-- Label well right of arrow, mid-height -->
+      <text x="360" y="168" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="bold" fill="#e8c840">48 N SHOT</text>
+      <text x="360" y="184" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#e8c840">32° east of north</text>
+      <!-- thin leader line from label to arrow midpoint -->
+      <line x1="355" y1="174" x2="308" y2="180" stroke="#e8c840" stroke-width="0.8" stroke-dasharray="3,3" opacity=".5"/>
 
-      <!-- Midfielder silhouette -->
-      <circle cx="220" cy="155" r="6" fill="#e8c840" opacity=".6"/>
-      <text x="192" y="175" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#e8c840">midfielder</text>
+      <!-- ── DEFLECTION ARROW — 18N at 15° west of north ──
+           15° W of N: dx=-sin15°=-0.259, dy=-cos15°=-0.966. Scale 70px: dx=-18, dy=-68 → tip=(247, 172) -->
+      <line x1="265" y1="240" x2="247" y2="172" stroke="#5b9bff" stroke-width="3" marker-end="url(#arrowDef)"/>
+      <!-- Label well left of arrow -->
+      <text x="60" y="192" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="bold" fill="#5b9bff">18 N DEFLECTION</text>
+      <text x="60" y="208" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#5b9bff">15° west of north</text>
+      <!-- leader line -->
+      <line x1="175" y1="196" x2="252" y2="202" stroke="#5b9bff" stroke-width="0.8" stroke-dasharray="3,3" opacity=".5"/>
 
-      <!-- Net force arrow (approximate resultant direction) -->
-      <!-- Net x = 48sin32° − 18sin15° = 25.4 − 4.66 = 20.74 E -->
-      <!-- Net y = -(48cos32° + 18cos15°) = -(40.7 + 17.4) = −58.1 N (north) -->
-      <!-- Direction: arctan(20.74/58.1) = 19.6° E of N. Scale to 85px: dx=0.335×85=28.5, dy=−0.942×85=−80 -->
-      <line x1="234" y1="142" x2="263" y2="62" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowNet)"/>
-      <text x="268" y="72" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#4ade80">net force</text>
-      <text x="265" y="83" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#4ade80">(direction?)</text>
+      <!-- ── NET FORCE ARROW (dashed green) — approximate ~20° E of N ──
+           tan⁻¹(20.7/58.1)≈19.6°. Scale 110px: dx=sin19.6°×110=37, dy=-cos19.6°×110=-104 → tip=(302, 136) -->
+      <line x1="265" y1="240" x2="302" y2="136" stroke="#4ade80" stroke-width="2.5" stroke-dasharray="8,4" marker-end="url(#arrowNet)"/>
+      <!-- Label below and right of net force tip, well clear -->
+      <text x="308" y="128" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="bold" fill="#4ade80">NET FORCE</text>
+      <text x="308" y="144" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#4ade80">direction = ?</text>
+      <text x="308" y="158" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#4ade80" opacity=".8">(your team calculates this)</text>
 
-      <!-- Goal width indicator -->
-      <line x1="279" y1="38" x2="341" y2="38" stroke="#555" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="279" y1="34" x2="279" y2="42" stroke="#555" stroke-width="1"/>
-      <line x1="341" y1="34" x2="341" y2="42" stroke="#555" stroke-width="1"/>
+      <!-- ── BALL START LABEL — below and left of ball ── -->
+      <text x="265" y="262" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#aaa">ball origin</text>
+      <text x="265" y="274" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#666">9m left of center · 14m out</text>
 
-      <!-- North arrow -->
-      <line x1="585" y1="300" x2="585" y2="276" stroke="#555" stroke-width="1.5" marker-end="url(#arrowNet)"/>
-      <text x="580" y="314" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#555">N ↑</text>
+      <!-- ── DIMENSION LINES ── -->
+      <!-- 14m to goal line, left side -->
+      <line x1="52" y1="20" x2="52" y2="240" stroke="#444" stroke-width="1"/>
+      <line x1="46" y1="20" x2="58" y2="20" stroke="#444" stroke-width="1"/>
+      <line x1="46" y1="240" x2="58" y2="240" stroke="#444" stroke-width="1"/>
+      <text x="34" y="136" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#555" transform="rotate(-90,34,136)">14 m to goal line</text>
 
-      <!-- Legend -->
-      <rect x="20" y="270" width="140" height="50" fill="rgba(0,0,0,.4)" rx="4"/>
-      <line x1="30" y1="282" x2="55" y2="282" stroke="#e8c840" stroke-width="2"/>
-      <text x="60" y="286" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#e8c840">shot (48 N)</text>
-      <line x1="30" y1="298" x2="55" y2="298" stroke="#2e6fff" stroke-width="2"/>
-      <text x="60" y="302" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2e6fff">deflection (18 N)</text>
-      <line x1="30" y1="314" x2="55" y2="314" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5,3"/>
-      <text x="60" y="318" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#4ade80">net force (find it)</text>
+      <!-- Goal width bracket below goal -->
+      <line x1="316" y1="46" x2="384" y2="46" stroke="#555" stroke-width="1"/>
+      <line x1="316" y1="42" x2="316" y2="50" stroke="#555" stroke-width="1"/>
+      <line x1="384" y1="42" x2="384" y2="50" stroke="#555" stroke-width="1"/>
+      <text x="350" y="58" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#666">7.32 m</text>
+
+      <!-- ── NORTH ARROW ── -->
+      <line x1="655" y1="385" x2="655" y2="358" stroke="#666" stroke-width="1.5" marker-end="url(#arrowNorth)"/>
+      <text x="655" y="400" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="11" fill="#666">N</text>
+
+      <!-- ── LEGEND (bottom right, clean box) ── -->
+      <rect x="460" y="350" width="210" height="62" fill="rgba(0,0,0,.55)" rx="5"/>
+      <line x1="472" y1="366" x2="502" y2="366" stroke="#e8c840" stroke-width="2.5"/>
+      <text x="510" y="370" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">Shot force (48 N)</text>
+      <line x1="472" y1="383" x2="502" y2="383" stroke="#5b9bff" stroke-width="2.5"/>
+      <text x="510" y="387" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#5b9bff">Deflection force (18 N)</text>
+      <line x1="472" y1="400" x2="502" y2="400" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="510" y="404" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#4ade80">Net force (calculate it)</text>
     </svg>
-    <div class="diagram-caption">Top-down view of the pitch. Ball at shot origin (white circle). Yellow = shot force. Blue = deflection force. Green dashed = approximate net force direction — your teams need to calculate the exact angle and determine whether it points inside or outside the far post.</div>
+    <div class="diagram-caption">Top-down view. Ball origin (white circle) is 9 m left of center, 14 m from goal. Yellow = shot (48 N, 32° east of north). Blue = defender's deflection (18 N, 15° west of north). Green dashed = approximate net force — your team calculates the exact direction and determines whether it points inside or outside the far post.</div>
   </div>
 
   <!-- INTERACTIVE VECTOR DIAGRAM -->
