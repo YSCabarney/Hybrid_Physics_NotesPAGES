@@ -459,7 +459,7 @@
 <nav>
   <button class="active" onclick="showTab('overview', this)">Overview</button>
   <button onclick="showTab('debate1', this)">Debate 1 — The Crash</button>
-  <button onclick="showTab('debate2', this)">Debate 2 — The Robot</button>
+  <button onclick="showTab('debate2', this)">Debate 2 — The Goal</button>
   <button onclick="showTab('instructions', this)">Instructions</button>
   <button onclick="showTab('rubric', this)">Rubric</button>
 </nav>
@@ -513,15 +513,15 @@
   <div class="card-row">
     <div class="card">
       <h4>DEBATE 2 — SIDE A</h4>
-      <div class="scenario-label" style="margin-bottom:8px;">Team Net Force</div>
+      <div class="scenario-label" style="margin-bottom:8px;">Team Shot</div>
       <p style="margin-bottom:8px;"><strong>Danny, Collin, Jayden, Will</strong></p>
-      <p style="font-size:12px;">Argues the robot arm applied the correct force and the bridge collapse was <em>not</em> their fault.</p>
+      <p style="font-size:12px;">Argues the net force on the ball pointed inside the far post — it was a goal.</p>
     </div>
     <div class="card">
       <h4>DEBATE 2 — SIDE B</h4>
-      <div class="scenario-label" style="color:var(--blue);margin-bottom:8px;">Team Equilibrium</div>
+      <div class="scenario-label" style="color:var(--blue);margin-bottom:8px;">Team Deflection</div>
       <p style="margin-bottom:8px;"><strong>Timoni, Elijah, Maxi, Kenan</strong></p>
-      <p style="font-size:12px;">Argues the robot arm applied too much force and destroyed the equilibrium of the structure.</p>
+      <p style="font-size:12px;">Argues the defender's force changed the ball's direction enough to push it wide — no goal.</p>
     </div>
   </div>
 
@@ -671,6 +671,20 @@
     <div class="diagram-caption">Chester intersection — 9th St &amp; Avenue of the States. Sedan (blue) heading north. Van (yellow) heading east. Impact at center (✕). Skid marks shown dashed.</div>
   </div>
 
+  <!-- MATH REVIEW -->
+  <div class="card" style="margin-top:4px;border-color:rgba(232,200,64,.2);">
+    <h4>MATH REVIEW — WHAT YOU NEED FOR THIS DEBATE</h4>
+    <p style="margin-bottom:14px;">All the math in this scenario uses formulas you've already practiced. Here's the full toolkit:</p>
+    <div class="formula-grid">
+      <div class="formula-pill"><span>v = Δx / t</span><br><span style="color:var(--muted);font-size:10px;">velocity = displacement ÷ time (direction matters)</span></div>
+      <div class="formula-pill"><span>|v| = √(vₓ² + vᵧ²)</span><br><span style="color:var(--muted);font-size:10px;">magnitude of a diagonal velocity vector</span></div>
+      <div class="formula-pill"><span>θ = tan⁻¹(|vₓ| ÷ |vᵧ|)</span><br><span style="color:var(--muted);font-size:10px;">direction of a velocity vector from north</span></div>
+      <div class="formula-pill"><span>Equilibrium: F_net = 0</span><br><span style="color:var(--muted);font-size:10px;">constant velocity → no net force (Newton's 1st Law)</span></div>
+    </div>
+    <p style="margin-bottom:6px;font-size:13px;color:#ccc;"><strong>Sign conventions:</strong> North = positive (+), South = negative (−), East = positive (+), West = negative (−). Velocity northward is positive. Any eastward or westward component tells you the car was not moving in a straight line.</p>
+    <p style="margin-bottom:0;font-size:13px;color:#ccc;"><strong>Key distinction:</strong> Speed is a scalar — just a number. Velocity is a vector — it has both size and direction. The GPS speed display is scalar. The position log data lets you calculate velocity as a vector. That difference is at the heart of this debate.</p>
+  </div>
+
   <hr class="section-divider">
   <h3>Additional Evidence — Available to Both Teams</h3>
   <p>The following data was collected from the scene, the vehicle, and witnesses. <strong>Not all of it will help your argument.</strong> Part of your job is deciding what to use and what to leave out.</p>
@@ -712,6 +726,23 @@
     <p style="margin-top:4px;">"I was going 25 the whole time. The GPS showed 25. I don't know why it shows that east drift — my car doesn't drift, the road goes straight. I think the GPS froze or glitched right before the crash. I didn't speed up or swerve."</p>
   </div>
 
+  <div class="card" style="margin-bottom:16px;">
+    <h4>TRAFFIC CAMERA ANALYSIS — PROVIDED BY INSURANCE COMPANY</h4>
+    <ul style="margin-top:4px;">
+      <li>Camera frame rate: <strong>1 frame per second</strong> (matches GPS log intervals)</li>
+      <li>At t = 5, the car's front-left corner is visibly displaced west of the lane centerline by an estimated <strong>1.8 m</strong></li>
+      <li>At t = 5 to t = 6, the car traveled an estimated <strong>10.9 m north</strong> and <strong>0 m east</strong> based on frame analysis — the camera analyst notes the east drift already occurred between t = 4 and t = 5</li>
+      <li>The van was traveling east at an estimated constant <strong>8.9 m/s (20 mph)</strong> for the 3 seconds before impact — it was not accelerating</li>
+      <li>At t = 4, both vehicles were still moving; the van entered the intersection at t = 5; the sedan entered at t = 5; impact occurred at t = 6</li>
+      <li>The van's displacement from its starting position to impact: <strong>26.7 m east, 0 m north</strong></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <h4>PHYSICS REFERENCE — SIGN CONVENTIONS FOR THIS SCENARIO</h4>
+    <p style="margin-top:4px;font-size:13px;color:#ccc;">Use the same sign rules you've practiced: <strong>north = positive (+), south = negative (−), east = positive (+), west = negative (−)</strong>. A car traveling north has positive velocity. A car that drifts east while heading north has a velocity with both a north component and an east component — making it a diagonal vector. Finding the true speed means finding the <em>magnitude</em> of that vector.</p>
+  </div>
+
   <hr class="section-divider">
   <h3>Your Team's Evidence Packet</h3>
   <p>Each team gets the same raw data above. Use these prompts to build your argument. <strong>These are questions to guide your thinking — not steps to follow in order.</strong> You pick which calculations to show and which evidence to highlight.</p>
@@ -721,12 +752,13 @@
     <p style="margin-bottom:10px;"><strong>Your position:</strong> The GPS data proves the car was not speeding. The east drift is a malfunction, not real movement.</p>
     <p style="margin-bottom:8px;"><strong>Questions to work through (you don't have to use all of these):</strong></p>
     <ul>
-      <li>What is the car's velocity during each 1-second interval from t = 0 to t = 4? What do those numbers tell you?</li>
-      <li>The GPS says position changed north by the same amount each second for four seconds. What does constant position change over equal time intervals mean for velocity? (Hint: think back to your motion graphs from Week 1.)</li>
-      <li>The road goes straight north. The GPS shows a 2.1 m eastward drift. How does that compare to the GPS manufacturer's stated accuracy of ±1.5 m? What could you argue from that?</li>
-      <li>The driver says the speed display showed 25 mph the whole time. The manufacturer notes that speed display can lag during rapid acceleration. Does that help or hurt your argument?</li>
-      <li>Is the 18.4 m skid mark useful to your argument? Why or why not?</li>
-      <li>What is a scalar vs. a vector, and which one is the GPS speed display showing? Does that distinction matter here?</li>
+      <li>Use v = Δx / t to calculate the car's velocity during each 1-second interval from t = 0 to t = 4. What pattern do you see, and what does it tell you about the car's motion?</li>
+      <li>Constant position change over equal time intervals is the signature of constant velocity — you saw this on your Week 1 motion graph. Does this car's data match that pattern for t = 0 to t = 4?</li>
+      <li>Speed is a scalar. Velocity is a vector. The GPS speed display showed 25 mph — which of those is it showing? Does the distinction matter when arguing whether the car was speeding?</li>
+      <li>The road goes straight north. The GPS shows 2.1 m of eastward drift. The manufacturer's accuracy spec is ±1.5 m — meaning any reading within that range could just be sensor error. How does 2.1 m compare to ±1.5 m? What can you argue from that?</li>
+      <li>If the east drift were real lateral movement, the car's velocity at t = 5 would be diagonal — it would have both a north component and an east component. Use the Pythagorean theorem to calculate the magnitude of that velocity if the drift were real. Does that result help or hurt your case?</li>
+      <li>At t = 0 to t = 4, the car was moving at constant velocity — which means the net force on the car was zero (equilibrium). What does Newton's First Law say about an object moving at constant velocity? Use that to argue the car was not accelerating or changing direction.</li>
+      <li>Is the 18.4 m skid mark useful to your argument? What does it tell you about when the driver started braking — and does it support or undermine the idea that the car was at the speed limit?</li>
     </ul>
   </div>
 
@@ -735,12 +767,13 @@
     <p style="margin-bottom:10px;"><strong>Your position:</strong> The displacement data proves the car was moving faster than the speed limit at the moment of impact.</p>
     <p style="margin-bottom:8px;"><strong>Questions to work through (you don't have to use all of these):</strong></p>
     <ul>
-      <li>What is the car's total displacement from t = 0 to t = 6? Remember: displacement is a vector — it has both a north component and an east component. How do you find the magnitude of a diagonal vector?</li>
-      <li>What is the car's average velocity over the full 6 seconds? How does that compare to the speed limit?</li>
-      <li>Look at t = 4 to t = 5 and t = 5 to t = 6. The position changes in those intervals are different from t = 0–4. What could that mean about the car's speed near the intersection?</li>
-      <li>The GPS manufacturer says position logs are more reliable than the speed display, and that drift beyond ±1.5 m may indicate real lateral movement. The east drift is 2.1 m. What does that suggest?</li>
-      <li>The skid marks are 18.4 m long and begin 20 m south of the intersection. What does this tell you about where the driver started braking — and what does that imply about their speed?</li>
-      <li>Witness 3 said the car "seemed like it swerved a little." Does any of the GPS data support that? What is a vector, and how does direction factor into this?</li>
+      <li>Look at t = 4 to t = 5. The north position changes by 8.8 m (not 11.2 m like before), and an east component of −2.1 m appears. If that east movement is real, the car's velocity at t = 5 is a diagonal vector. Use the Pythagorean theorem to find the magnitude of that velocity. How does it compare to the 11.2 m/s speed limit?</li>
+      <li>Use tan⁻¹ to find the direction of that velocity vector at t = 5. How many degrees west of north is the car moving? What does that tell you about whether it swerved?</li>
+      <li>What is the total displacement from t = 0 to t = 6? Displacement is a vector — it has a north component (64.5 m) and an east component (−2.1 m). Use the Pythagorean theorem to find the magnitude. Use tan⁻¹ to find the direction.</li>
+      <li>Use v = Δx / t to calculate average velocity over the full 6 seconds using total displacement. How does that compare to the speed limit?</li>
+      <li>The GPS manufacturer says drift beyond ±1.5 m may indicate actual lateral movement. The east drift is 2.1 m — 0.6 m over the threshold. What does that suggest about whether the drift is real?</li>
+      <li>Speed is scalar. Velocity is a vector. When the car's velocity became diagonal at t = 5, it had a westward component. What does it mean for a car to have a westward velocity component while heading north — and what does Newton's First Law say must have happened to cause that change?</li>
+      <li>The skid marks begin 20 m south of the intersection and are 18.4 m long. Use v = Δx / t or what you know about distance to reason about how fast the car was going when it started braking. Does that support or undermine the speed limit claim?</li>
     </ul>
   </div>
 
@@ -757,20 +790,20 @@
     <div class="debate-number">02</div>
     <div>
       <div class="scenario-label">DEBATE SCENARIO</div>
-      <div class="scenario-title">The Robot Arm &amp; the Bridge Model</div>
-      <p>A robotics team is testing a construction robot arm that places steel beams on a model bridge. The arm applies a diagonal pushing force to seat the beam. The beam doesn't seat correctly — it shifts and the bridge model collapses. <strong>Did the robot apply too much force, or was the bridge already unbalanced?</strong></p>
+      <div class="scenario-title">The Disputed Goal</div>
+      <p>84th minute. Chester FC is down 1–0. A midfielder rips a shot toward the far post at a diagonal. At the moment of contact, a sliding defender makes contact with the ball — applies a force at a different angle. The ball rolls toward the goal line. The ref waves it off. Chester FC says it crossed. The other team says the deflection sent it wide. <strong>Use the physics to settle it.</strong></p>
     </div>
   </div>
 
   <div class="teams-row">
     <div class="team-badge side-a">
-      <div class="side-label">SIDE A — ARGUES: CORRECT FORCE, BRIDGE WAS ALREADY UNBALANCED</div>
-      <div class="team-name">Team Net Force</div>
+      <div class="side-label">SIDE A — ARGUES: THE BALL CROSSED THE LINE — GOAL</div>
+      <div class="team-name">Team Shot</div>
       <div class="members">Danny · Collin · Jayden · Will</div>
     </div>
     <div class="team-badge side-b">
-      <div class="side-label">SIDE B — ARGUES: TOO MUCH FORCE DESTROYED EQUILIBRIUM</div>
-      <div class="team-name">Team Equilibrium</div>
+      <div class="side-label">SIDE B — ARGUES: THE DEFLECTION SENT IT WIDE — NO GOAL</div>
+      <div class="team-name">Team Deflection</div>
       <div class="members">Timoni · Elijah · Maxi · Kenan</div>
     </div>
   </div>
@@ -781,204 +814,226 @@
   </div>
 
   <hr class="section-divider">
-  <h3>The Evidence</h3>
+  <h3>The Incident</h3>
 
   <div class="card">
-    <h4>ENGINEERING INCIDENT REPORT</h4>
+    <h4>MATCH REPORT — CHESTER FC vs RIVAL</h4>
     <h3>What happened</h3>
-    <p>The robot arm was programmed to place a beam with a force of <strong>120 N at 35° below horizontal</strong> (pushing down and forward to seat the beam into its bracket). The bridge model was designed to stay in equilibrium with any downward force up to <strong>80 N</strong>. Two support cables were each rated to hold <strong>60 N upward</strong>.</p>
-    <p>At the moment of placement, sensor data recorded:</p>
-    <ul style="margin-top:8px;">
-      <li>Robot arm force: <strong>120 N at 35° below horizontal</strong></li>
-      <li>Cable 1 upward tension: <strong>58 N</strong></li>
-      <li>Cable 2 upward tension: <strong>61 N</strong></li>
-      <li>Bridge beam weight: <strong>45 N downward</strong></li>
-    </ul>
-    <p style="margin-top:12px;">The beam shifted 14 cm to the right before the collapse. The robot arm's angle sensor showed 35°, but the team that programmed it claims they set it to 20°.</p>
+    <p>At the 84th minute, a Chester FC midfielder struck the ball from a position <strong>9 m left of center and 14 m from the goal line</strong>, shooting diagonally toward the far post. The shot applied a force of <strong>48 N at 32° east of north</strong> (toward the goal, angled right).</p>
+    <p>At the moment of the shot, a sliding defender made contact and applied a simultaneous force of <strong>18 N at 15° west of north</strong> (pushing the ball slightly back toward the left). The ball was <strong>stationary before the shot</strong> — it had just been passed and stopped.</p>
+    <p style="margin-top:12px;">After the combined forces acted, the ball traveled toward the goal line. The goal is <strong>7.32 m wide</strong>, centered on the field. The question is whether the net force directed the ball inside the post or outside it.</p>
+    <p style="margin-top:4px;">The ball reached the goal line in <strong>1.8 seconds</strong> after the forces were applied. Goal-line technology was offline. There is no definitive camera angle.</p>
   </div>
 
   <div class="warn-box">
-    <strong>The core dispute:</strong> Team Net Force argues the cables were already providing unequal tension before the robot pushed — one under its rated spec, one slightly over — and that imbalance caused the beam to shift. Team Equilibrium argues the robot's 35° angle produced a vertical force component that pushed the beam beyond its design limit, destroying equilibrium regardless of what the cables were doing.
+    <strong>The core dispute:</strong> Team Shot argues the shot force was dominant — the net force still pointed inside the far post. Team Deflection argues the defender's force was enough to change the ball's direction outside the post. The answer is in the math — find the net force vector, its direction, and calculate where the ball actually ended up.
   </div>
 
+  <!-- PITCH DIAGRAM SVG -->
   <div class="diagram-wrap">
-    <h4 style="margin-bottom:14px;">FORCE DIAGRAM — BRIDGE BEAM AT MOMENT OF PLACEMENT</h4>
-    <svg viewBox="0 0 620 360" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-height:360px;">
+    <h4 style="margin-bottom:14px;">PITCH DIAGRAM — TOP-DOWN VIEW</h4>
+    <svg viewBox="0 0 620 340" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-height:340px;">
       <defs>
-        <marker id="arrowRed2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L9,3 z" fill="#d63a2f"/>
-        </marker>
-        <marker id="arrowYellow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <marker id="arrowShot" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
           <path d="M0,0 L0,6 L9,3 z" fill="#e8c840"/>
         </marker>
-        <marker id="arrowBlue2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <marker id="arrowDef" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
           <path d="M0,0 L0,6 L9,3 z" fill="#2e6fff"/>
         </marker>
-        <marker id="arrowGreen2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <marker id="arrowNet" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
           <path d="M0,0 L0,6 L9,3 z" fill="#4ade80"/>
         </marker>
       </defs>
-      <rect width="620" height="360" fill="#141414"/>
 
-      <!-- Bridge beam (horizontal bar) -->
-      <rect x="120" y="195" width="380" height="18" fill="#2a2a2a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <!-- Bridge supports / feet -->
-      <rect x="130" y="213" width="12" height="40" fill="#333"/>
-      <rect x="478" y="213" width="12" height="40" fill="#333"/>
-      <rect x="110" y="250" width="52" height="8" fill="#333" rx="2"/>
-      <rect x="458" y="250" width="52" height="8" fill="#333" rx="2"/>
-      <!-- Beam label -->
-      <text x="310" y="190" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#666">bridge beam — 45 N weight</text>
+      <!-- Pitch background -->
+      <rect width="620" height="340" fill="#1a2e1a"/>
+      <!-- Pitch markings -->
+      <rect x="20" y="20" width="580" height="300" fill="none" stroke="#2d4a2d" stroke-width="1.5"/>
+      <!-- Center line -->
+      <line x1="310" y1="20" x2="310" y2="320" stroke="#2d4a2d" stroke-width="1" stroke-dasharray="8,6"/>
+      <!-- Center circle -->
+      <circle cx="310" cy="170" r="40" fill="none" stroke="#2d4a2d" stroke-width="1"/>
+      <!-- Penalty areas (top = goal we're shooting at) -->
+      <rect x="178" y="20" width="264" height="80" fill="none" stroke="#2d4a2d" stroke-width="1"/>
+      <!-- Goal boxes -->
+      <rect x="246" y="20" width="128" height="30" fill="none" stroke="#2d4a2d" stroke-width="1"/>
 
-      <!-- Cable 1 (left) — going up from beam to anchor point -->
-      <line x1="195" y1="195" x2="155" y2="85" stroke="#aaa" stroke-width="2" stroke-dasharray="5,3"/>
-      <!-- Cable 1 upward arrow -->
-      <line x1="195" y1="195" x2="175" y2="130" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowBlue2)"/>
-      <circle cx="155" cy="82" r="5" fill="#555" stroke="#aaa" stroke-width="1.5"/>
-      <text x="128" y="78" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#aaa">Cable 1</text>
-      <text x="128" y="91" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">58 N ↑</text>
+      <!-- GOAL (top, north) — 7.32m wide, centered -->
+      <!-- Field width ~580px = ~68m pitch. 7.32m goal = ~63px. Center x=310 -->
+      <rect x="279" y="10" width="62" height="12" fill="none" stroke="#fff" stroke-width="2.5"/>
+      <text x="310" y="8" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#fff">GOAL (7.32 m)</text>
+      <!-- Goal posts -->
+      <circle cx="279" cy="20" r="3" fill="#fff"/>
+      <circle cx="341" cy="20" r="3" fill="#fff"/>
+      <!-- Near post label, far post label -->
+      <text x="272" y="34" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#888">near</text>
+      <text x="334" y="34" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#888">far</text>
 
-      <!-- Cable 2 (right) — going up from beam to anchor point -->
-      <line x1="430" y1="195" x2="470" y2="85" stroke="#aaa" stroke-width="2" stroke-dasharray="5,3"/>
-      <!-- Cable 2 upward arrow -->
-      <line x1="430" y1="195" x2="450" y2="130" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowBlue2)"/>
-      <circle cx="470" cy="82" r="5" fill="#555" stroke="#aaa" stroke-width="1.5"/>
-      <text x="476" y="78" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#aaa">Cable 2</text>
-      <text x="476" y="91" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">61 N ↑</text>
+      <!-- Ball position (shot origin) — 9m left of center, 14m from goal line -->
+      <!-- Scale: ~8.5px per meter. 9m left = 76px left of center(310) = x=234. 14m from goal = ~119px from y=20 → y=139 -->
+      <circle cx="234" cy="142" r="7" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+      <text x="220" y="160" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#aaa">ball</text>
+      <text x="209" y="172" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#666">(9m left, 14m out)</text>
 
-      <!-- Weight arrow (downward from beam center) -->
-      <line x1="310" y1="213" x2="310" y2="262" stroke="#d63a2f" stroke-width="2.5" marker-end="url(#arrowRed2)"/>
-      <text x="318" y="250" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#d63a2f">45 N ↓</text>
-      <text x="318" y="263" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#d63a2f">(weight)</text>
+      <!-- SHOT arrow — 48N at 32° east of north. North = up (-y). East = right (+x). -->
+      <!-- 32° east of north: x-component = sin(32°)=0.53 east, y-component = cos(32°)=0.848 north -->
+      <!-- Scale to ~95px: dx = 0.53×95=50, dy = -0.848×95=−81 -->
+      <line x1="234" y1="142" x2="284" y2="61" stroke="#e8c840" stroke-width="2.5" marker-end="url(#arrowShot)"/>
+      <text x="265" y="95" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">48 N</text>
+      <text x="258" y="107" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">32° E of N</text>
 
-      <!-- Robot arm body (coming from upper left, arm extends down-right to contact beam) -->
-      <!-- The arm pushes the beam: origin at left side, force goes RIGHT and DOWN at 35° -->
-      <!-- Arm contact point on beam: x=195, y=195 (left portion of beam) -->
-      <!-- Force origin (shoulder): x=100, y=120 -->
-      <rect x="50" y="96" width="64" height="32" fill="#1a1a1a" stroke="#e8c840" stroke-width="1.5" rx="3"/>
-      <text x="82" y="111" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#e8c840">ROBOT ARM</text>
-      <text x="82" y="122" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#888">120 N @ 35°</text>
-      <!-- Arm linkage line -->
-      <line x1="114" y1="112" x2="175" y2="175" stroke="#e8c840" stroke-width="2.5"/>
-      <!-- Robot force arrow: from contact point, pushing RIGHT and DOWN at 35° below horizontal -->
-      <!-- At 35°: Fx component is to the right, Fy component is downward -->
-      <!-- Contact point: (175, 195). Force tip: (175 + Fx_scaled, 195 + Fy_scaled) -->
-      <!-- Scale: 1N = 1px roughly. Fx=98N→scaled to 90px right, Fy=69N→scaled to 63px down -->
-      <line x1="175" y1="185" x2="265" y2="237" stroke="#e8c840" stroke-width="3" marker-end="url(#arrowYellow2)"/>
-      <!-- Label the resultant -->
-      <text x="192" y="202" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#e8c840">120 N</text>
-      <!-- Angle arc from horizontal at contact point -->
-      <path d="M 215 185 A 40 40 0 0 1 234 206" fill="none" stroke="#e8c840" stroke-width="1.5"/>
-      <text x="224" y="200" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#e8c840">35°</text>
-      <!-- Horizontal reference line for angle -->
-      <line x1="175" y1="185" x2="275" y2="185" stroke="#555" stroke-width="1" stroke-dasharray="4,3"/>
+      <!-- DEFLECTION arrow — 18N at 15° west of north. dx = -sin(15°)×50 = -0.259×50=−13, dy = -cos(15°)×50=−0.966×50=−48 -->
+      <line x1="234" y1="142" x2="221" y2="94" stroke="#2e6fff" stroke-width="2.5" marker-end="url(#arrowDef)"/>
+      <text x="175" y="108" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">18 N</text>
+      <text x="162" y="120" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2e6fff">15° W of N</text>
 
-      <!-- Component dashed lines forming right triangle -->
-      <!-- Fₓ: horizontal from (175,185) rightward to (265,185) -->
-      <line x1="175" y1="185" x2="265" y2="185" stroke="#2e6fff" stroke-width="1.5" stroke-dasharray="5,3" opacity=".8"/>
-      <!-- Fᵧ: vertical from (265,185) downward to (265,237) -->
-      <line x1="265" y1="185" x2="265" y2="237" stroke="#d63a2f" stroke-width="1.5" stroke-dasharray="5,3" opacity=".8"/>
-      <!-- Right angle marker -->
-      <rect x="255" y="185" width="10" height="10" fill="none" stroke="#555" stroke-width="1"/>
-      <!-- Component labels -->
-      <text x="210" y="178" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2e6fff">Fₓ = ? (horizontal →)</text>
-      <text x="270" y="216" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#d63a2f">Fᵧ = ? (↓)</text>
+      <!-- Defender silhouette (sliding) -->
+      <ellipse cx="244" cy="150" rx="14" ry="8" fill="#2e6fff" opacity=".35"/>
+      <circle cx="244" cy="138" r="6" fill="#2e6fff" opacity=".5"/>
+      <text x="258" y="156" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#2e6fff">defender</text>
 
-      <!-- Design limit note -->
-      <text x="310" y="308" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#555">Design limit: total downward force on beam ≤ 80 N</text>
+      <!-- Midfielder silhouette -->
+      <circle cx="220" cy="155" r="6" fill="#e8c840" opacity=".6"/>
+      <text x="192" y="175" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#e8c840">midfielder</text>
+
+      <!-- Net force arrow (approximate resultant direction) -->
+      <!-- Net x = 48sin32° − 18sin15° = 25.4 − 4.66 = 20.74 E -->
+      <!-- Net y = -(48cos32° + 18cos15°) = -(40.7 + 17.4) = −58.1 N (north) -->
+      <!-- Direction: arctan(20.74/58.1) = 19.6° E of N. Scale to 85px: dx=0.335×85=28.5, dy=−0.942×85=−80 -->
+      <line x1="234" y1="142" x2="263" y2="62" stroke="#4ade80" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowNet)"/>
+      <text x="268" y="72" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#4ade80">net force</text>
+      <text x="265" y="83" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#4ade80">(direction?)</text>
+
+      <!-- Goal width indicator -->
+      <line x1="279" y1="38" x2="341" y2="38" stroke="#555" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="279" y1="34" x2="279" y2="42" stroke="#555" stroke-width="1"/>
+      <line x1="341" y1="34" x2="341" y2="42" stroke="#555" stroke-width="1"/>
+
+      <!-- North arrow -->
+      <line x1="585" y1="300" x2="585" y2="276" stroke="#555" stroke-width="1.5" marker-end="url(#arrowNet)"/>
+      <text x="580" y="314" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#555">N ↑</text>
+
+      <!-- Legend -->
+      <rect x="20" y="270" width="140" height="50" fill="rgba(0,0,0,.4)" rx="4"/>
+      <line x1="30" y1="282" x2="55" y2="282" stroke="#e8c840" stroke-width="2"/>
+      <text x="60" y="286" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#e8c840">shot (48 N)</text>
+      <line x1="30" y1="298" x2="55" y2="298" stroke="#2e6fff" stroke-width="2"/>
+      <text x="60" y="302" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2e6fff">deflection (18 N)</text>
+      <line x1="30" y1="314" x2="55" y2="314" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="60" y="318" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#4ade80">net force (find it)</text>
     </svg>
-    <div class="diagram-caption">Bridge beam at moment of placement. Robot arm (left) pushes right and downward at 35° below horizontal with 120 N total force. Cables provide upward tension. Dashed lines show the horizontal (Fₓ) and vertical (Fᵧ) components of the robot force — your teams need to calculate both.</div>
+    <div class="diagram-caption">Top-down view of the pitch. Ball at shot origin (white circle). Yellow = shot force. Blue = deflection force. Green dashed = approximate net force direction — your teams need to calculate the exact angle and determine whether it points inside or outside the far post.</div>
   </div>
 
-  <!-- SIMULATION -->
+  <!-- INTERACTIVE VECTOR DIAGRAM -->
   <div class="diagram-wrap">
-    <h4 style="margin-bottom:12px;">INTERACTIVE — CHANGE THE ANGLE, WATCH THE VERTICAL FORCE</h4>
-    <canvas id="simCanvas" width="560" height="200" style="max-width:100%;border-radius:4px;"></canvas>
-    <div class="sim-controls">
-      <button class="sim-btn" onclick="setAngle(20)">20° (programmed)</button>
-      <button class="sim-btn active" onclick="setAngle(35)">35° (actual)</button>
-      <button class="sim-btn" onclick="setAngle(50)">50°</button>
-      <button class="sim-btn" onclick="setAngle(65)">65°</button>
+    <h4 style="margin-bottom:4px;">FORCE VECTOR DIAGRAM — INTERACTIVE</h4>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Toggle the deflection on and off to see how it changes the net force direction.</p>
+    <div class="sim-controls" style="margin-bottom:14px;">
+      <button class="sim-btn active" id="btnWithDef" onclick="setDeflection(true)">With deflection</button>
+      <button class="sim-btn" id="btnNoDef" onclick="setDeflection(false)">Shot only (no deflection)</button>
     </div>
-    <div id="sim-readout" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#aaa;margin-top:12px;line-height:1.9;"></div>
+    <canvas id="simCanvas" width="620" height="320" style="max-width:100%;border-radius:4px;display:block;"></canvas>
+    <div id="sim-readout" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#aaa;margin-top:14px;line-height:2;padding:12px 16px;background:var(--panel2);border-radius:4px;border:1px solid var(--border);"></div>
+  </div>
+
+  <!-- MATH REVIEW -->
+  <div class="card" style="margin-top:4px;border-color:rgba(232,200,64,.2);">
+    <h4>MATH REVIEW — WHAT YOU NEED FOR THIS DEBATE</h4>
+    <p style="margin-bottom:14px;">Every concept from the unit shows up here. Here's the full toolkit and how each one connects to the scenario:</p>
+    <div class="formula-grid">
+      <div class="formula-pill"><span>Fₓ = F × cos(θ)</span><br><span style="color:var(--muted);font-size:10px;">east/west component of a diagonal force</span></div>
+      <div class="formula-pill"><span>Fᵧ = F × sin(θ)</span><br><span style="color:var(--muted);font-size:10px;">north/south component of a diagonal force</span></div>
+      <div class="formula-pill"><span>F_net = F₁ + F₂ + …</span><br><span style="color:var(--muted);font-size:10px;">add x-components, then y-components (keep signs)</span></div>
+      <div class="formula-pill"><span>|F| = √(Fₓ² + Fᵧ²)</span><br><span style="color:var(--muted);font-size:10px;">magnitude of the net force vector</span></div>
+      <div class="formula-pill"><span>θ = tan⁻¹(|Fₓ| ÷ |Fᵧ|)</span><br><span style="color:var(--muted);font-size:10px;">direction of net force from north</span></div>
+      <div class="formula-pill"><span>v = Δx / t</span><br><span style="color:var(--muted);font-size:10px;">average velocity of the ball (speed + direction)</span></div>
+    </div>
+    <p style="margin-bottom:6px;font-size:13px;color:#ccc;"><strong>Sign conventions for this scenario:</strong> North = positive y (+), South = negative y (−), East = positive x (+), West = negative x (−). The shot goes north and east so both its components are positive. The deflection goes north and west — north is positive, west is negative.</p>
+    <p style="margin-bottom:6px;font-size:13px;color:#ccc;"><strong>Finding where the ball crossed:</strong> Once you have the net force direction (angle east of north), use geometry: the ball travels 14 m north, so east displacement = 14 × tan(angle). Add that to the starting position (9 m left of center) to find where it hit the goal line. Use v = Δx / t with the 1.8 second travel time and the total displacement to find average velocity — velocity is a vector, so you need both its size and direction.</p>
   </div>
 
   <hr class="section-divider">
   <h3>Additional Evidence — Available to Both Teams</h3>
-  <p>The following data was collected from sensors, the engineering team, and the robotics company. <strong>Not all of it supports both sides equally.</strong> Decide what to use, what to leave out, and what to push back on.</p>
+  <p>Both teams get the same data. <strong>Not all of it supports both sides equally.</strong> Decide what to use, what to leave out, and what to push back on when the other team presents.</p>
 
   <div class="card" style="margin-bottom:16px;">
-    <h4>ROBOT ARM SENSOR LOG</h4>
+    <h4>FORCE MEASUREMENTS — MATCH ANALYST REPORT</h4>
     <ul style="margin-top:4px;">
-      <li>Programmed force: <strong>120 N</strong></li>
-      <li>Programmed angle: <strong>20° below horizontal</strong> (per robotics team log)</li>
-      <li>Angle recorded by arm sensor at time of placement: <strong>35° below horizontal</strong></li>
-      <li>Force recorded by arm sensor at time of placement: <strong>120 N</strong> (consistent with programming)</li>
-      <li>Arm sensor calibration: last verified <strong>3 weeks before incident</strong>; manufacturer recommends weekly calibration for precision placement</li>
-      <li>Beam shift recorded: <strong>14 cm to the right</strong> before collapse</li>
+      <li>Shot force: <strong>48 N at 32° east of north</strong> (measured by in-boot sensor on the kicking foot)</li>
+      <li>Deflection force: <strong>18 N at 15° west of north</strong> (measured by wrist sensor on the sliding defender)</li>
+      <li>Ball was <strong>stationary</strong> at the moment both forces were applied — it had just received a pass and stopped</li>
+      <li>Both forces acted <strong>simultaneously</strong> for the same brief instant of contact</li>
+      <li>Ball mass: <strong>0.43 kg</strong> (standard FIFA match ball)</li>
+      <li>Surface: <strong>dry artificial turf</strong> — friction is minimal after initial contact</li>
     </ul>
   </div>
 
   <div class="card" style="margin-bottom:16px;">
-    <h4>BRIDGE DESIGN SPECIFICATIONS</h4>
+    <h4>GOAL-LINE MEASUREMENTS</h4>
     <ul style="margin-top:4px;">
-      <li>Maximum downward force before equilibrium fails: <strong>80 N</strong></li>
-      <li>Each support cable rated for: <strong>60 N upward</strong> (combined max: 120 N)</li>
-      <li>Bridge beam weight: <strong>45 N downward</strong></li>
-      <li>Design assumes: force applied at <strong>20° or less</strong> below horizontal</li>
-      <li>Design note: <em>"Unequal cable tension exceeding 5 N difference may cause lateral beam shift prior to full collapse."</em></li>
+      <li>Goal width: <strong>7.32 m</strong>, centered on the field</li>
+      <li>Near post (left): <strong>3.66 m left of center</strong></li>
+      <li>Far post (right): <strong>3.66 m right of center</strong></li>
+      <li>Ball starting position: <strong>9 m left of center, 14 m from goal line</strong></li>
+      <li>Time for ball to reach goal line from point of contact: <strong>1.8 seconds</strong></li>
+      <li>Goal-line technology: <strong>offline at the time of the incident</strong></li>
     </ul>
   </div>
 
   <div class="card" style="margin-bottom:16px;">
-    <h4>CABLE SENSOR READINGS — AT MOMENT OF PLACEMENT</h4>
+    <h4>WITNESS STATEMENTS</h4>
     <ul style="margin-top:4px;">
-      <li>Cable 1 (left side): <strong>58 N upward</strong></li>
-      <li>Cable 2 (right side): <strong>61 N upward</strong></li>
-      <li>Both cables within individual rating (60 N each)</li>
-      <li>Pre-placement baseline reading (before robot arm engaged): Cable 1: <strong>22.5 N</strong>, Cable 2: <strong>22.5 N</strong> (beam weight only, balanced)</li>
+      <li>"The ball was clearly going in before he got to it — his touch barely changed anything." — Chester FC captain</li>
+      <li>"I got a full sliding tackle on it, completely changed direction." — Defending player</li>
+      <li>"From where I was standing, it looked like it went just outside the post." — Linesman (no flag raised)</li>
+      <li>"I had the best angle — it crossed the line before he got to it." — Chester FC midfielder (the shooter)</li>
     </ul>
   </div>
 
   <div class="card" style="margin-bottom:16px;">
-    <h4>ROBOTICS TEAM STATEMENT</h4>
-    <p style="margin-top:4px;">"We programmed 20°. We don't know why the sensor logged 35°. The arm sensor is overdue for calibration — it may have drifted. The force was correct at 120 N. If the angle was really 35°, that's a hardware failure, not a programming error. And even at 35°, we calculated the net downward force and it still didn't exceed the design limit."</p>
+    <h4>REFEREE'S NOTES</h4>
+    <p style="margin-top:4px;">"I could not determine with certainty whether the ball crossed the line. The goal-line technology was not operational. I waved off the goal based on the linesman's signal. Chester FC has officially protested. The protest will be decided on the basis of any available technical evidence."</p>
   </div>
 
   <div class="card" style="margin-bottom:16px;">
-    <h4>BRIDGE ENGINEERING TEAM STATEMENT</h4>
-    <p style="margin-top:4px;">"The bridge was in perfect equilibrium before the arm engaged — our pre-placement sensors confirm equal cable tension at 22.5 N each. The 80 N design limit refers to vertical force on the beam, not total force. The robot applied a diagonal force at 35°, which means only part of it was vertical — but that vertical part is what matters for our design limit. The cables were fine. The angle was the problem."</p>
+    <h4>PHYSICS REFERENCE — SIGN CONVENTIONS</h4>
+    <p style="margin-top:4px;font-size:13px;color:#ccc;">North = +y. South = −y. East = +x. West = −x. For a force described as "32° east of north": the north component uses <strong>cos(32°)</strong>, the east component uses <strong>sin(32°)</strong>. For "15° west of north": north component uses <strong>cos(15°)</strong>, but the west component is <strong>negative</strong> — use −sin(15°). Add the x-components separately from the y-components. Then use the Pythagorean theorem for magnitude and tan⁻¹ for direction.</p>
   </div>
 
   <hr class="section-divider">
   <h3>Your Team's Evidence Packet</h3>
-  <p>Use these prompts to build your argument. <strong>You don't have to answer every question — pick the ones that help your case and be ready to explain why.</strong></p>
+  <p>Use these prompts to build your argument. <strong>You don't have to use all of them — pick the ones that build your case strongest.</strong></p>
 
   <div class="claim-box claim-a" style="margin-bottom:16px;">
-    <div class="claim-label">SIDE A — TEAM NET FORCE · Danny, Collin, Jayden, Will</div>
-    <p style="margin-bottom:10px;"><strong>Your position:</strong> The robot applied the correct force. The bridge collapsed because the cables were providing unequal tension — the structure was already unbalanced.</p>
-    <p style="margin-bottom:8px;"><strong>Questions to work through (pick what helps your argument):</strong></p>
+    <div class="claim-label">SIDE A — TEAM SHOT · Danny, Collin, Jayden, Will</div>
+    <p style="margin-bottom:10px;"><strong>Your position:</strong> The net force on the ball pointed inside the far post. The deflection wasn't strong enough to change the direction enough. It was a goal.</p>
+    <p style="margin-bottom:8px;"><strong>Questions to work through:</strong></p>
     <ul>
-      <li>The robot applied 120 N at 35° below horizontal. A diagonal force has two components. Which component — horizontal or vertical — is the one that actually pushes down on the beam? How would you calculate it?</li>
-      <li>The bridge design limit is 80 N of downward force. The beam itself weighs 45 N. What is the total downward force on the beam, combining the beam weight and the robot's vertical component? Does it exceed 80 N?</li>
-      <li>Cable 1 read 58 N and Cable 2 read 61 N. That's a 3 N difference. The design notes say a difference exceeding 5 N can cause lateral shift. Is 3 N over or under that threshold? What does that tell you?</li>
-      <li>Before the robot arm engaged, cables were at 22.5 N each — perfectly balanced. After the arm engaged, they read differently. What caused the cable tension to change? Was it the cable itself or the force applied?</li>
-      <li>The robotics team says they programmed 20°. If the actual angle was 35° due to a sensor malfunction, who is responsible for that — and does it change whether the force exceeded the design limit?</li>
-      <li>What does it mean for an object to be in equilibrium? Was the beam in equilibrium before the robot arm moved? Use the pre-placement cable readings to support your answer.</li>
+      <li>Break the shot force (48 N at 32° east of north) into its x and y components. Which trig function gives you the east component? Which gives you the north component?</li>
+      <li>Break the deflection force (18 N at 15° west of north) into its x and y components. Watch your signs — the west component is negative.</li>
+      <li>Add the x-components together and the y-components together to find the net force vector. What is the net x and net y?</li>
+      <li>Use the Pythagorean theorem to find the magnitude of the net force. How hard is the ball being pushed overall?</li>
+      <li>Use tan⁻¹ to find the direction of the net force. How many degrees east of north is it pointing?</li>
+      <li>The ball starts 9 m left of center and travels 14 m north to the goal line. If you know the angle the ball travels, you can find how far east it moved: displacement east = 14 × tan(angle). Where does it cross the goal line relative to center? Is that inside the post?</li>
+      <li>Before the shot, the ball was stationary — net force = 0, velocity = 0. After the two forces acted, it accelerated. What does Newton's First Law say about an object at rest, and what changes that?</li>
+      <li>Is velocity a scalar or a vector? What does the direction of the velocity tell you about where the ball is going?</li>
     </ul>
   </div>
 
   <div class="claim-box claim-b">
-    <div class="claim-label">SIDE B — TEAM EQUILIBRIUM · Timoni, Elijah, Maxi, Kenan</div>
-    <p style="margin-bottom:10px;"><strong>Your position:</strong> The robot arm applied too much downward force by using the wrong angle. That force destroyed the bridge's equilibrium. The cables were not the problem.</p>
-    <p style="margin-bottom:8px;"><strong>Questions to work through (pick what helps your argument):</strong></p>
+    <div class="claim-label">SIDE B — TEAM DEFLECTION · Timoni, Elijah, Maxi, Kenan</div>
+    <p style="margin-bottom:10px;"><strong>Your position:</strong> The defender's force changed the ball's direction enough to push it outside the post. Without the deflection, it would have been a goal. With it, the net force pointed wide.</p>
+    <p style="margin-bottom:8px;"><strong>Questions to work through:</strong></p>
     <ul>
-      <li>The robot applied 120 N at 35° below horizontal. What formula gives you the vertical (downward) component of a diagonal force? Calculate it. How does it compare to the 80 N design limit?</li>
-      <li>The bridge was designed for a maximum angle of 20°. If the arm had used 20° (as programmed), what would the vertical component have been? Would the bridge have stayed in equilibrium?</li>
-      <li>The pre-placement cable readings showed perfect balance — 22.5 N each. That means the cables were working correctly before the arm moved. What does that tell you about whether the cables caused the collapse?</li>
-      <li>The bridge design notes say the 80 N limit refers to vertical force on the beam. The robot arm force is diagonal — only part of it acts vertically. How do you separate the vertical component from the full 120 N? Which trig function do you use?</li>
-      <li>The robotics team says "even at 35°, the net downward force didn't exceed the design limit." Do you agree? What calculation would you need to do to check that claim — and what numbers would you plug in?</li>
-      <li>What does equilibrium mean, and what has to be true about the net force for a structure to be in equilibrium? Use that definition to frame your argument.</li>
+      <li>Break the shot force (48 N at 32° east of north) into components. This is what the ball would have done without the deflection.</li>
+      <li>Now break the deflection force (18 N at 15° west of north) into components. The deflection pushes partly west — that's negative x. What does that do to the total east component of the net force?</li>
+      <li>Add all components to find the net force vector. Compare the net east component to what the shot alone would have produced. How much did the deflection reduce the eastward push?</li>
+      <li>Find the magnitude of the net force using the Pythagorean theorem. Find the direction using tan⁻¹. How does that direction compare to the shot-only direction?</li>
+      <li>Use the direction angle and the 14 m northward travel to calculate the ball's east displacement: 14 × tan(angle). Where does that put the ball at the goal line — inside or outside the 3.66 m mark from center?</li>
+      <li>The ball was stationary before the shot. That means it was in equilibrium — net force was zero. The two forces acting together broke that equilibrium. What is equilibrium, and what does Newton's First Law say about an object that's in it?</li>
+      <li>The ball travels 14 m to the goal line in 1.8 seconds. What is its average velocity? Velocity is a vector — what two things does it tell you?</li>
+      <li>What is the difference between speed (scalar) and velocity (vector)? Why does the direction of velocity matter for deciding if the ball crossed the line?</li>
     </ul>
   </div>
 
@@ -1074,7 +1129,7 @@
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~8 min</td>
-        <td style="padding:10px 0 10px 12px;color:#ccc;">Debate 2 — Team Net Force presents, then Team Equilibrium presents</td>
+        <td style="padding:10px 0 10px 12px;color:#ccc;">Debate 2 — Team Shot presents, then Team Deflection presents</td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;">~2 min</td>
@@ -1219,17 +1274,16 @@ function showTab(id, btn) {
   document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
-  if (id === 'debate2') setTimeout(drawSim, 30);
+  if (id === 'debate2') setTimeout(drawSim, 50);
 }
 
 // ── SIMULATION ──
-let currentAngle = 35;
+let showDeflection = true;
 
-function setAngle(deg) {
-  currentAngle = deg;
-  document.querySelectorAll('.sim-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.startsWith(deg + '°'));
-  });
+function setDeflection(val) {
+  showDeflection = val;
+  document.getElementById('btnWithDef').classList.toggle('active', val);
+  document.getElementById('btnNoDef').classList.toggle('active', !val);
   drawSim();
 }
 
@@ -1238,119 +1292,185 @@ function drawSim() {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
-  const F = 120;
-  const theta = currentAngle * Math.PI / 180;
-  const Fx = F * Math.cos(theta);
-  const Fy = F * Math.sin(theta);
-  const limitY = 80;
 
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = '#141414';
   ctx.fillRect(0, 0, W, H);
 
-  // origin
-  const ox = 160, oy = 100;
-  const scale = 1.2;
+  // ── FORCES ──
+  // Shot: 48 N at 32° east of north. North=+y(up on canvas=-y), East=+x
+  // Components: Fx_shot = 48*sin(32°), Fy_shot = 48*cos(32°) (northward)
+  const shotF = 48, shotTheta = 32 * Math.PI / 180;
+  const shot_x = shotF * Math.sin(shotTheta);   // east = +x
+  const shot_y = shotF * Math.cos(shotTheta);   // north (displayed upward)
 
-  // design limit line
-  ctx.save();
-  ctx.strokeStyle = '#333';
+  // Deflection: 18 N at 15° west of north
+  // Components: Fx_def = -18*sin(15°) (west = negative), Fy_def = 18*cos(15°) (north)
+  const defF = 18, defTheta = 15 * Math.PI / 180;
+  const def_x = -defF * Math.sin(defTheta);  // west = negative
+  const def_y = defF * Math.cos(defTheta);   // north
+
+  // Net force
+  const net_x = shot_x + (showDeflection ? def_x : 0);
+  const net_y = shot_y + (showDeflection ? def_y : 0);
+  const netMag = Math.sqrt(net_x * net_x + net_y * net_y);
+  const netAngleDeg = Math.atan2(Math.abs(net_x), net_y) * 180 / Math.PI;
+  const netDir = net_x >= 0 ? 'east of north' : 'west of north';
+
+  // Where ball crosses goal line (14m north from origin, 9m left of center)
+  // East displacement = 14 * tan(net angle)
+  const eastDisp = 14 * Math.tan(Math.atan2(Math.abs(net_x), net_y));
+  // Ball starts 9m left of center. Moves eastDisp east. Position = -9 + eastDisp from center
+  const goalPos = -9 + eastDisp;  // positive = right of center, negative = left
+  const insidePost = Math.abs(goalPos) <= 3.66;
+  const goalColor = insidePost ? '#4ade80' : '#d63a2f';
+
+  // ── LAYOUT: tip-to-tail vector diagram ──
+  // Origin at center-left area. Scale: 2.5px per N
+  const scale = 2.5;
+  const ox = 120, oy = 240;  // origin (ball position)
+
+  // Grid
+  ctx.strokeStyle = '#1e1e1e';
   ctx.lineWidth = 1;
-  ctx.setLineDash([6, 4]);
-  const limitPixels = limitY * scale;
-  ctx.beginPath();
-  ctx.moveTo(ox, oy + limitPixels);
-  ctx.lineTo(ox + 200, oy + limitPixels);
-  ctx.stroke();
-  ctx.fillStyle = '#555';
+  for (let x = 0; x < W; x += 30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Axes
+  ctx.strokeStyle = '#2a2a2a';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(ox, 20); ctx.lineTo(ox, H - 20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(20, oy); ctx.lineTo(W - 20, oy); ctx.stroke();
+  ctx.fillStyle = '#333';
   ctx.font = '10px "IBM Plex Mono"';
-  ctx.fillText('80 N limit', ox + 205, oy + limitPixels + 4);
-  ctx.setLineDash([]);
-  ctx.restore();
+  ctx.textAlign = 'center';
+  ctx.fillText('N (+y)', ox, 14);
+  ctx.fillText('S (−y)', ox, H - 8);
+  ctx.textAlign = 'left';
+  ctx.fillText('E (+x)', W - 36, oy - 4);
+  ctx.textAlign = 'right';
+  ctx.fillText('W (−x)', 36, oy - 4);
 
-  // Fₓ (horizontal)
-  ctx.save();
-  ctx.strokeStyle = '#2e6fff';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(ox, oy);
-  ctx.lineTo(ox + Fx * scale, oy);
-  ctx.stroke();
-  drawArrowhead(ctx, ox, oy, ox + Fx * scale, oy, '#2e6fff');
-  ctx.fillStyle = '#2e6fff';
-  ctx.font = '11px "IBM Plex Mono"';
-  ctx.fillText('Fₓ = ' + Fx.toFixed(1) + ' N', ox + Fx * scale * 0.4, oy - 8);
-  ctx.restore();
+  // Origin dot + label
+  ctx.beginPath(); ctx.arc(ox, oy, 5, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
+  ctx.fillStyle = '#888'; ctx.font = '10px "IBM Plex Mono"'; ctx.textAlign = 'left';
+  ctx.fillText('ball (origin)', ox + 8, oy + 14);
 
-  // Fᵧ (vertical, downward) — note: 80N limit is total downward; beam adds 45N on top of this
-  const totalDown = Fy + 45;
-  const fyColor = totalDown > limitY ? '#d63a2f' : '#4ade80';
-  ctx.save();
-  ctx.strokeStyle = fyColor;
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(ox + Fx * scale, oy);
-  ctx.lineTo(ox + Fx * scale, oy + Fy * scale);
-  ctx.stroke();
-  drawArrowhead(ctx, ox + Fx * scale, oy, ox + Fx * scale, oy + Fy * scale, fyColor);
-  ctx.fillStyle = fyColor;
-  ctx.font = '11px "IBM Plex Mono"';
-  ctx.fillText('Fᵧ = ' + Fy.toFixed(1) + ' N (robot only)', ox + Fx * scale + 8, oy + Fy * scale * 0.5 + 4);
-  ctx.restore();
+  // ── TIP-TO-TAIL ──
+  // Shot vector: origin → tip of shot
+  const shot_tip_x = ox + shot_x * scale;
+  const shot_tip_y = oy - shot_y * scale;  // canvas y is inverted
+  arrowLine(ctx, ox, oy, shot_tip_x, shot_tip_y, '#e8c840', 2.5);
 
-  // resultant
-  ctx.save();
-  ctx.strokeStyle = '#e8c840';
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  ctx.moveTo(ox, oy);
-  ctx.lineTo(ox + Fx * scale, oy + Fy * scale);
-  ctx.stroke();
-  drawArrowhead(ctx, ox, oy, ox + Fx * scale, oy + Fy * scale, '#e8c840');
-  ctx.fillStyle = '#e8c840';
-  ctx.font = '11px "IBM Plex Mono"';
-  ctx.fillText('120 N @ ' + currentAngle + '°', ox + 10, oy - 12);
-  ctx.restore();
+  // Label shot
+  ctx.fillStyle = '#e8c840'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'left';
+  ctx.fillText('Shot: 48 N at 32° E of N', shot_tip_x + 6, shot_tip_y - 6);
+  ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#aaa';
+  ctx.fillText('x = 48 × sin(32°) = ' + shot_x.toFixed(1) + ' N east', shot_tip_x + 6, shot_tip_y + 8);
+  ctx.fillText('y = 48 × cos(32°) = ' + shot_y.toFixed(1) + ' N north', shot_tip_x + 6, shot_tip_y + 22);
 
-  // angle arc
-  ctx.save();
-  ctx.strokeStyle = '#e8c840';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.arc(ox, oy, 28, 0, theta);
-  ctx.stroke();
-  ctx.fillStyle = '#e8c840';
-  ctx.font = '10px "IBM Plex Mono"';
-  ctx.fillText(currentAngle + '°', ox + 32, oy + 14);
-  ctx.restore();
+  if (showDeflection) {
+    // Deflection vector: tip of shot → tip of shot + deflection (tip-to-tail)
+    const def_tip_x = shot_tip_x + def_x * scale;
+    const def_tip_y = shot_tip_y - def_y * scale;
+    arrowLine(ctx, shot_tip_x, shot_tip_y, def_tip_x, def_tip_y, '#2e6fff', 2.5);
 
-  // origin dot
-  ctx.beginPath();
-  ctx.arc(ox, oy, 4, 0, Math.PI * 2);
-  ctx.fillStyle = '#e8c840';
-  ctx.fill();
+    // Label deflection
+    ctx.fillStyle = '#2e6fff'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'right';
+    ctx.fillText('Deflection: 18 N at 15° W of N', def_tip_x - 6, def_tip_y - 8);
+    ctx.font = '10px "IBM Plex Mono"'; ctx.fillStyle = '#aaa';
+    ctx.fillText('x = −18 × sin(15°) = ' + def_x.toFixed(1) + ' N west', def_tip_x - 6, def_tip_y + 8);
+    ctx.fillText('y = 18 × cos(15°) = ' + def_y.toFixed(1) + ' N north', def_tip_x - 6, def_tip_y + 22);
 
-  // readout
-  document.getElementById('sim-readout').innerHTML =
-    'Angle: <span style="color:#e8c840">' + currentAngle + '°</span> &nbsp;|&nbsp; ' +
-    'Fₓ = <span style="color:#2e6fff">' + Fx.toFixed(1) + ' N</span> (horizontal) &nbsp;|&nbsp; ' +
-    'Fᵧ = <span style="color:' + fyColor + '">' + Fy.toFixed(1) + ' N</span> (robot, downward)<br>' +
-    'Total downward on beam: Fᵧ + beam weight = ' + Fy.toFixed(1) + ' + 45 = <span style="color:' + fyColor + '">' + totalDown.toFixed(1) + ' N</span>' +
-    (totalDown > limitY ? ' &nbsp;<span style="color:#d63a2f">⚠ EXCEEDS 80 N DESIGN LIMIT</span>' : ' &nbsp;<span style="color:#4ade80">✓ within 80 N design limit</span>');
+    // Net force: origin → final tip (resultant)
+    arrowLine(ctx, ox, oy, def_tip_x, def_tip_y, '#4ade80', 3);
+    ctx.fillStyle = '#4ade80'; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'left';
+    ctx.fillText('Net force resultant', ox + 8, oy - net_y * scale * 0.5 + 6);
+  } else {
+    // Net = shot only
+    arrowLine(ctx, ox, oy, shot_tip_x, shot_tip_y, '#4ade80', 3);
+  }
+
+  // ── STATUS BOX ──
+  const sbx = W - 220, sby = 20;
+  ctx.fillStyle = insidePost ? 'rgba(74,222,128,.1)' : 'rgba(214,58,47,.1)';
+  ctx.strokeStyle = goalColor; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(sbx, sby, 200, showDeflection ? 110 : 80, 4); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = goalColor; ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.textAlign = 'center';
+  ctx.fillText('Net direction: ' + netAngleDeg.toFixed(1) + '° ' + netDir, sbx + 100, sby + 20);
+  ctx.fillText('Net magnitude: ' + netMag.toFixed(1) + ' N', sbx + 100, sby + 36);
+  if (showDeflection) {
+    ctx.fillText('Net x: ' + net_x.toFixed(1) + ' N east', sbx + 100, sby + 52);
+    ctx.fillText('Net y: ' + net_y.toFixed(1) + ' N north', sbx + 100, sby + 68);
+    ctx.fillText('Goal crossing: ' + (goalPos >= 0 ? '+' : '') + goalPos.toFixed(2) + ' m from center', sbx + 100, sby + 84);
+    ctx.fillText(insidePost ? '✓ INSIDE POST — GOAL?' : '✗ OUTSIDE POST — NO GOAL?', sbx + 100, sby + 100);
+  } else {
+    ctx.fillText('Goal crossing: ' + (goalPos >= 0 ? '+' : '') + goalPos.toFixed(2) + ' m from center', sbx + 100, sby + 52);
+    ctx.fillText(insidePost ? '✓ INSIDE POST — GOAL?' : '✗ OUTSIDE POST?', sbx + 100, sby + 68);
+  }
+
+  // ── READOUT ──
+  const readout = document.getElementById('sim-readout');
+  if (!readout) return;
+  readout.innerHTML =
+    '<strong style="color:#e8c840">Shot (48 N @ 32° E of N):</strong> ' +
+    'x = 48 × sin(32°) = <span style="color:#e8c840">' + shot_x.toFixed(2) + ' N east</span> &nbsp;|&nbsp; ' +
+    'y = 48 × cos(32°) = <span style="color:#e8c840">' + shot_y.toFixed(2) + ' N north</span><br>' +
+    (showDeflection ?
+      '<strong style="color:#2e6fff">Deflection (18 N @ 15° W of N):</strong> ' +
+      'x = −18 × sin(15°) = <span style="color:#2e6fff">' + def_x.toFixed(2) + ' N west</span> &nbsp;|&nbsp; ' +
+      'y = 18 × cos(15°) = <span style="color:#2e6fff">' + def_y.toFixed(2) + ' N north</span><br>' +
+      '<strong style="color:#4ade80">Net force:</strong> ' +
+      'x = ' + shot_x.toFixed(2) + ' + (' + def_x.toFixed(2) + ') = <span style="color:#4ade80">' + net_x.toFixed(2) + ' N east</span> &nbsp;|&nbsp; ' +
+      'y = ' + shot_y.toFixed(2) + ' + ' + def_y.toFixed(2) + ' = <span style="color:#4ade80">' + net_y.toFixed(2) + ' N north</span><br>'
+      : '') +
+    'Magnitude: √(' + net_x.toFixed(1) + '² + ' + net_y.toFixed(1) + '²) = <span style="color:#4ade80">' + netMag.toFixed(2) + ' N</span> &nbsp;|&nbsp; ' +
+    'Direction: tan⁻¹(' + Math.abs(net_x).toFixed(2) + ' ÷ ' + net_y.toFixed(2) + ') = <span style="color:#4ade80">' + netAngleDeg.toFixed(1) + '° ' + netDir + '</span><br>' +
+    'Ball crosses goal line at: <span style="color:' + goalColor + '">' + (goalPos >= 0 ? '+' : '') + goalPos.toFixed(2) + ' m from center</span> ' +
+    '(post is at ±3.66 m) → <span style="color:' + goalColor + '"><strong>' + (insidePost ? 'INSIDE — GOAL?' : 'OUTSIDE — NO GOAL?') + '</strong></span> — your teams need to verify this with your own calculations';
 }
 
-function drawArrowhead(ctx, x1, y1, x2, y2, color) {
+
+
+// roundRect polyfill for older browsers
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.lineTo(x + w - r, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r);
+    this.lineTo(x + w, y + h - r);
+    this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    this.lineTo(x + r, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r);
+    this.lineTo(x, y + r);
+    this.quadraticCurveTo(x, y, x + r, y);
+    this.closePath();
+  };
+}
+
+function arrowLine(ctx, x1, y1, x2, y2, color, width) {
   const angle = Math.atan2(y2 - y1, x2 - x1);
-  const size = 8;
+  const size = 10;
   ctx.save();
+  ctx.strokeStyle = color;
   ctx.fillStyle = color;
+  ctx.lineWidth = width || 2;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
   ctx.beginPath();
   ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - size * Math.cos(angle - 0.4), y2 - size * Math.sin(angle - 0.4));
-  ctx.lineTo(x2 - size * Math.cos(angle + 0.4), y2 - size * Math.sin(angle + 0.4));
+  ctx.lineTo(x2 - size * Math.cos(angle - 0.38), y2 - size * Math.sin(angle - 0.38));
+  ctx.lineTo(x2 - size * Math.cos(angle + 0.38), y2 - size * Math.sin(angle + 0.38));
   ctx.closePath();
   ctx.fill();
   ctx.restore();
+}
+
+function drawArrowhead(ctx, x1, y1, x2, y2, color) {
+  arrowLine(ctx, x1, y1, x2, y2, color, 2);
 }
 
 // sim draws when debate2 tab is opened via showTab above
