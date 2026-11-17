@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Debate Day</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<style>
+:root {
+  --bg:       #0f1117;
+  --bg2:      #181c27;
+  --fg:       #e8eaf2;
+  --fg2:      #8a90a8;
+  --gold:     #e8c840;
+  --gold-dim: #a68d1a;
+  --blue:     #4a7cff;
+  --blue-dim: #2a4799;
+  --r:        6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); }
+
+.reveal-viewport { background: var(--bg) !important; }
+.reveal .slides { font-family: 'Inter', sans-serif; color: var(--fg); }
+.reveal .slides section { text-align: left; padding: 0; }
+.reveal .progress { color: var(--gold); }
+.reveal .controls { color: var(--gold); }
+.reveal .slide-number { color: var(--fg2); font-family: 'Inter', sans-serif; font-size: 12px; }
+
+.slide-inner {
+  display: flex; flex-direction: column; justify-content: center;
+  height: 100%; padding: 48px 72px;
+}
+
+.eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 20px;
+}
+
+/* TITLE */
+.slide-title { background: var(--bg); position: relative; overflow: hidden; }
+.slide-title::before {
+  content: ''; position: absolute; top: -120px; right: -80px;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(74,124,255,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--fg2); margin-bottom: 28px; }
+.slide-title h1 {
+  font-family: 'Syne', sans-serif; font-size: 86px; font-weight: 800;
+  line-height: 1.0; color: var(--fg); margin: 0 0 24px;
+}
+.sub { font-size: 20px; color: var(--gold); font-weight: 500; margin: 0; }
+.rule { width: 56px; height: 3px; background: var(--gold); margin-bottom: 28px; border-radius: 2px; }
+
+/* DIVIDER */
+.slide-divider { position: relative; overflow: hidden; }
+.slide-divider::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(74,124,255,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.debate-num { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 16px; }
+.slide-divider h2 { font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800; line-height: 1.1; color: #fff; margin: 0 0 24px; }
+.vs-pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 100px; border: 1px solid;
+}
+
+/* CONTENT */
+.slide-content { background: var(--bg2); }
+.slide-content h2 { font-family: 'Syne', sans-serif; font-size: 34px; font-weight: 800; color: var(--fg); margin: 0 0 28px; line-height: 1.2; }
+
+/* STEPS */
+.steps { display: flex; flex-direction: column; gap: 18px; margin-top: 8px; }
+.step { display: flex; align-items: flex-start; gap: 18px; }
+.step-num {
+  flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--blue-dim); border: 1px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--blue);
+}
+.step-text { font-size: 17px; color: var(--fg); line-height: 1.5; padding-top: 4px; }
+
+/* SCENARIO */
+.scenario-lead { font-size: 17px; color: var(--fg); line-height: 1.6; margin-bottom: 20px; }
+.fact-list { display: flex; flex-direction: column; gap: 8px; }
+.fact { display: flex; align-items: baseline; gap: 10px; font-size: 15px; color: var(--fg2); }
+.fact::before { content: '—'; color: var(--gold-dim); font-weight: 700; flex-shrink: 0; }
+.fact strong { color: var(--fg); font-weight: 600; }
+.verdict-line { margin-top: 20px; font-size: 15px; font-style: italic; color: var(--fg2); border-left: 3px solid var(--gold); padding-left: 14px; }
+
+/* CLAIMS */
+.claims-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--fg); margin: 0 0 24px; }
+.claims-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.claim-box { border-radius: var(--r); padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+.claim-box.gold { background: rgba(232,200,64,.1); border: 1px solid var(--gold); }
+.claim-box.blue { background: rgba(74,124,255,.1); border: 1px solid var(--blue); }
+.claim-side { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.gold .claim-side { color: var(--gold); }
+.blue .claim-side { color: var(--blue); }
+.claim-team { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--fg); margin: 0; }
+.claim-body { font-size: 14px; color: var(--fg2); line-height: 1.55; margin-top: 4px; }
+
+/* TEAMS */
+.teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.team-card { background: var(--bg); border-radius: var(--r); padding: 20px 24px; }
+.team-label { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 6px; }
+.team-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--fg); margin-bottom: 8px; }
+.team-members { font-size: 14px; color: var(--fg2); line-height: 1.5; }
+.jury-row { background: var(--bg); border-radius: var(--r); padding: 16px 24px; }
+.jury-label { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--fg2); margin-bottom: 6px; }
+.jury-members { font-size: 15px; color: var(--fg); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide-title">
+  <div class="slide-inner">
+    <div class="kicker">Hybrid Physics · November 21, 2026</div>
+    <div class="rule"></div>
+    <h1>Physics<br>Debate Day</h1>
+    <p class="sub">Two cases. Four teams. One jury.</p>
+  </div>
+</section>
+
+<!-- SLIDE 2: FORMAT -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Format</div>
+    <h2>How today works</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Two teams debate each other. The other two watch as the jury.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Each team presents their physics argument — math, diagrams, the whole thing.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">The jury votes on who made the stronger physics case.</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Teams flip — jury becomes debaters, debaters become jury.</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">After both debates, we debrief on what the physics actually says.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: D1 DIVIDER -->
+<section class="slide-divider" style="background:#0a0d1a;">
+  <div class="slide-inner">
+    <div class="debate-num" style="color:var(--gold);">Debate 1</div>
+    <h2>The Chester<br>Intersection Crash</h2>
+    <span class="vs-pill" style="color:var(--gold);border-color:var(--gold);">Team Velocity &nbsp;vs.&nbsp; Team Displacement</span>
+  </div>
+</section>
+
+<!-- SLIDE 4: D1 SCENARIO -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Debate 1 — What Happened</div>
+    <h2>A car runs a red light at 9th &amp; Avenue of the States</h2>
+    <p class="scenario-lead">4:17 PM — A sedan heading north runs the light and collides with a delivery van heading east.</p>
+    <div class="fact-list">
+      <div class="fact">Speed limit: <strong>25 mph ≈ 11.2 m/s</strong></div>
+      <div class="fact">Skid marks before impact: <strong>18.4 m</strong></div>
+      <div class="fact">GPS logged position every second for <strong>6 seconds</strong> before the crash</div>
+      <div class="fact">At t = 5–6, GPS shows the car drifted <strong>2.1 m eastward</strong> — but the road goes straight north</div>
+    </div>
+    <div class="verdict-line">The driver: GPS malfunction. &nbsp; The insurance company: the data says otherwise.</div>
+  </div>
+</section>
+
+<!-- SLIDE 5: D1 CLAIMS -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Debate 1 — The Claims</div>
+    <div class="claims-title">Was the car speeding?</div>
+    <div class="claims-row">
+      <div class="claim-box gold">
+        <div class="claim-side">Side A — Not Speeding</div>
+        <div class="claim-team">Team Velocity</div>
+        <div class="claim-body">GPS shows constant 11.2 m/s for t = 0–4, exactly the speed limit. The 2.1 m drift is within GPS error range (±1.5 m) and doesn't prove real movement.</div>
+      </div>
+      <div class="claim-box blue">
+        <div class="claim-side">Side B — Was Speeding</div>
+        <div class="claim-team">Team Displacement</div>
+        <div class="claim-body">The 2.1 m drift exceeds the ±1.5 m GPS error threshold — that's real lateral movement. Displacement data plus skid marks show the car was over the limit.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: D1 TEAMS -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Debate 1 — The Teams</div>
+    <h2>Who's presenting, who's judging</h2>
+    <div class="teams-grid">
+      <div class="team-card" style="border-left:3px solid var(--gold);">
+        <div class="team-label" style="color:var(--gold);">Side A — Not Speeding</div>
+        <div class="team-name">Team Velocity</div>
+        <div class="team-members">Sam · Mateo · Aiden · Erik</div>
+      </div>
+      <div class="team-card" style="border-left:3px solid var(--blue);">
+        <div class="team-label" style="color:var(--blue);">Side B — Was Speeding</div>
+        <div class="team-name">Team Displacement</div>
+        <div class="team-members">Nate · Abdoulaye · Javi · Chris</div>
+      </div>
+    </div>
+    <div class="jury-row">
+      <div class="jury-label">Jury</div>
+      <div class="jury-members">Danny · Collin · Jayden · Will &nbsp;+&nbsp; Timoni · Elijah · Maxi · Kenan</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: D2 DIVIDER -->
+<section class="slide-divider" style="background:#090d1a;">
+  <div class="slide-inner">
+    <div class="debate-num" style="color:var(--blue);">Debate 2</div>
+    <h2>The Disputed<br>Goal</h2>
+    <span class="vs-pill" style="color:var(--blue);border-color:var(--blue);">Team Shot &nbsp;vs.&nbsp; Team Deflection</span>
+  </div>
+</section>
+
+<!-- SLIDE 8: D2 SCENARIO -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Debate 2 — What Happened</div>
+    <h2>84th minute. Chester FC down 1–0. Shot, deflection, disputed call.</h2>
+    <div class="fact-list">
+      <div class="fact">Midfielder shoots toward far post: <strong>48 N at 32° east of north</strong></div>
+      <div class="fact">Sliding defender makes contact simultaneously: <strong>18 N at 15° west of north</strong></div>
+      <div class="fact">Ball was stationary when both forces applied. Travels <strong>14 m to the goal line in 1.8 s</strong></div>
+      <div class="fact">Goal-line technology was offline. No definitive camera angle.</div>
+      <div class="fact">Goal width: <strong>7.32 m</strong> · Ball starts 9 m left of center, 14 m out</div>
+    </div>
+    <div class="verdict-line">The referee waved it off. Chester FC protested. The protest will be decided on the physics.</div>
+  </div>
+</section>
+
+<!-- SLIDE 9: D2 CLAIMS -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Debate 2 — The Claims</div>
+    <div class="claims-title">Did the ball cross the line?</div>
+    <div class="claims-row">
+      <div class="claim-box gold">
+        <div class="claim-side">Side A — Goal</div>
+        <div class="claim-team">Team Shot</div>
+        <div class="claim-body">Net force on the ball pointed inside the far post. The deflection was too weak to redirect it wide. The ball crossed the line.</div>
+      </div>
+      <div class="claim-box blue">
+        <div class="claim-side">Side B — No Goal</div>
+        <div class="claim-team">Team Deflection</div>
+        <div class="claim-body">The defender's force changed direction enough to push the ball outside the post. The net force vector points wide. It didn't cross.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: D2 TEAMS -->
+<section class="slide-content">
+  <div class="slide-inner">
+    <div class="eyebrow">Debate 2 — The Teams</div>
+    <h2>Who's presenting, who's judging</h2>
+    <div class="teams-grid">
+      <div class="team-card" style="border-left:3px solid var(--gold);">
+        <div class="team-label" style="color:var(--gold);">Side A — Goal</div>
+        <div class="team-name">Team Shot</div>
+        <div class="team-members">Danny · Collin · Jayden · Will</div>
+      </div>
+      <div class="team-card" style="border-left:3px solid var(--blue);">
+        <div class="team-label" style="color:var(--blue);">Side B — No Goal</div>
+        <div class="team-name">Team Deflection</div>
+        <div class="team-members">Timoni · Elijah · Maxi · Kenan</div>
+      </div>
+    </div>
+    <div class="jury-row">
+      <div class="jury-label">Jury</div>
+      <div class="jury-members">Sam · Mateo · Aiden · Erik &nbsp;+&nbsp; Nate · Abdoulaye · Javi · Chris</div>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  controls: true,
+  progress: true,
+  center: false,
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  width: 1280,
+  height: 720,
+  margin: 0
+});
+</script>
+</body>
+</html>
