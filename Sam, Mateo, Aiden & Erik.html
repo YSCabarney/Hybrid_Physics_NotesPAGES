@@ -1,0 +1,189 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sam, Mateo, Aiden & Erik</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+<style>
+:root {
+  --bg: #fdfbf2; --bg-card: #ffffff; --bg-subtle: #fdf6e3;
+  --fg: #1a1500; --fg2: #6b5a1a; --border: #e8d890;
+  --gold: #b87a00; --gold-bg: #fdf6e3; --gold-border: #e0c060;
+  --tag-bg: #fef8d8; --tag-fg: #7a5500;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #130f00; --bg-card: #1e1800; --bg-subtle: #261e00;
+    --fg: #f0e8c0; --fg2: #a08840; --border: #3a2e00;
+    --gold: #e8b840; --gold-bg: #261e00; --gold-border: #5a4400;
+    --tag-bg: #2a2000; --tag-fg: #c09040;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #130f00; --bg-card: #1e1800; --bg-subtle: #261e00;
+  --fg: #f0e8c0; --fg2: #a08840; --border: #3a2e00;
+  --gold: #e8b840; --gold-bg: #261e00; --gold-border: #5a4400;
+  --tag-bg: #2a2000; --tag-fg: #c09040;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.6;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 80px;
+  max-width: 720px; margin: 0 auto;
+}
+/* header */
+.team-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-bg); border: 1px solid var(--gold-border);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+}
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 800; line-height: 1.05;
+  color: var(--fg); margin-bottom: 10px; text-wrap: balance;
+}
+.page-claim {
+  font-size: 16px; font-weight: 600; color: var(--gold);
+  margin-bottom: 8px;
+}
+.page-desc {
+  font-size: 14px; color: var(--fg2); margin-bottom: 36px;
+  max-width: 540px; line-height: 1.65;
+}
+/* scenario */
+.scenario-box {
+  background: var(--bg-subtle); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 18px 20px; margin-bottom: 32px;
+}
+.box-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 10px;
+}
+.data-grid { display: flex; flex-wrap: wrap; gap: 6px 24px; }
+.data-item { font-size: 13px; color: var(--fg); }
+.data-item strong { font-weight: 600; }
+/* arguments */
+.args-title {
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg2); margin-bottom: 16px;
+}
+.arg {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 22px 18px; margin-bottom: 16px;
+}
+.arg-num {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+}
+.arg-title {
+  font-size: 15px; font-weight: 700; color: var(--fg);
+  margin-bottom: 14px; line-height: 1.4;
+}
+.prompts { display: flex; flex-direction: column; gap: 8px; }
+.prompt {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 13.5px; color: var(--fg); line-height: 1.55;
+}
+.prompt-icon {
+  flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px;
+  border-radius: 50%; background: var(--tag-bg);
+  color: var(--tag-fg); font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.tools-row {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+}
+.tool-tag {
+  font-size: 11px; font-weight: 500; color: var(--tag-fg);
+  background: var(--tag-bg); padding: 3px 10px;
+  border-radius: 100px; font-family: 'Inter', monospace;
+}
+.reminder {
+  margin-top: 32px; padding: 16px 18px;
+  background: var(--bg-subtle); border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--fg2); line-height: 1.6;
+}
+</style>
+
+<div class="team-badge">Debate 1 · Side A</div>
+<h1 class="page-title">Team Velocity</h1>
+<p class="page-claim">"The car was not speeding."</p>
+<p class="page-desc">Use the questions below to build your argument. You don't need to find the answer right now — just follow each question to figure out what the data is actually telling you.</p>
+
+<div class="scenario-box">
+  <div class="box-label">Your data</div>
+  <div class="data-grid">
+    <div class="data-item">Speed limit: <strong>25 mph (11.2 m/s)</strong></div>
+    <div class="data-item">Skid marks: <strong>18.4 m</strong></div>
+    <div class="data-item">GPS logged position every <strong>1 second</strong>, 6 seconds before crash</div>
+    <div class="data-item">At t = 5–6 s: GPS shows <strong>2.1 m drift eastward</strong></div>
+    <div class="data-item">GPS error range: <strong>±1.5 m</strong></div>
+  </div>
+</div>
+
+<p class="args-title">Two directions to explore</p>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 1</div>
+  <div class="arg-title">The velocity data speaks for itself — use it directly.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      GPS records position every second. How would you calculate the car's speed from that? What formula connects distance and time to velocity?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      If that speed is consistent from t = 0 to t = 4, what does that pattern tell you about how the car was moving?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Skid marks show where braking happened — but can skid marks alone tell you how fast the car was going <em>before</em> braking started?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">v = Δx / Δt</span>
+    <span class="tool-tag">average velocity</span>
+    <span class="tool-tag">constant speed pattern</span>
+  </div>
+</div>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 2</div>
+  <div class="arg-title">The lateral drift is within the instrument's known error — not real movement.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      GPS has an error range of ±1.5 m. What range of "real" values does a 2.1 m reading actually represent? Is 2.1 m clearly outside that band, or is it close to the edge?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      What would it physically take for a car to drift 2.1 m sideways in one second while traveling north? What force would be required, and in what direction?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Newton's 1st Law says an object keeps moving in a straight line unless a net force acts on it. What does that say about whether the drift was real?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">measurement uncertainty: value ± error</span>
+    <span class="tool-tag">Newton's 1st Law</span>
+    <span class="tool-tag">net force = 0 → no change in direction</span>
+  </div>
+</div>
+
+<div class="reminder">
+  <strong>Remember:</strong> Your job isn't just to say "the GPS showed 11.2 m/s." Your job is to explain <em>why that data is reliable</em> and why the opposing evidence (the skid marks, the drift) doesn't prove what the other side claims.
+</div>
+
+</body></html>

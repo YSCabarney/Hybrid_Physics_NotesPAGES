@@ -1,0 +1,182 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Timoni, Elijah, Maxi & Kenan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+<style>
+:root {
+  --bg: #f4f6ff; --bg-card: #ffffff; --bg-subtle: #eef1ff;
+  --fg: #0a0f2e; --fg2: #3a4280; --border: #c8d0f8;
+  --blue: #1a3fc0; --blue-bg: #eef1ff; --blue-border: #9aaaf0;
+  --tag-bg: #e4e8ff; --tag-fg: #2a38a0;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #060a1e; --bg-card: #0e1230; --bg-subtle: #121838;
+    --fg: #d0d8ff; --fg2: #7080c8; --border: #1e2850;
+    --blue: #6888f8; --blue-bg: #0e1230; --blue-border: #2a3870;
+    --tag-bg: #141a40; --tag-fg: #8898e8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #060a1e; --bg-card: #0e1230; --bg-subtle: #121838;
+  --fg: #d0d8ff; --fg2: #7080c8; --border: #1e2850;
+  --blue: #6888f8; --blue-bg: #0e1230; --blue-border: #2a3870;
+  --tag-bg: #141a40; --tag-fg: #8898e8;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.6;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 80px;
+  max-width: 720px; margin: 0 auto;
+}
+.team-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue-bg); border: 1px solid var(--blue-border);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 20px;
+}
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 800; line-height: 1.05;
+  color: var(--fg); margin-bottom: 10px; text-wrap: balance;
+}
+.page-claim { font-size: 16px; font-weight: 600; color: var(--blue); margin-bottom: 8px; }
+.page-desc {
+  font-size: 14px; color: var(--fg2); margin-bottom: 36px;
+  max-width: 540px; line-height: 1.65;
+}
+.scenario-box {
+  background: var(--bg-subtle); border: 1px solid var(--blue-border);
+  border-radius: 8px; padding: 18px 20px; margin-bottom: 32px;
+}
+.box-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 10px;
+}
+.data-grid { display: flex; flex-wrap: wrap; gap: 6px 24px; }
+.data-item { font-size: 13px; color: var(--fg); }
+.data-item strong { font-weight: 600; }
+.args-title {
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg2); margin-bottom: 16px;
+}
+.arg {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 22px 18px; margin-bottom: 16px;
+}
+.arg-num {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 6px;
+}
+.arg-title { font-size: 15px; font-weight: 700; color: var(--fg); margin-bottom: 14px; line-height: 1.4; }
+.prompts { display: flex; flex-direction: column; gap: 8px; }
+.prompt { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--fg); line-height: 1.55; }
+.prompt-icon {
+  flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px;
+  border-radius: 50%; background: var(--tag-bg);
+  color: var(--tag-fg); font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.tools-row {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+}
+.tool-tag {
+  font-size: 11px; font-weight: 500; color: var(--tag-fg);
+  background: var(--tag-bg); padding: 3px 10px;
+  border-radius: 100px; font-family: 'Inter', monospace;
+}
+.reminder {
+  margin-top: 32px; padding: 16px 18px;
+  background: var(--bg-subtle); border-left: 3px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--fg2); line-height: 1.6;
+}
+</style>
+
+<div class="team-badge">Debate 2 · Side B</div>
+<h1 class="page-title">Team Deflection</h1>
+<p class="page-claim">"No goal — the ball went wide."</p>
+<p class="page-desc">Use the questions below to build your argument. You don't need to find the answer right now — just follow each question to figure out what the physics is actually telling you.</p>
+
+<div class="scenario-box">
+  <div class="box-label">Your data</div>
+  <div class="data-grid">
+    <div class="data-item">Midfielder's force: <strong>48 N at 32° east of north</strong></div>
+    <div class="data-item">Defender's force: <strong>18 N at 15° west of north</strong></div>
+    <div class="data-item">Ball was <strong>stationary</strong> when both forces applied simultaneously</div>
+    <div class="data-item">Ball travels <strong>14 m in 1.8 seconds</strong></div>
+    <div class="data-item">Goal width: <strong>7.32 m</strong></div>
+    <div class="data-item">Ball starts <strong>9 m left of center, 14 m out</strong></div>
+  </div>
+</div>
+
+<p class="args-title">Two directions to explore</p>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 1</div>
+  <div class="arg-title">Small angle shifts become big misses over 14 meters — the geometry works against the goal.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Without the defender, what angle does the shot travel? Use that angle to calculate where the ball would land at the goal line. Is it inside or just barely inside the post?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Now add the defender's westward force component. How does that change the net angle of travel, even by a small amount?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      At 14 m of distance, how far does even a 1–2° change in angle move the ball's landing point? Is that enough to push it outside the 7.32 m goal opening?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">Fx = F·sin(θ)</span>
+    <span class="tool-tag">Fy = F·cos(θ)</span>
+    <span class="tool-tag">lateral offset = 14·sin(θ)</span>
+    <span class="tool-tag">vector addition</span>
+    <span class="tool-tag">goal geometry</span>
+  </div>
+</div>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 2</div>
+  <div class="arg-title">Use impulse to show the deflection changed the ball's momentum — not just its direction by a little.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Impulse is force × time of contact. Even a short contact (0.1 seconds) can produce a large change in momentum. What formula connects impulse to the change in velocity?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      A soccer ball has a mass of about 0.45 kg. If the defender applied 18 N for 0.1 seconds, what change in velocity does that produce sideways?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Compare that sideways velocity change to the ball's total speed. Is the redirect trivial, or does it represent a significant shift in direction?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">J = F · Δt</span>
+    <span class="tool-tag">J = m · Δv</span>
+    <span class="tool-tag">Δv = J / m</span>
+    <span class="tool-tag">impulse-momentum theorem</span>
+    <span class="tool-tag">m_ball ≈ 0.45 kg</span>
+  </div>
+</div>
+
+<div class="reminder">
+  <strong>Remember:</strong> Your strongest move is showing that the original shot was <em>already borderline</em> — barely inside the post without the deflection — so even a small redirect is enough. Run the geometry first, then use the impulse argument to show the redirect wasn't trivial.
+</div>
+
+</body></html>

@@ -1,0 +1,181 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Danny, Collin, Jayden & Will</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+<style>
+:root {
+  --bg: #fdfbf2; --bg-card: #ffffff; --bg-subtle: #fdf6e3;
+  --fg: #1a1500; --fg2: #6b5a1a; --border: #e8d890;
+  --gold: #b87a00; --gold-bg: #fdf6e3; --gold-border: #e0c060;
+  --tag-bg: #fef8d8; --tag-fg: #7a5500;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #130f00; --bg-card: #1e1800; --bg-subtle: #261e00;
+    --fg: #f0e8c0; --fg2: #a08840; --border: #3a2e00;
+    --gold: #e8b840; --gold-bg: #261e00; --gold-border: #5a4400;
+    --tag-bg: #2a2000; --tag-fg: #c09040;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #130f00; --bg-card: #1e1800; --bg-subtle: #261e00;
+  --fg: #f0e8c0; --fg2: #a08840; --border: #3a2e00;
+  --gold: #e8b840; --gold-bg: #261e00; --gold-border: #5a4400;
+  --tag-bg: #2a2000; --tag-fg: #c09040;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.6;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 80px;
+  max-width: 720px; margin: 0 auto;
+}
+.team-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-bg); border: 1px solid var(--gold-border);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+}
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 800; line-height: 1.05;
+  color: var(--fg); margin-bottom: 10px; text-wrap: balance;
+}
+.page-claim { font-size: 16px; font-weight: 600; color: var(--gold); margin-bottom: 8px; }
+.page-desc {
+  font-size: 14px; color: var(--fg2); margin-bottom: 36px;
+  max-width: 540px; line-height: 1.65;
+}
+.scenario-box {
+  background: var(--bg-subtle); border: 1px solid var(--gold-border);
+  border-radius: 8px; padding: 18px 20px; margin-bottom: 32px;
+}
+.box-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 10px;
+}
+.data-grid { display: flex; flex-wrap: wrap; gap: 6px 24px; }
+.data-item { font-size: 13px; color: var(--fg); }
+.data-item strong { font-weight: 600; }
+.args-title {
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg2); margin-bottom: 16px;
+}
+.arg {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 22px 18px; margin-bottom: 16px;
+}
+.arg-num {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+}
+.arg-title { font-size: 15px; font-weight: 700; color: var(--fg); margin-bottom: 14px; line-height: 1.4; }
+.prompts { display: flex; flex-direction: column; gap: 8px; }
+.prompt { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--fg); line-height: 1.55; }
+.prompt-icon {
+  flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px;
+  border-radius: 50%; background: var(--tag-bg);
+  color: var(--tag-fg); font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.tools-row {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+}
+.tool-tag {
+  font-size: 11px; font-weight: 500; color: var(--tag-fg);
+  background: var(--tag-bg); padding: 3px 10px;
+  border-radius: 100px; font-family: 'Inter', monospace;
+}
+.reminder {
+  margin-top: 32px; padding: 16px 18px;
+  background: var(--bg-subtle); border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--fg2); line-height: 1.6;
+}
+</style>
+
+<div class="team-badge">Debate 2 · Side A</div>
+<h1 class="page-title">Team Shot</h1>
+<p class="page-claim">"It was a goal — the ball crossed the line."</p>
+<p class="page-desc">Use the questions below to build your argument. You don't need to find the answer right now — just follow each question to figure out what the physics is actually telling you.</p>
+
+<div class="scenario-box">
+  <div class="box-label">Your data</div>
+  <div class="data-grid">
+    <div class="data-item">Midfielder's force: <strong>48 N at 32° east of north</strong></div>
+    <div class="data-item">Defender's force: <strong>18 N at 15° west of north</strong></div>
+    <div class="data-item">Ball was <strong>stationary</strong> when both forces applied simultaneously</div>
+    <div class="data-item">Ball travels <strong>14 m in 1.8 seconds</strong></div>
+    <div class="data-item">Goal width: <strong>7.32 m</strong></div>
+    <div class="data-item">Ball starts <strong>9 m left of center, 14 m out</strong></div>
+  </div>
+</div>
+
+<p class="args-title">Two directions to explore</p>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 1</div>
+  <div class="arg-title">Find the net force vector — trace where it actually points.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Both forces act at angles. How do you break a force at an angle into its north and east components? What trig functions do you use for each direction?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Once you have the components for both forces, how do you find the single net (combined) force? What direction does it point — east or west of north?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      If you know the net force direction and the ball travels 14 m, how do you calculate where the ball ends up at the goal line? Is that point inside the 7.32 m goal opening?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">Fx = F·sin(θ)</span>
+    <span class="tool-tag">Fy = F·cos(θ)</span>
+    <span class="tool-tag">vector addition</span>
+    <span class="tool-tag">θ_net = arctan(Fx / Fy)</span>
+    <span class="tool-tag">lateral offset = 14·sin(θ)</span>
+  </div>
+</div>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 2</div>
+  <div class="arg-title">The shot was more than twice as powerful — argue that it dominated the outcome.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      The shot is 48 N; the deflection is 18 N. What fraction of the total force did the defender actually contribute? Does that feel like enough to redirect a ball?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      The ball traveled 14 m in 1.8 s. What speed is that? Does a ball traveling at that speed with that net force seem like it would follow a curved or a straight path?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Newton's 1st Law: once the net force was applied and the ball left contact, what determines its path? Does the ball keep "steering" in flight, or does it travel in a fixed direction from the moment of contact?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">v = Δx / Δt</span>
+    <span class="tool-tag">Newton's 1st Law</span>
+    <span class="tool-tag">force magnitude ratio</span>
+    <span class="tool-tag">net force direction = path direction</span>
+  </div>
+</div>
+
+<div class="reminder">
+  <strong>Remember:</strong> You need to show not just that the shot was powerful, but that the net result of <em>both</em> forces combined still points inside the goal. The math has to back up the claim.
+</div>
+
+</body></html>

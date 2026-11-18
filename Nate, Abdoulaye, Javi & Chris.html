@@ -1,0 +1,179 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nate, Abdoulaye, Javi & Chris</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap">
+<style>
+:root {
+  --bg: #f4f6ff; --bg-card: #ffffff; --bg-subtle: #eef1ff;
+  --fg: #0a0f2e; --fg2: #3a4280; --border: #c8d0f8;
+  --blue: #1a3fc0; --blue-bg: #eef1ff; --blue-border: #9aaaf0;
+  --tag-bg: #e4e8ff; --tag-fg: #2a38a0;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #060a1e; --bg-card: #0e1230; --bg-subtle: #121838;
+    --fg: #d0d8ff; --fg2: #7080c8; --border: #1e2850;
+    --blue: #6888f8; --blue-bg: #0e1230; --blue-border: #2a3870;
+    --tag-bg: #141a40; --tag-fg: #8898e8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #060a1e; --bg-card: #0e1230; --bg-subtle: #121838;
+  --fg: #d0d8ff; --fg2: #7080c8; --border: #1e2850;
+  --blue: #6888f8; --blue-bg: #0e1230; --blue-border: #2a3870;
+  --tag-bg: #141a40; --tag-fg: #8898e8;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.6;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 80px;
+  max-width: 720px; margin: 0 auto;
+}
+.team-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue-bg); border: 1px solid var(--blue-border);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 20px;
+}
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 800; line-height: 1.05;
+  color: var(--fg); margin-bottom: 10px; text-wrap: balance;
+}
+.page-claim { font-size: 16px; font-weight: 600; color: var(--blue); margin-bottom: 8px; }
+.page-desc {
+  font-size: 14px; color: var(--fg2); margin-bottom: 36px;
+  max-width: 540px; line-height: 1.65;
+}
+.scenario-box {
+  background: var(--bg-subtle); border: 1px solid var(--blue-border);
+  border-radius: 8px; padding: 18px 20px; margin-bottom: 32px;
+}
+.box-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--fg2); margin-bottom: 10px;
+}
+.data-grid { display: flex; flex-wrap: wrap; gap: 6px 24px; }
+.data-item { font-size: 13px; color: var(--fg); }
+.data-item strong { font-weight: 600; }
+.args-title {
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg2); margin-bottom: 16px;
+}
+.arg {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 22px 18px; margin-bottom: 16px;
+}
+.arg-num {
+  font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 6px;
+}
+.arg-title { font-size: 15px; font-weight: 700; color: var(--fg); margin-bottom: 14px; line-height: 1.4; }
+.prompts { display: flex; flex-direction: column; gap: 8px; }
+.prompt { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--fg); line-height: 1.55; }
+.prompt-icon {
+  flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px;
+  border-radius: 50%; background: var(--tag-bg);
+  color: var(--tag-fg); font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.tools-row {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+}
+.tool-tag {
+  font-size: 11px; font-weight: 500; color: var(--tag-fg);
+  background: var(--tag-bg); padding: 3px 10px;
+  border-radius: 100px; font-family: 'Inter', monospace;
+}
+.reminder {
+  margin-top: 32px; padding: 16px 18px;
+  background: var(--bg-subtle); border-left: 3px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px; color: var(--fg2); line-height: 1.6;
+}
+</style>
+
+<div class="team-badge">Debate 1 · Side B</div>
+<h1 class="page-title">Team Displacement</h1>
+<p class="page-claim">"The car was speeding."</p>
+<p class="page-desc">Use the questions below to build your argument. You don't need to find the answer right now — just follow each question to figure out what the data is actually telling you.</p>
+
+<div class="scenario-box">
+  <div class="box-label">Your data</div>
+  <div class="data-grid">
+    <div class="data-item">Speed limit: <strong>25 mph (11.2 m/s)</strong></div>
+    <div class="data-item">Skid marks: <strong>18.4 m</strong></div>
+    <div class="data-item">GPS logged position every <strong>1 second</strong>, 6 seconds before crash</div>
+    <div class="data-item">At t = 5–6 s: GPS shows <strong>2.1 m drift eastward</strong></div>
+    <div class="data-item">GPS error range: <strong>±1.5 m</strong></div>
+  </div>
+</div>
+
+<p class="args-title">Two directions to explore</p>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 1</div>
+  <div class="arg-title">Work backwards from the skid marks to find what speed the car must have been traveling.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      When a car skids to a stop, what force is slowing it down? What formula connects that force to mass and acceleration?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      If you know the deceleration and the skid distance, which kinematics equation lets you solve for the starting speed? What do you get?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      Kinetic friction on dry asphalt has a coefficient of about 0.7. Use that to find the deceleration during the skid, then work backwards to the speed before braking.
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">v² = v₀² + 2aΔx</span>
+    <span class="tool-tag">a = μg</span>
+    <span class="tool-tag">μ ≈ 0.7 (dry asphalt)</span>
+    <span class="tool-tag">g = 9.8 m/s²</span>
+  </div>
+</div>
+
+<div class="arg">
+  <div class="arg-num">Argument Direction 2</div>
+  <div class="arg-title">The lateral displacement exceeds the GPS error margin — that makes it real, not noise.</div>
+  <div class="prompts">
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      The GPS error is ±1.5 m and the drift measured is 2.1 m. Is 2.1 m inside or outside the error band? What does it mean to be outside the error range?
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      If the drift is real, what net force would have been needed to move the car 2.1 m sideways in just 1 second? Use kinematics to find that acceleration, then Newton's 2nd Law to find the force.
+    </div>
+    <div class="prompt">
+      <div class="prompt-icon">?</div>
+      What does a car drifting sideways suggest about whether the driver was in control? How does that connect to the question of speed?
+    </div>
+  </div>
+  <div class="tools-row">
+    <span class="tool-tag">Δx = ½at²</span>
+    <span class="tool-tag">F = ma</span>
+    <span class="tool-tag">Newton's 2nd Law</span>
+    <span class="tool-tag">measurement uncertainty</span>
+  </div>
+</div>
+
+<div class="reminder">
+  <strong>Remember:</strong> Your job is to show that the physical evidence — not just one data point — adds up to a car that was going too fast. The skid marks and the drift are two separate pieces of evidence. Can you make them work together?
+</div>
+
+</body></html>
